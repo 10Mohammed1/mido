@@ -470,6 +470,7 @@ async def fix_attributes(
     )
     return new_attributes, mime_type
 
+"""
 @zedub.zed_cmd(
     pattern="تحميل صوت(?:\s|$)([\s\S]*)",
     command=("تحميل صوت", plugin_category),
@@ -479,7 +480,6 @@ async def fix_attributes(
     },
 )
 async def download_audio(event):
-    """To download audio from YouTube and many other sites."""
     msg = event.pattern_match.group(1)
     rmsg = await event.get_reply_message()
     if not msg and rmsg:
@@ -554,7 +554,6 @@ async def download_audio(event):
             os.remove(_path)
     await zedevent.delete()
 
-
 @zedub.zed_cmd(
     pattern="تحميل فيديو(?:\s|$)([\s\S]*)",
     command=("تحميل فيديو", plugin_category),
@@ -567,7 +566,6 @@ async def download_audio(event):
     },
 )
 async def download_video(event):
-    """To download video from YouTube and many other sites."""
     msg = event.pattern_match.group(1)
     rmsg = await event.get_reply_message()
     if not msg and rmsg:
@@ -625,3 +623,4 @@ async def download_video(event):
         except TypeError:
             await asyncio.sleep(2)
     await event.delete()
+"""
