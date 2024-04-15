@@ -236,9 +236,7 @@ async def _(event):  # sourcery no-metrics
     errors = ""
     sudocmds = sudo_enabled_cmds()
     if not input_str:
-        return await edit_or_reply(
-            event, "__Which command should i enable for sudo users . __"
-        )
+        return
     input_str = input_str.split()
     if input_str[0] == "آمن":
         zedevent = await edit_or_reply(event, "**⎉╎تـم تفعيـل التحكـم للمطـوريـن لـ الاوامـر الآمـنـه .. بنجـاح🧑🏻‍💻✅**")
