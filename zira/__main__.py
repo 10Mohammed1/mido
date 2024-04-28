@@ -11,12 +11,7 @@ from .utils import add_bot_to_logger_group, load_plugins, setup_bot, startupmess
 LOGS = logging.getLogger("Zelzal")
 cmdhr = Config.COMMAND_HAND_LER
 
-print(zira.__copyright__)
-print(f"المرخصة بموجب شروط  {zira.__license__}")
-
-cmdhr = Config.COMMAND_HAND_LER
-
-try: #Code by T.me/zzzzl1l
+try:
     LOGS.info("⌭ جـارِ تحميـل الملحقـات ⌭")
     zedub.loop.run_until_complete(autovars())
     LOGS.info("✓ تـم تحميـل الملحقـات .. بنجـاح ✓")
@@ -24,7 +19,7 @@ except Exception as e:
     LOGS.error(f"- {e}")
 
 if not Config.ALIVE_NAME:
-    try: #Code by T.me/zzzzl1l
+    try:
         LOGS.info("⌭ بـدء إضافة الاسـم التلقـائـي ⌭")
         zedub.loop.run_until_complete(autoname())
         LOGS.info("✓ تـم إضافة فار الاسـم .. بـنجـاح ✓")
