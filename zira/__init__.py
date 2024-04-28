@@ -12,20 +12,20 @@ from .helpers.functions.musictool import *
 from .helpers.utils.utils import runasync
 from .sql_helper.globals import addgvar, delgvar, gvarstatus
 
-__version__ = "3.1.1"
-__license__ = "GNU Affero General Public License v3.0"
-__author__ = "ZThon <https://github.com/Zed-Thon/ZelZal>"
-__copyright__ = f"ZThon Copyright (C) 2021 - 2022  {__author__}"
+__version__ = "3.3.2"
+__license__ = "حقـوق سـورس زدثــون"
+__author__ = "زدثــون <https://T.me/ZThon>"
+__copyright__ = "ZThon Source (C) 2021 - 2024  " + __author__
 
 zedub.version = __version__
 LOGS = logging.getLogger("زدثــون")
 bot = zedub
 
 StartTime = time.time()
-zedversion = "3.1.1"
+zedversion = "3.3.2"
 
 if Config.UPSTREAM_REPO == "zel":
-    UPSTREAM_REPO_URL = "https://github.com/Zed-Thon/Zelzal"
+    UPSTREAM_REPO_URL = "https://github.com/Zilzalll/ZThon"
 else:
     UPSTREAM_REPO_URL = Config.UPSTREAM_REPO
 
