@@ -1,11 +1,11 @@
 # =========================================================== #
-#                                                             𝙕𝙏𝙝𝙤𝙣                                                                 #
+#                                                             Mido                                                                 #
 
 """امـر استخـراج النص من الصـوره
-كتابـة وتطويـر الكـود لـ زلـزال الهيبـه T.ME/zzzzl1l
-حقـــوق زدثـــون™ T.me/ZThon"""
+كتابـة وتطويـر الكـود لـ Mido الهيبـه 
+حقـــوق Mido™ """
 
-#                                                             𝙕𝙏𝙝𝙤𝙣                                                                 #
+#                                                             Mido                                                                 #
 # =========================================================== #
 import json
 import os
@@ -179,7 +179,7 @@ async def parse_ocr_space_api(event):
 
 
 @zedub.zed_cmd(
-    pattern="(|ا)سكانر(?:\s|$)([\s\S]*)",
+    pattern=r"(|ا)سكانر(?:\s|$)([\s\S]*)",
     command=("ocr", plugin_category),
     info={
         "header": "To read text in image/gif/sticker/video and print it.",

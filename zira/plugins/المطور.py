@@ -20,7 +20,7 @@ LOGS = logging.getLogger(__name__)
 ZDEV = gvarstatus("sudoenable") or "true"
 
 ZelzalDV_cmd = (
-    "[ᯓ 𝗦𝗢𝗨𝗥𝗖𝗘 𝗭𝗧𝗛𝗢𝗡 - اوامــر المطـور المســاعد](t.me/ZThon) .\n\n"
+    "ᯓ 𝗦𝗢𝗨𝗥𝗖𝗘 Mido - اوامــر المطـور المســاعد .\n\n"
     "**⎉╎قائـمـه اوامـر رفـع المطـور المسـاعـد 🧑🏻‍💻✅ 🦾 :** \n"
     "**- اضغـط ع الامـر للنسـخ ثـم استخـدمهـا بالتـرتيـب** \n\n"
     "**⪼** `.رفع مطور` \n"
@@ -47,7 +47,7 @@ ZelzalDV_cmd = (
     "**- ايقـاف صلاحيـة التحكـم المعطـاه لـ امـر واحـد فقـط او عـدة اوامـر للمطـورين المرفـوعيـن ✓ .. مثـال (.ايقاف تحكم ايدي) او (.ايقاف تحكم ايدي فحص كتم)** \n\n"
     "**⪼** `.التحكم`  /  `.التحكم المعطل` \n"
     "**- لـ عـرض قائمـة بالاوامـر المسمـوحـه والغيـر مسمـوحـه للمطـوريـن التحكـم فيهـا 🛃🚷** \n\n"
-    "\n𓆩 [𝗭𝗧𝗵𝗼𝗻 𝗨𝘀𝗲𝗿𝗯𝗼𝘁](t.me/ZThon) 𓆪"
+    "\n𓆩 Mido 𝗨𝘀𝗲𝗿𝗯𝗼𝘁 𓆪"
 )
 
 
@@ -87,16 +87,16 @@ async def chat_blacklist(event):
         if gvarstatus("sudoenable") is not None:
             return await edit_or_reply(event, "**- وضـع المطــور فـي وضـع التفعيـل مسبقــاً ✓**")
         addgvar("sudoenable", "true")
-        return await edit_or_reply(event, "**⎉╎تـم تفعـيل وضـع المطــور المسـاعـد .. بنجــاح✓**\n**⎉╎يتم الان اعـادة تشغيـل بـوت زدثــون انتظـر  ▬▭ ...**")
+        return await edit_or_reply(event, "**⎉╎تـم تفعـيل وضـع المطــور المسـاعـد .. بنجــاح✓**\n**⎉╎يتم الان اعـادة تشغيـل بـوت Mido انتظـر  ▬▭ ...**")
     if input_str == "تعطيل":
         if gvarstatus("sudoenable") is None:
             return await edit_or_reply(event, "**- وضـع المطــور فـي وضـع التعطيـل مسبقــاً ✓**")
         delgvar("sudoenable")
-        return await edit_or_reply(event, "**⎉╎تـم تعطيـل وضـع المطــور المسـاعـد .. بنجــاح✓**\n**⎉╎يتم الان اعـادة تشغيـل بـوت زدثــون انتظـر  ▬▭ ...**")
+        return await edit_or_reply(event, "**⎉╎تـم تعطيـل وضـع المطــور المسـاعـد .. بنجــاح✓**\n**⎉╎يتم الان اعـادة تشغيـل بـوت Mido انتظـر  ▬▭ ...**")
 
 
 @zedub.zed_cmd(
-    pattern="رفع مطور(?:\s|$)([\s\S]*)",
+    pattern=r"رفع مطور(?:\s|$)([\s\S]*)",
     command=("رفع مطور", plugin_category),
     info={
         "header": "لـ رفـع مطـورين فـي بـوتك",
@@ -137,13 +137,13 @@ async def add_sudo_user(event):
     sql.del_collection("sudousers_list")
     sql.add_collection("sudousers_list", sudousers, {})
     output = f"**⎉╎تـم رفـع**  {mentionuser(userdata['chat_name'],userdata['chat_id'])}  **مطـور مسـاعـد معـك فـي البـوت 🧑🏻‍💻...**\n\n"
-    output += "**⎉╎يتم الان اعـادة تشغيـل بـوت زدثــون انتظـر 2-1 دقيقـه ▬▭ ...**"
+    output += "**⎉╎يتم الان اعـادة تشغيـل بـوت Mido انتظـر 2-1 دقيقـه ▬▭ ...**"
     msg = await edit_or_reply(event, output)
     await event.client.reload(msg)
 
 
 @zedub.zed_cmd(
-    pattern="تنزيل مطور(?:\s|$)([\s\S]*)",
+    pattern=r"تنزيل مطور(?:\s|$)([\s\S]*)",
     command=("تنزيل مطور", plugin_category),
     info={
         "header": "لـ تنزيـل مطـور مـن بـوتك",
@@ -168,7 +168,7 @@ async def _(event):
     sql.del_collection("sudousers_list")
     sql.add_collection("sudousers_list", sudousers, {})
     output = f"**⎉╎تـم تنـزيـل**  {mentionuser(get_display_name(replied_user),replied_user.id)}  **مـن قـائمـة مطـورين البـوت 🧑🏻‍💻...**\n\n"
-    output += "**⎉╎يتم الان اعـادة تشغيـل بـوت زدثــون انتظـر 2-1 دقيقـه ▬▭ ...**"
+    output += "**⎉╎يتم الان اعـادة تشغيـل بـوت Mido انتظـر 2-1 دقيقـه ▬▭ ...**"
     msg = await edit_or_reply(event, output)
     await event.client.reload(msg)
 
@@ -192,7 +192,7 @@ async def _(event):
         return await edit_delete(
             event, "**•❐• لا يـوجـد هنـاك مطـورين في قائمــة مـطـورين البــوت الخـاص بـك الى الان**"
         )
-    result = "**•❐• قائمــة مـطـورين البــوت الخـاص بـك مـن 𝗭𝗧𝗵𝗼𝗻 :**\n\n"
+    result = "**•❐• قائمــة مـطـورين البــوت الخـاص بـك مـن Mido :**\n\n"
     for chat in sudochats:
         result += f"**🧑🏻‍💻╎المطــور :** {mentionuser(sudousers[str(chat)]['chat_name'],sudousers[str(chat)]['chat_id'])}\n\n"
         result += f"**- تـم رفعـه بتـاريـخ :** {sudousers[str(chat)]['date']}\n\n"
@@ -203,13 +203,13 @@ async def _(event):
 async def _(event):
     await clear_sudo_list()
     output = f"**⎉╎تـم حـذف المطورين .. بنجـاح 🗑**\n"
-    output += "**⎉╎يتم الان اعـادة تشغيـل بـوت زدثــون انتظـر 2-1 دقيقـه ▬▭ ...**"
+    output += "**⎉╎يتم الان اعـادة تشغيـل بـوت Mido انتظـر 2-1 دقيقـه ▬▭ ...**"
     msg = await edit_or_reply(event, output)
     await event.client.reload(msg)
 
 
 @zedub.zed_cmd(
-    pattern="تحكم(s)?(?:\s|$)([\s\S]*)",
+    pattern=r"تحكم(s)?(?:\s|$)([\s\S]*)",
     command=("تحكم", plugin_category),
     info={
         "header": "To enable cmds for sudo users.",
@@ -274,7 +274,7 @@ async def _(event):  # sourcery no-metrics
         for plugin in input_str:
             if plugin not in PLG_INFO:
                 errors += (
-                    f"`{plugin}` __There is no such plugin in your ZThon__.\n"
+                    f"`{plugin}` __There is no such plugin in your Mido__.\n"
                 )
             else:
                 loadcmds += PLG_INFO[plugin]
@@ -292,7 +292,7 @@ async def _(event):  # sourcery no-metrics
         sqllist.add_to_list("sudo_enabled_cmds", cmd)
     result = f"**⎉╎تـم تفعيـل التحكـم الكـامل لـ**  `{len(loadcmds)}` **امـر 🧑🏻‍💻✅**\n"
     output = (
-        result + "**⎉╎يتم الان اعـادة تشغيـل بـوت زدثــون انتظـر 2-1 دقيقـه ▬▭ ...**\n"
+        result + "**⎉╎يتم الان اعـادة تشغيـل بـوت Mido انتظـر 2-1 دقيقـه ▬▭ ...**\n"
     )
     if errors != "":
         output += "\n**- خطــأ :**\n" + errors
@@ -301,7 +301,7 @@ async def _(event):  # sourcery no-metrics
 
 
 @zedub.zed_cmd(
-    pattern="ايقاف تحكم(s)?(?:\s|$)([\s\S]*)?",
+    pattern=r"ايقاف تحكم(s)?(?:\s|$)([\s\S]*)?",
     command=("ايقاف تحكم", plugin_category),
     info={
         "header": "To disable given cmds for sudo.",
@@ -364,7 +364,7 @@ async def _(event):  # sourcery no-metrics
         for plugin in input_str:
             if plugin not in PLG_INFO:
                 errors += (
-                    f"`{plugin}` __There is no such plugin in your ZThon__.\n"
+                    f"`{plugin}` __There is no such plugin in your Mido__.\n"
                 )
             else:
                 flagcmds += PLG_INFO[plugin]
@@ -385,7 +385,7 @@ async def _(event):  # sourcery no-metrics
             sqllist.rm_from_list("sudo_enabled_cmds", cmd)
     result = f"**⎉╎تـم تعطيـل التحكـم الكـامل لـ**  `{count}` **امـر 🧑🏻‍💻✅**\n"
     output = (
-        result + "**⎉╎يتم الان اعـادة تشغيـل بـوت زدثــون انتظـر 2-1 دقيقـه ▬▭ ...**\n"
+        result + "**⎉╎يتم الان اعـادة تشغيـل بـوت Mido انتظـر 2-1 دقيقـه ▬▭ ...**\n"
     )
     if errors != "":
         output += "\n**- خطــأ :**\n" + errors
@@ -463,7 +463,7 @@ zedub.loop.create_task(_init())
 
 
 
-# Copyright (C) 2022 Zed-Thon . All Rights Reserved
+# Copyright (C) 2022 Mido . All Rights Reserved
 @zedub.zed_cmd(pattern="المساعد")
 async def cmd(zelzallll):
     await edit_or_reply(zelzallll, ZelzalDV_cmd)

@@ -1,4 +1,4 @@
-# Heroku manager for your ZThon
+# Heroku manager for your Mido
 
 # CC- @refundisillegal\nSyntax:-\n.get var NAME\n.del var NAME\n.set var NAME
 
@@ -30,7 +30,7 @@ HEROKU_API_KEY = Config.HEROKU_API_KEY
 
 
 @zedub.zed_cmd(
-    pattern="(set|get|del) var ([\s\S]*)",
+    pattern=r"(set|get|del) var ([\s\S]*)",
     command=("var", plugin_category),
     info={
         "header": "To manage heroku vars.",
@@ -68,10 +68,10 @@ async def variable(var):  # sourcery no-metrics
             variable = var.pattern_match.group(2).split()[0]
             if variable in heroku_var:
                 return await zed.edit(
-                    "𓆩 𝑺𝑶𝑼𝑹𝑪𝑬 𝙕𝞝𝘿𝙏𝙃𝙊𝙉 - 𝑮𝑶𝑵𝑭𝑰𝑮 𝑽𝑨𝑹𝑺 𓆪\n**𓍹ⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧ𓍻**" f"\n\n**⌔∮الفــار** `{variable} = {heroku_var[variable]}` .\n"
+                    "𓆩 𝑺𝑶𝑼𝑹𝑪𝑬 Mido - 𝑮𝑶𝑵𝑭𝑰𝑮 𝑽𝑨𝑹𝑺 𓆪\n**𓍹ⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧ𓍻**" f"\n\n**⌔∮الفــار** `{variable} = {heroku_var[variable]}` .\n"
                 )
             await zed.edit(
-                "𓆩 𝑺𝑶𝑼𝑹𝑪𝑬 𝙕𝞝𝘿𝙏𝙃𝙊𝙉 - 𝑮𝑶𝑵𝑭𝑰𝑮 𝑽𝑨𝑹𝑺 𓆪\n**𓍹ⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧ𓍻**" f"\n\n**⌔∮الفــار** `{variable}` غيــر مـوجــود ؟!"
+                "𓆩 𝑺𝑶𝑼𝑹𝑪𝑬 Mido - 𝑮𝑶𝑵𝑭𝑰𝑮 𝑽𝑨𝑹𝑺 𓆪\n**𓍹ⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧ𓍻**" f"\n\n**⌔∮الفــار** `{variable}` غيــر مـوجــود ؟!"
             )
         except IndexError:
             configs = prettyjson(heroku_var.to_dict(), indent=2)
@@ -98,9 +98,9 @@ async def variable(var):  # sourcery no-metrics
             return await zed.edit("`.set var <ConfigVars-name> <value>`")
         await asyncio.sleep(1.5)
         if variable in heroku_var:
-            await zed.edit("**⌔∮ تم تغيـر** `{}` **:**\n **- المتغير :** `{}` \n**- يتم الان اعـادة تشغيـل بـوت زد ثـون يستغـرق الامر 2-1 دقيقـه ▬▭ ...**".format(variable, value))
+            await zed.edit("**⌔∮ تم تغيـر** `{}` **:**\n **- المتغير :** `{}` \n**- يتم الان اعـادة تشغيـل بـوت Mido يستغـرق الامر 2-1 دقيقـه ▬▭ ...**".format(variable, value))
         else:
-            await zed.edit("**⌔∮ تم اضافه** `{}` **:** \n**- المضاف اليه :** `{}` \n**يتم الان اعـادة تشغيـل بـوت زد ثـون يستغـرق الامر 2-1 دقيقـه ▬▭ ...**".format(variable, value))
+            await zed.edit("**⌔∮ تم اضافه** `{}` **:** \n**- المضاف اليه :** `{}` \n**يتم الان اعـادة تشغيـل بـوت Mido يستغـرق الامر 2-1 دقيقـه ▬▭ ...**".format(variable, value))
         heroku_var[variable] = value
     elif exe == "del":
         zed = await edit_or_reply(var, "⌔∮ الحصول على معلومات لحذف المتغير. ")
@@ -112,12 +112,12 @@ async def variable(var):  # sourcery no-metrics
         if variable not in heroku_var:
             return await zed.edit(f"⌔∮ `{variable}`**  غير موجود**")
 
-        await zed.edit(f"**⌔∮** `{variable}`  **تم حذفه بنجاح. \n**يتم الان اعـادة تشغيـل بـوت زد ثـون يستغـرق الامر 2-1 دقيقـه ▬▭ ...**")
+        await zed.edit(f"**⌔∮** `{variable}`  **تم حذفه بنجاح. \n**يتم الان اعـادة تشغيـل بـوت Mido يستغـرق الامر 2-1 دقيقـه ▬▭ ...**")
         del heroku_var[variable]
 
 
 @zedub.zed_cmd(
-    pattern="(ضع|جلب|حذف) فار ([\s\S]*)",
+    pattern=r"(ضع|جلب|حذف) فار ([\s\S]*)",
     command=("var", plugin_category),
     info={
         "header": "لـ اضـافـة وتغييـر فـارات هيـروكـو لحســابك",
@@ -155,10 +155,10 @@ async def variable(var):  # sourcery no-metrics
             variable = var.pattern_match.group(2).split()[0]
             if variable in heroku_var:
                 return await zed.edit(
-                    "𓆩 𝑺𝑶𝑼𝑹𝑪𝑬 𝙕𝞝𝘿𝙏𝙃𝙊𝙉 - 𝑮𝑶𝑵𝑭𝑰𝑮 𝑽𝑨𝑹𝑺 𓆪\n**𓍹ⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧ𓍻**" f"\n\n**⌔∮الفــار** `{variable} = {heroku_var[variable]}` .\n"
+                    "𓆩 𝑺𝑶𝑼𝑹𝑪𝑬 Mido - 𝑮𝑶𝑵𝑭𝑰𝑮 𝑽𝑨𝑹𝑺 𓆪\n**𓍹ⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧ𓍻**" f"\n\n**⌔∮الفــار** `{variable} = {heroku_var[variable]}` .\n"
                 )
             await zed.edit(
-                "𓆩 𝑺𝑶𝑼𝑹𝑪𝑬 𝙕𝞝𝘿𝙏𝙃𝙊𝙉 - 𝑮𝑶𝑵𝑭𝑰𝑮 𝑽𝑨𝑹𝑺 𓆪\n**𓍹ⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧ𓍻**" f"\n\n**⌔∮الفــار** `{variable}` غيــر مـوجــود ؟!"
+                "𓆩 𝑺𝑶𝑼𝑹𝑪𝑬 Mido - 𝑮𝑶𝑵𝑭𝑰𝑮 𝑽𝑨𝑹𝑺 𓆪\n**𓍹ⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧ𓍻**" f"\n\n**⌔∮الفــار** `{variable}` غيــر مـوجــود ؟!"
             )
         except IndexError:
             configs = prettyjson(heroku_var.to_dict(), indent=2)
@@ -185,9 +185,9 @@ async def variable(var):  # sourcery no-metrics
             return await zed.edit("`.set var <ConfigVars-name> <value>`")
         await asyncio.sleep(1.5)
         if variable in heroku_var:
-            await zed.edit("**⌔∮ تم تغيـر** `{}` **:**\n **- المتغير :** `{}` \n**- يتم الان اعـادة تشغيـل بـوت زد ثـون يستغـرق الامر 2-1 دقيقـه ▬▭ ...**".format(variable, value))
+            await zed.edit("**⌔∮ تم تغيـر** `{}` **:**\n **- المتغير :** `{}` \n**- يتم الان اعـادة تشغيـل بـوت Mido يستغـرق الامر 2-1 دقيقـه ▬▭ ...**".format(variable, value))
         else:
-            await zed.edit("**⌔∮ تم اضافه** `{}` **:** \n**- المضاف اليه :** `{}` \n**يتم الان اعـادة تشغيـل بـوت زد ثـون يستغـرق الامر 2-1 دقيقـه ▬▭ ...**".format(variable, value))
+            await zed.edit("**⌔∮ تم اضافه** `{}` **:** \n**- المضاف اليه :** `{}` \n**يتم الان اعـادة تشغيـل بـوت Mido يستغـرق الامر 2-1 دقيقـه ▬▭ ...**".format(variable, value))
         heroku_var[variable] = value
     elif exe == "حذف":
         zed = await edit_or_reply(var, "⌔∮ الحصول على معلومات لحذف المتغير. ")
@@ -199,7 +199,7 @@ async def variable(var):  # sourcery no-metrics
         if variable not in heroku_var:
             return await zed.edit(f"⌔∮ `{variable}`**  غير موجود**")
 
-        await zed.edit(f"**⌔∮** `{variable}`  **تم حذفه بنجاح. \n**يتم الان اعـادة تشغيـل بـوت زد ثـون يستغـرق الامر 2-1 دقيقـه ▬▭ ...**")
+        await zed.edit(f"**⌔∮** `{variable}`  **تم حذفه بنجاح. \n**يتم الان اعـادة تشغيـل بـوت Mido يستغـرق الامر 2-1 دقيقـه ▬▭ ...**")
         del heroku_var[variable]
 
 
@@ -263,11 +263,11 @@ async def dyno_usage(dyno):
     AppMinutes = math.floor(AppQuotaUsed % 60)
     await asyncio.sleep(1.5)
     return await dyno.edit(
-        "𓆩 𝑺𝑶𝑼𝑹𝑪𝑬 𝙕𝞝𝘿𝙏𝙃𝙊𝙉 - 𝑫𝒀𝑵𝑶 𝑼𝑺𝑨𝑮𝑬 𓆪\n𓍹ⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧ𓍻\n\n"
+        "𓆩 𝑺𝑶𝑼𝑹𝑪𝑬 Mido - 𝑫𝒀𝑵𝑶 𝑼𝑺𝑨𝑮𝑬 𓆪\n𓍹ⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧ𓍻\n\n"
         f"**⌔∮ اسم التطبيق في هيروكو :**\n"
         f"**    - معرف اشتراكك ⪼ {Config.HEROKU_APP_NAME}**"
         f"\n\n"
-        f" **⌔∮ مدة اسـتخدامك لبوت زد ثـون : **\n"
+        f" **⌔∮ مدة اسـتخدامك لبوت Mido : **\n"
         f"     -  `{AppHours}`**ساعه**  `{AppMinutes}`**دقيقه**  "
         f"**⪼**  `{AppPercentage}`**%**"
         "\n\n"

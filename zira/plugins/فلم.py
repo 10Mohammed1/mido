@@ -90,7 +90,7 @@ def get_provider(url):
 
 
 @zedub.zed_cmd(
-    pattern="فلم ([\s\S]*)",
+    pattern=r"فلم ([\s\S]*)",
     command=("فلم", plugin_category),
     info={
         "header": "To search online streaming sites for that movie.",

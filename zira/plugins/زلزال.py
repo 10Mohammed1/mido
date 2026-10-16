@@ -1,9 +1,9 @@
-# Zed-Thon
-# Copyright (C) 2023 Zed-Thon . All Rights Reserved
+# Mido
+# Copyright (C) 2023 Mido . All Rights Reserved
 #
-# This file is a part of < https://github.com/Zed-Thon/ZelZal/ >
+# This file is a part of < https://github.com/Mido/Mido/ >
 # PLease read the GNU Affero General Public License in
-# <https://www.github.com/Zed-Thon/ZelZal/blob/master/LICENSE/>.
+# <https://www.github.com/Mido/Mido/blob/master/LICENSE/>.
 import requests
 import asyncio
 import os
@@ -24,8 +24,7 @@ from ..Config import Config
 from ..core.managers import edit_delete, edit_or_reply
 from ..helpers.utils import reply_id
 
-
-#الملـف كتابـة زلـزال الهيبـه ⤶ @zzzzl1l خاص بسـورس ⤶ 𝙕𝙏𝙝𝙤𝙣
+#الملـف كتابـة Mido الهيبـه ⤶ @M_O_EG خاص بسـورس ⤶ Mido
 #الملف متعوب عليه So تخمط وماتذكـر المصـدر == اهينـك
 #ها خماط رمضان وتخمط hhhhhhh
 @zedub.zed_cmd(pattern="اغنيه(?: |$)(.*)")
@@ -38,7 +37,7 @@ async def _(event):
     else:
         await event.edit("**╮ جـارِ البحث ؏ـن الاغنيـٓه... 🎧♥️╰**")
     chat = "@Abm_MusicDownloader_Bot"
-    async with borg.conversation(chat) as conv: # code by t.me/zzzzl1l
+    async with borg.conversation(chat) as conv:
         try:
             await conv.send_message("/start")
             await conv.get_response()
@@ -81,9 +80,7 @@ async def _(event):
             else:
                 await event.edit("**- لـم استطـع العثـور على نتائـج ؟!**\n**- حـاول مجـدداً في وقت لاحـق ...**")
 
-
-
-#الملـف كتابـة زلـزال الهيبـه ⤶ @zzzzl1l خاص بسـورس ⤶ 𝙕𝙏𝙝𝙤𝙣
+#الملـف كتابـة Mido الهيبـه ⤶ @M_O_EG خاص بسـورس ⤶ Mido
 #الملف متعوب عليه So تخمط وماتذكـر المصـدر == اهينـك
 #ها خماط رمضان وتخمط hhhhhhh
 @zedub.zed_cmd(pattern="تطبيق(?: |$)(.*)")
@@ -100,7 +97,7 @@ async def _(event):
     else:
         return
     chat = "@apkdl_bot"
-    async with borg.conversation(chat) as conv: # code by t.me/zzzzl1l
+    async with borg.conversation(chat) as conv:
         try:
             await conv.send_message("/start")
             await conv.get_response()
@@ -113,15 +110,15 @@ async def _(event):
                 zelzal = await conv.get_response()
                 zilzal = zelzal.text
                 if "above 50MB" in zelzal.text:
-                    aa = zilzal.replace(".apk filesize is above 50MB so you can download only using link", "**- حجم التطبيق اكبر من 50MB ؟!\n- قم بتحميل التطبيق عبـر البوت\n- ادخل للبوت @uploadbot وارسل الرابـط بالاسفـل**\n\n") 
-                    zz = aa.replace(" if you still want it as file copy the link and send to @UploadBot", "\n\n**- قنـاة السـورس : @ZedThon**") 
+                    aa = zilzal.replace(".apk filesize is above 50MB so you can download only using link", "**- حجم التطبيق اكبر من 50MB ؟!\n- قم بتحميل التطبيق عبـر البوت\n- ادخل للبوت @uploadbot وارسل الرابـط بالاسفـل**\n\n")
+                    zz = aa.replace(" if you still want it as file copy the link and send to @UploadBot", "\n\n**- قنـاة السـورس : @Mido**")
                     await event.delete()
                     return await borg.send_message(event.chat_id, zz)
                 await event.delete()
                 await borg.send_file(
                     event.chat_id,
                     zelzal,
-                    caption=f"**{zelzal.text}\nBy: @ZThon**",
+                    caption=f"**{zelzal.text}\nBy: @Mido**",
                 )
 
             else:
@@ -138,31 +135,29 @@ async def _(event):
                 zelzal = await conv.get_response()
                 zilzal = zelzal.text
                 if "above 50MB" in zelzal.text:
-                    aa = zilzal.replace(".apk filesize is above 50MB so you can download only using link", "**- حجم التطبيق اكبر من 50MB ؟!\n- قم بتحميل التطبيق عبـر البوت\n- ادخل للبوت @uploadbot وارسل الرابـط بالاسفـل**\n\n") 
-                    zz = aa.replace(" if you still want it as file copy the link and send to @UploadBot", "\n\n**- قنـاة السـورس : @ZedThon**") 
+                    aa = zilzal.replace(".apk filesize is above 50MB so you can download only using link", "**- حجم التطبيق اكبر من 50MB ؟!\n- قم بتحميل التطبيق عبـر البوت\n- ادخل للبوت @uploadbot وارسل الرابـط بالاسفـل**\n\n")
+                    zz = aa.replace(" if you still want it as file copy the link and send to @UploadBot", "\n\n**- قنـاة السـورس : @Mido**")
                     await event.delete()
                     return await borg.send_message(event.chat_id, zz)
                 await event.delete()
                 await borg.send_file(
                     event.chat_id,
                     zelzal,
-                    caption=f"**{zelzal.text}\nBy: @ZThon**",
+                    caption=f"**{zelzal.text}\nBy: @Mido**",
                 )
 
             else:
                 await event.edit("**- لـم استطـع العثـور على نتائـج ؟!**\n**- حـاول مجـدداً في وقت لاحـق ...**")
 
-
-
-#الملـف كتابـة زلـزال الهيبـه ⤶ @zzzzl1l خاص بسـورس ⤶ 𝙕𝙏𝙝𝙤𝙣
+#الملـف كتابـة Mido الهيبـه ⤶ @M_O_EG خاص بسـورس ⤶ Mido
 #الملف متعوب عليه So تخمط وماتذكـر المصـدر == اهينـك
 #ها خماط رمضان وتخمط hhhhhhh
-@zedub.zed_cmd(pattern="رابط(?:\s|$)([\s\S]*)")
+@zedub.zed_cmd(pattern=r"رابط(?:\s|$)([\s\S]*)")
 async def linkapk(event):
     input_str = event.pattern_match.group(1)
     if input_str == "الحذف":
         return
-    chat = "@apkdl_bot" # code by t.me/zzzzl1l
+    chat = "@apkdl_bot"
     reply_id_ = await reply_id(event)
     zed = await edit_or_reply(event, "**⎉╎جـارِ البحث عن روابـط التطبيق ...**")
     async with event.client.conversation(chat) as conv:
@@ -177,12 +172,10 @@ async def linkapk(event):
         await event.client.send_message(event.chat_id, f"**- قم بالضغـط ع اول رابـط يبـدأ ب /preview\n- ثم ارسـل .تطبيق بالـرد ع الرابـط**\n\n{response.message}")
         await zed.delete()
 
-
-
-#الملـف كتابـة زلـزال الهيبـه ⤶ @zzzzl1l خاص بسـورس ⤶ 𝙕𝙏𝙝𝙤𝙣
+#الملـف كتابـة Mido الهيبـه ⤶ @M_O_EG خاص بسـورس ⤶ Mido
 #الملف متعوب عليه So تخمط وماتذكـر المصـدر == اهينـك
 #ها خماط رمضان وتخمط hhhhhhh
-@zedub.zed_cmd(pattern="فلم ([\s\S]*)")
+@zedub.zed_cmd(pattern=r"فلم ([\s\S]*)")
 async def zed(event):
     if event.fwd_from:
         return

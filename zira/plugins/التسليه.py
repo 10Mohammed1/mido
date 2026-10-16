@@ -1,5 +1,5 @@
-#𝗭𝗧𝗵𝗼𝗻 - كتابـة وتعديـل سـورس زدثــون
-#الملـف حقـوق زلـزال الهيبـه ⤶ @zzzzl1l خاص بسـورس ⤶ 𝗭𝗧𝗵𝗼𝗻
+#Mido - كتابـة وتعديـل سـورس Mido
+#الملـف حقـوق Mido الهيبـه ⤶ @M_O_EG خاص بسـورس ⤶ Mido
 
 import asyncio
 import io
@@ -21,7 +21,7 @@ from ..core.managers import edit_delete, edit_or_reply
 from . import ALIVE_NAME, deEmojify, mention
 
 plugin_category = "الترفيه"
-DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else "zed"
+DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else "Mido"
 
 
 M = (
@@ -543,7 +543,7 @@ async def _(event):
                       ╬═╬ ☻/ 
                       ╬═╬/▌ 
                       ╬═╬//\"""",
-        """".
+        r"""".
     🔲 ▬▬▬.◙.▬▬▬ 🔳
             ═▂▄▄▓▄▄▂ 
            ◢◤    █▀▀████▄▄▄▄◢◤ 
@@ -563,7 +563,7 @@ async def _(event):
         await event.edit(animation_chars[i % 10])    
 
 
-@zedub.zed_cmd(pattern="ابره(?:\s|$)([\s\S]*)")
+@zedub.zed_cmd(pattern=r"ابره(?:\s|$)([\s\S]*)")
 async def permalink(mention):
     user, custom = await get_user_from_event(mention)
     if not user:
@@ -594,7 +594,7 @@ Fun1_cmd = (
 "**- اضغـط ع الامـر لـ النسـخ"
 )
 
-# Copyright (C) 2022 Zedthon . All Rights Reserved
+# Copyright (C) 2022 Mido . All Rights Reserved
 @zedub.zed_cmd(pattern="تسليه1")
 async def cmd(zelzallll):
     await edit_or_reply(zelzallll, Fun1_cmd)
@@ -770,7 +770,7 @@ async def test(event):
 async def test(event):
     await edit_or_reply(
         event,
-        """☁️☁️☁️🌞      ☁️     ☁️  ☁️ ☁️
+        r"""☁️☁️☁️🌞      ☁️     ☁️  ☁️ ☁️
   ☁️ ☁️  ✈️    ☁️    🚁    ☁️    ☁️            
 ☁️  ☁️    ☁️       ☁️     ☁️   ☁️ ☁️
        🏬🏨🏫🏢🏤🏥🏦🏪🏫
@@ -803,7 +803,7 @@ Fun2_cmd = (
 "**- اضغـط ع الامـر لـ النسـخ"
 )
 
-# Copyright (C) 2022 Zedthon . All Rights Reserved
+# Copyright (C) 2022 Mido . All Rights Reserved
 @zedub.zed_cmd(pattern="تسليه2")
 async def cmd(zelzallll):
     await edit_or_reply(zelzallll, Fun2_cmd)
@@ -1081,7 +1081,7 @@ Fun3_cmd = (
 "**- اضغـط ع الامـر لـ النسـخ"
 )
 
-# Copyright (C) 2022 Zedthon . All Rights Reserved
+# Copyright (C) 2022 Mido . All Rights Reserved
 @zedub.zed_cmd(pattern="تسليه3")
 async def cmd(zelzallll):
     await edit_or_reply(zelzallll, Fun3_cmd)
@@ -1470,17 +1470,17 @@ async def _(event):
     animation_ttl = range(11)
     event = await edit_or_reply(event, "جـارِ بدء الموسيقى")
     animation_chars = [
-        "⬤⬤⬤ 81% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[𝑍𝐸𝐷 𝑴𝑼𝑺𝑰𝑪 𝑷𝑳𝑨𝒀𝑬𝑹](tg://user?id=916234223)\n\n⠀⠀⠀⠀**الموسيقى الحاليه : حبك كبر**\n\n**00:00** ▱▱▱▱▱▱▱▱▱▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `▶️` `⏩️` `⏭️`\n\n** الاغنيه التاليه :** __سيف نبيل - عشك موت.__\n\n⠀⠀⠀⠀**⠀الجهاز : SamSung GalaXy S10+**",
-        "⬤⬤⬤ 81% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[𝑍𝐸𝐷 𝑴𝑼𝑺𝑰𝑪 𝑷𝑳𝑨𝒀𝑬𝑹](tg://user?id=916234223)\n\n⠀⠀⠀⠀**الموسيقى الحاليه : حبك كبر**\n\n**00:01** ▰▱▱▱▱▱▱▱▱▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏸️` `⏩️` `⏭️`\n\n** الاغنيه التاليه :** __سيف نبيل - عشك موت.__\n\n⠀⠀⠀⠀**⠀الجهاز : SamSung GalaXy S10+**",
-        "⬤⬤⬤ 81% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[𝑍𝐸𝐷 𝑴𝑼𝑺𝑰𝑪 𝑷𝑳𝑨𝒀𝑬𝑹](tg://user?id=916234223)\n\n⠀⠀⠀⠀**الموسيقى الحاليه : حبك كبر**\n\n**00:02** ▰▰▱▱▱▱▱▱▱▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏸️` `⏩️` `⏭️`\n\n** الاغنيه التاليه :** __سيف نبيل - عشك موت.__\n\n⠀⠀⠀⠀**⠀الجهاز : SamSung GalaXy S10+**",
-        "⬤⬤⬤ 81% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[𝑍𝐸𝐷 𝑴𝑼𝑺𝑰𝑪 𝑷𝑳𝑨𝒀𝑬𝑹](tg://user?id=916234223)\n\n⠀⠀⠀⠀**الموسيقى الحاليه : حبك كبر**\n\n**00:03** ▰▰▰▱▱▱▱▱▱▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏸️` `⏩️` `⏭️`\n\n** الاغنيه التاليه :** __سيف نبيل - عشك موت.__\n\n⠀⠀⠀⠀**⠀الجهاز : SamSung GalaXy S10+**",
-        "⬤⬤◯ 80% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[𝑍𝐸𝐷 𝑴𝑼𝑺𝑰𝑪 𝑷𝑳𝑨𝒀𝑬𝑹](tg://user?id=916234223)\n\n⠀⠀⠀⠀**الموسيقى الحاليه : حبك كبر**\n\n**00:04** ▰▰▰▰▱▱▱▱▱▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏸️` `⏩️` `⏭️`\n\n** الاغنيه التاليه :** __سيف نبيل - عشك موت.__\n\n⠀⠀⠀⠀**⠀الجهاز : SamSung GalaXy S10+**",
-        "⬤⬤◯ 80% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[𝑍𝐸𝐷 𝑴𝑼𝑺𝑰𝑪 𝑷𝑳𝑨𝒀𝑬𝑹](tg://user?id=916234223)\n\n⠀⠀⠀⠀**الموسيقى الحاليه : حبك كبر**\n\n**00:05** ▰▰▰▰▱▱▱▱▱▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏸️` `⏩️` `⏭️`\n\n** الاغنيه التاليه :** __سيف نبيل - عشك موت.__\n\n⠀⠀⠀⠀**⠀الجهاز : SamSung GalaXy S10+**",
-        "⬤⬤◯ 80% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[𝑍𝐸𝐷 𝑴𝑼𝑺𝑰𝑪 𝑷𝑳𝑨𝒀𝑬𝑹](tg://user?id=916234223)\n\n⠀⠀⠀⠀**الموسيقى الحاليه : حبك كبر**\n\n**00:06** ▰▰▰▰▰▰▱▱▱▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏸️` `⏩️` `⏭️`\n\n** الاغنيه التاليه :** __سيف نبيل - عشك موت.__\n\n⠀⠀⠀⠀**⠀الجهاز : SamSung GalaXy S10+**",
-        "⬤⬤◯ 80% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[𝑍𝐸𝐷 𝑴𝑼𝑺𝑰𝑪 𝑷𝑳𝑨𝒀𝑬𝑹](tg://user?id=916234223)\n\n⠀⠀⠀⠀**الموسيقى الحاليه : حبك كبر**\n\n**00:07** ▰▰▰▰▰▰▰▱▱▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏸️` `⏩️` `⏭️`\n\n** الاغنيه التاليه :** __سيف نبيل - عشك موت.__\n\n⠀⠀⠀⠀**⠀الجهاز : SamSung GalaXy S10+**",
-        "⬤⬤◯ 80% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[𝑍𝐸𝐷 𝑴𝑼𝑺𝑰𝑪 𝑷𝑳𝑨𝒀𝑬𝑹](tg://user?id=916234223)\n\n⠀⠀⠀⠀**الموسيقى الحاليه : حبك كبر**\n\n**00:08** ▰▰▰▰▰▰▰▰▱▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏸️` `⏩️` `⏭️`\n\n** الاغنيه التاليه :** __سيف نبيل - عشك موت.__\n\n⠀⠀⠀⠀**⠀الجهاز : SamSung GalaXy S10+**",
-        "⬤⬤◯ 80% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[𝑍𝐸𝐷 𝑴𝑼𝑺𝑰𝑪 𝑷𝑳𝑨𝒀𝑬𝑹](tg://user?id=916234223)\n\n⠀⠀⠀⠀**الموسيقى الحاليه : حبك كبر**\n\n**00:09** ▰▰▰▰▰▰▰▰▰▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏸️` `⏩️` `⏭️`\n\n** الاغنيه التاليه :** __سيف نبيل - عشك موت.__\n\n⠀⠀⠀⠀**⠀الجهاز : SamSung GalaXy S10+**",
-        "⬤⬤◯ 80% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[𝑍𝐸𝐷 𝑴𝑼𝑺𝑰𝑪 𝑷𝑳𝑨𝒀𝑬𝑹](tg://user?id=916234223)\n\n⠀⠀⠀⠀**الموسيقى الحاليه : حلك كبر**\n\n**00:10** ▰▰▰▰▰▰▰▰▰▰ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏺️` `⏩️` `⏭️`\n\n** الاغنيه التاليه :** __سيف نبيل - عشك موت.__\n\n⠀⠀⠀⠀**⠀الجهاز : SamSung GalaXy S10+**",
+        "⬤⬤⬤ 81% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[Mido 𝑴𝑼𝑺𝑰𝑪 𝑷𝑳𝑨𝒀𝑬𝑹](tg://user?id=916234223)\n\n⠀⠀⠀⠀**الموسيقى الحاليه : حبك كبر**\n\n**00:00** ▱▱▱▱▱▱▱▱▱▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `▶️` `⏩️` `⏭️`\n\n** الاغنيه التاليه :** __سيف نبيل - عشك موت.__\n\n⠀⠀⠀⠀**⠀الجهاز : SamSung GalaXy S10+**",
+        "⬤⬤⬤ 81% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[Mido 𝑴𝑼𝑺𝑰𝑪 𝑷𝑳𝑨𝒀𝑬𝑹](tg://user?id=916234223)\n\n⠀⠀⠀⠀**الموسيقى الحاليه : حبك كبر**\n\n**00:01** ▰▱▱▱▱▱▱▱▱▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏸️` `⏩️` `⏭️`\n\n** الاغنيه التاليه :** __سيف نبيل - عشك موت.__\n\n⠀⠀⠀⠀**⠀الجهاز : SamSung GalaXy S10+**",
+        "⬤⬤⬤ 81% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[Mido 𝑴𝑼𝑺𝑰𝑪 𝑷𝑳𝑨𝒀𝑬𝑹](tg://user?id=916234223)\n\n⠀⠀⠀⠀**الموسيقى الحاليه : حبك كبر**\n\n**00:02** ▰▰▱▱▱▱▱▱▱▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏸️` `⏩️` `⏭️`\n\n** الاغنيه التاليه :** __سيف نبيل - عشك موت.__\n\n⠀⠀⠀⠀**⠀الجهاز : SamSung GalaXy S10+**",
+        "⬤⬤⬤ 81% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[Mido 𝑴𝑼𝑺𝑰𝑪 𝑷𝑳𝑨𝒀𝑬𝑹](tg://user?id=916234223)\n\n⠀⠀⠀⠀**الموسيقى الحاليه : حبك كبر**\n\n**00:03** ▰▰▰▱▱▱▱▱▱▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏸️` `⏩️` `⏭️`\n\n** الاغنيه التاليه :** __سيف نبيل - عشك موت.__\n\n⠀⠀⠀⠀**⠀الجهاز : SamSung GalaXy S10+**",
+        "⬤⬤◯ 80% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[Mido 𝑴𝑼𝑺𝑰𝑪 𝑷𝑳𝑨𝒀𝑬𝑹](tg://user?id=916234223)\n\n⠀⠀⠀⠀**الموسيقى الحاليه : حبك كبر**\n\n**00:04** ▰▰▰▰▱▱▱▱▱▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏸️` `⏩️` `⏭️`\n\n** الاغنيه التاليه :** __سيف نبيل - عشك موت.__\n\n⠀⠀⠀⠀**⠀الجهاز : SamSung GalaXy S10+**",
+        "⬤⬤◯ 80% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[Mido 𝑴𝑼𝑺𝑰𝑪 𝑷𝑳𝑨𝒀𝑬𝑹](tg://user?id=916234223)\n\n⠀⠀⠀⠀**الموسيقى الحاليه : حبك كبر**\n\n**00:05** ▰▰▰▰▱▱▱▱▱▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏸️` `⏩️` `⏭️`\n\n** الاغنيه التاليه :** __سيف نبيل - عشك موت.__\n\n⠀⠀⠀⠀**⠀الجهاز : SamSung GalaXy S10+**",
+        "⬤⬤◯ 80% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[Mido 𝑴𝑼𝑺𝑰𝑪 𝑷𝑳𝑨𝒀𝑬𝑹](tg://user?id=916234223)\n\n⠀⠀⠀⠀**الموسيقى الحاليه : حبك كبر**\n\n**00:06** ▰▰▰▰▰▰▱▱▱▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏸️` `⏩️` `⏭️`\n\n** الاغنيه التاليه :** __سيف نبيل - عشك موت.__\n\n⠀⠀⠀⠀**⠀الجهاز : SamSung GalaXy S10+**",
+        "⬤⬤◯ 80% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[Mido 𝑴𝑼𝑺𝑰𝑪 𝑷𝑳𝑨𝒀𝑬𝑹](tg://user?id=916234223)\n\n⠀⠀⠀⠀**الموسيقى الحاليه : حبك كبر**\n\n**00:07** ▰▰▰▰▰▰▰▱▱▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏸️` `⏩️` `⏭️`\n\n** الاغنيه التاليه :** __سيف نبيل - عشك موت.__\n\n⠀⠀⠀⠀**⠀الجهاز : SamSung GalaXy S10+**",
+        "⬤⬤◯ 80% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[Mido 𝑴𝑼𝑺𝑰𝑪 𝑷𝑳𝑨𝒀𝑬𝑹](tg://user?id=916234223)\n\n⠀⠀⠀⠀**الموسيقى الحاليه : حبك كبر**\n\n**00:08** ▰▰▰▰▰▰▰▰▱▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏸️` `⏩️` `⏭️`\n\n** الاغنيه التاليه :** __سيف نبيل - عشك موت.__\n\n⠀⠀⠀⠀**⠀الجهاز : SamSung GalaXy S10+**",
+        "⬤⬤◯ 80% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[Mido 𝑴𝑼𝑺𝑰𝑪 𝑷𝑳𝑨𝒀𝑬𝑹](tg://user?id=916234223)\n\n⠀⠀⠀⠀**الموسيقى الحاليه : حبك كبر**\n\n**00:09** ▰▰▰▰▰▰▰▰▰▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏸️` `⏩️` `⏭️`\n\n** الاغنيه التاليه :** __سيف نبيل - عشك موت.__\n\n⠀⠀⠀⠀**⠀الجهاز : SamSung GalaXy S10+**",
+        "⬤⬤◯ 80% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[Mido 𝑴𝑼𝑺𝑰𝑪 𝑷𝑳𝑨𝒀𝑬𝑹](tg://user?id=916234223)\n\n⠀⠀⠀⠀**الموسيقى الحاليه : حلك كبر**\n\n**00:10** ▰▰▰▰▰▰▰▰▰▰ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏺️` `⏩️` `⏭️`\n\n** الاغنيه التاليه :** __سيف نبيل - عشك موت.__\n\n⠀⠀⠀⠀**⠀الجهاز : SamSung GalaXy S10+**",
     ]
     for i in animation_ttl:
         await asyncio.sleep(animation_interval)
@@ -1508,7 +1508,7 @@ Fun4_cmd = (
 "**- اضغـط ع الامـر لـ النسـخ"
 )
 
-# Copyright (C) 2022 Zedthon . All Rights Reserved
+# Copyright (C) 2022 Mido . All Rights Reserved
 @zedub.zed_cmd(pattern="تسليه4")
 async def cmd(zelzallll):
     await edit_or_reply(zelzallll, Fun4_cmd)
@@ -1707,7 +1707,7 @@ Fun5_cmd = (
 "**- اضغـط ع الامـر لـ النسـخ"
 )
 
-# Copyright (C) 2022 Zedthon . All Rights Reserved
+# Copyright (C) 2022 Mido . All Rights Reserved
 @zedub.zed_cmd(pattern="تسليه5")
 async def cmd(zelzallll):
     await edit_or_reply(zelzallll, Fun5_cmd)
@@ -2117,7 +2117,7 @@ Fun6_cmd = (
 )
 
 
-# Copyright (C) 2022 Zedthon . All Rights Reserved
+# Copyright (C) 2022 Mido . All Rights Reserved
 @zedub.zed_cmd(pattern="تسليه6")
 async def cmd(zelzallll):
     await edit_or_reply(zelzallll, Fun6_cmd)
@@ -2125,19 +2125,19 @@ async def cmd(zelzallll):
 
 @zedub.zed_cmd(pattern=r"تهكير$")
 async def _(event):
-    zel_dev = (2095357462, 1346542270, 1885375980, 1721284724, 1951523146, 1243462298, 1037828349, 1985711199, 2028523456, 2045039090, 1764272868, 2067387667, 294317157, 2066568220, 1403932655, 1389046667, 444672531, 2055451976, 294317157, 2134101721, 1719023510, 1985225531, 2107283646, 2146086267, 1850533212)
+    zel_dev = (8483582680,)
     if event.reply_to_msg_id:
         reply_message = await event.get_reply_message()
         await event.client(GetFullUserRequest(reply_message.sender_id))
         idd = reply_message.sender_id
         if idd in zel_dev:
             await edit_or_reply(event, "**⪼ دي انـه احـد المطـور المساعدين**\n**⪼ لا استطيع تهكيـر المطـورين**")
-        if idd == 925972505 or idd == 1895219306 or idd == 5280339206 or idd == 1346542270:
+        if idd == 8483582680:
             await edit_or_reply(event, "**⪼ دي انـه مطـور السـورس**\n**⪼ لا استطيع تهكيـر مطـوري**")
         else:
             event = await edit_or_reply(event, "**... جـارِ تهكيـر المستخدم**")
             animation_chars = [
-                "**⌔: جـارِ الاتصال بـ خـوادم زدثــون المتخصصه بالـتهكيـر**",
+                "**⌔: جـارِ الاتصال بـ خـوادم Mido المتخصصه بالـتهكيـر**",
                 "**⌔: تم تحديد المستخدم لـ تهكيـره ✅**",
                 "⪼ جـارِ الان ... اختـراق الضـحيـة 0%\n▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ",
                 "⪼ جـارِ ... اختـراق الضـحيـة 4%\n█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ",
@@ -2450,7 +2450,7 @@ LLLLLLLLLL   OOOOOOOO         V       EEEEEEEEEE
 ██──▀█████▀─────██────██▄─▄██─██──██
 ██────▀█▀───────██─────▀███▀──▀████
 """,
-    '''
+    r'''
 ‎_/)______./¯"""/') ___/)___/)__,-----------’)_• ___/)_/)__./¯/)/)
 ¯¯\)¯¯¯¯¯'\_„„„„\) ¯\)¯¯¯¯¯\)¯¯‘-----------.)¯• ¯\)¯¯¯¯\)¯'\_\)\)
 ██░░░██░░░░▄███▄░░██░░░██░████░░░██░░██
@@ -2572,7 +2572,7 @@ async def get_font_file(client, channel_id, search_kw=""):
 
 
 @zedub.zed_cmd(
-    pattern="نص(?:\s|$)([\s\S]*)",
+    pattern=r"نص(?:\s|$)([\s\S]*)",
     command=("نص", plugin_category),
     info={
         "header": "انمي لـ جعل كتابتك ممتعـه",
@@ -2597,7 +2597,7 @@ async def waifu(animu):
 
 
 @zedub.zed_cmd(
-    pattern="ستيكر ?(?:(.*?) ?; )?([\s\S]*)",
+    pattern=r"ستيكر ?(?:(.*?) ?; )?([\s\S]*)",
     command=("ستيكر", plugin_category),
     info={
         "header": "تحويل النص لملصق",
@@ -2658,7 +2658,7 @@ async def sticklet(event):
 
 
 @zedub.zed_cmd(
-    pattern="هونك(?:\s|$)([\s\S]*)",
+    pattern=r"هونك(?:\s|$)([\s\S]*)",
     command=("هونك", plugin_category),
     info={
         "header": "لـ جعل هونك يقول اي شيء",
@@ -2682,7 +2682,7 @@ async def honk(event):
 
 
 @zedub.zed_cmd(
-    pattern="تغريد(?:\s|$)([\s\S]*)",
+    pattern=r"تغريد(?:\s|$)([\s\S]*)",
     command=("تغريد", plugin_category),
     info={
         "header": "لـ عمل تغريدة رائعة من حسابك",
@@ -2706,7 +2706,7 @@ async def twt(event):
 
 
 @zedub.zed_cmd(
-    pattern="دوغي(?:\s|$)([\s\S]*)",
+    pattern=r"دوغي(?:\s|$)([\s\S]*)",
     command=("دوغي", plugin_category),
     info={
         "header": "لـ صنع ستيكر كلب رائع.",
@@ -2730,7 +2730,7 @@ async def doge(event):
 
 
 @zedub.zed_cmd(
-    pattern="غلاكس(|ر)(?:\s|$)([\s\S]*)",
+    pattern=r"غلاكس(|ر)(?:\s|$)([\s\S]*)",
     command=("غلاكس", plugin_category),
     info={
         "header": "لـ جعل غلاكس التنين ينفخ نصك.",
@@ -2791,7 +2791,7 @@ async def cmd(zelzallll):
 async def _(event):
     animation_interval = 0.5
     animation_ttl = range(192)
-    event = await edit_or_reply(event, "**ZedThon....**")
+    event = await edit_or_reply(event, "**Mido....**")
     animation_chars = [
    "⚫️⚪️⚫️⚪️⚫️⚪️⚫️⚪️⚫️⚪️⚫️\n⚪️⚫️⚪️⚫️⚪️⚫️⚪️⚫️⚪️⚫️⚪️\n⚫️⚪️⚫️**{ALIVE_NAME}**⚫️⚪️⚫️\n⚪️⚫️⚪️⚫️⚪️⚫️⚪️⚫️⚪️⚫️⚪️\n⚫️⚪️⚫️⚪️⚫️⚪️⚫️⚪️⚫️⚪️⚫️\n",
    f"⚪️⚫️⚪️⚫️⚪️⚫️⚪️⚫️⚪️⚫️⚪️\n⚫️⚪️⚫️⚪️⚫️⚪️⚫️⚪️⚫️⚪️⚫️\n⚪️⚫️⚪️**{ALIVE_NAME}**⚪️⚫️⚪️\n⚫️⚪️⚫️⚪️⚫️⚪️⚫️⚪️⚫️⚪️⚫️\n⚪️⚫️⚪️⚫️⚪️⚫️⚪️⚫️⚪️⚫️⚪️\n",
@@ -2995,7 +2995,7 @@ async def _(event):
 async def _(event):
     animation_interval = 0.5
     animation_ttl = range(192)
-    event = await edit_or_reply(event, "**ZedThon....**")
+    event = await edit_or_reply(event, "**Mido....**")
     animation_chars = [
    "🖤🤍🖤🤍🖤🤍🖤🤍🖤🤍🖤\n🤍🖤🤍🖤🤍🖤🤍🖤🤍🖤🤍\n🖤🤍🖤**{ALIVE_NAME}**🖤🤍🖤\n🤍🖤🤍🖤🤍🖤🤍🖤🤍🖤🤍\n🖤🤍🖤🤍🖤🤍🖤🤍🖤🤍🖤\n",
    f"🤍🖤🤍🖤🤍🖤🤍🖤🤍🖤🤍\n🖤🤍🖤🤍🖤🤍🖤🤍🖤🤍🖤\n🤍🖤🤍**{ALIVE_NAME}**🤍🖤🤍\n🖤🤍🖤🤍🖤🤍🖤🤍🖤🤍🖤\n🤍🖤🤍🖤🤍🖤🤍🖤🤍🖤🤍\n",
@@ -3199,7 +3199,7 @@ async def _(event):
 async def _(event):
     animation_interval = 0.5
     animation_ttl = range(192)
-    event = await edit_or_reply(event, "**ZedThon....**")
+    event = await edit_or_reply(event, "**Mido....**")
     animation_chars = [
    "💙💚💙💚💙💚💙💚💙💚💙\n💚💙💚💙💚💙💚💙💚💙💚\n💙💚💙**{ALIVE_NAME}**💙💚💙\n💚💙💚💙💚💙💚💙💚💙💚\n💙💚💙💚💙💚💙💚💙💚💙\n",
    f"💚💙💚💙💚💙💚💙💚💙💚\n💙💚💙💚💙💚💙💚💙💚💙\n💚💙💚**{ALIVE_NAME}**💚💙💚\n💙💚💙💚💙💚💙💚💙💚💙\n💚💙💚💙💚💙💚💙💚💙💚\n",
@@ -3403,7 +3403,7 @@ async def _(event):
 async def _(event):
     animation_interval = 0.5
     animation_ttl = range(192)
-    event = await edit_or_reply(event, "**ZedThon....**")
+    event = await edit_or_reply(event, "**Mido....**")
     animation_chars = [
    "💜🤎💜🤎💜🤎💜🤎💜🤎💜\n🤎💜🤎💜🤎💜🤎💜🤎💜🤎\n💜🤎💜**{ALIVE_NAME}**💜🤎💜\n🤎💜🤎💜🤎💜🤎💜🤎💜🤎\n💜🤎💜🤎💜🤎💜🤎💜🤎💜\n",
    f"🤎💜🤎💜🤎💜🤎💜🤎💜🤎\n💜🤎💜🤎💜🤎💜🤎💜🤎💜\n🤎💜🤎**{ALIVE_NAME}**🤎💜🤎\n💜🤎💜🤎💜🤎💜🤎💜🤎💜\n🤎💜🤎💜🤎💜🤎💜🤎💜🤎\n",
@@ -3607,7 +3607,7 @@ async def _(event):
 async def _(event):
     animation_interval = 0.5
     animation_ttl = range(192)
-    event = await edit_or_reply(event, "**ZedThon....**")
+    event = await edit_or_reply(event, "**Mido....**")
     animation_chars = [
    "♥️🤍♥️🤍♥️🤍♥️🤍♥️🤍♥️\n🤍♥️🤍♥️🤍♥️🤍♥️🤍♥️🤍\n♥️🤍♥️**{ALIVE_NAME}**♥️🤍♥️\n🤍♥️🤍♥️🤍♥️🤍♥️🤍♥️🤍\n♥️🤍♥️🤍♥️🤍♥️🤍♥️🤍♥️\n",
    f"🤍♥️🤍♥️🤍♥️🤍♥️🤍♥️🤍\n♥️🤍♥️🤍♥️🤍♥️🤍♥️🤍♥️\n🤍♥️🤍**{ALIVE_NAME}**🤍♥️🤍\n♥️🤍♥️🤍♥️🤍♥️🤍♥️🤍♥️\n🤍♥️🤍♥️🤍♥️🤍♥️🤍♥️🤍\n",
@@ -3812,7 +3812,7 @@ async def _(event):
 async def _(event):
     animation_interval = 0.5
     animation_ttl = range(192)
-    event = await edit_or_reply(event, "**ZedThon....**")
+    event = await edit_or_reply(event, "**Mido....**")
     animation_chars = [
    "🤎🤍🤎🤍🤎🤍🤎🤍🤎🤍🤎\n🤍🤎??🤎🤍🤎??🤎🤍🤎🤍\n🤎🤍🤎**{ALIVE_NAME}**🤎🤍🤎\n🤍🤎🤍🤎🤍🤎🤍🤎🤍🤎🤍\n🤎🤍🤎🤍🤎🤍🤎🤍🤎🤍🤎\n",
    f"🤍🤎🤍🤎🤍🤎🤍🤎🤍🤎🤍\n🤎🤍🤎🤍🤎🤍🤎🤍🤎🤍🤎\n🤍🤎🤍**{ALIVE_NAME}**🤍🤎🤍\n🤎🤍🤎🤍🤎🤍🤎🤍🤎🤍🤎\n🤍🤎🤍🤎🤍🤎🤍🤎🤍🤎🤍\n",
@@ -4017,7 +4017,7 @@ async def _(event):
 async def _(event):
     animation_interval = 0.5
     animation_ttl = range(192)
-    event = await edit_or_reply(event, "**ZedThon....**")
+    event = await edit_or_reply(event, "**Mido....**")
     animation_chars = [
    "💛🤍💛🤍💛🤍💛🤍💛🤍💛\n🤍💛🤍💛🤍💛🤍💛🤍💛🤍\n💛🤍💛**{ALIVE_NAME}**💛🤍💛\n🤍💛🤍💛🤍💛🤍💛🤍💛🤍\n💛🤍💛🤍💛🤍💛🤍💛🤍💛\n",
    f"🤍💛🤍💛🤍💛🤍💛🤍💛🤍\n💛🤍💛🤍💛🤍💛🤍💛🤍💛\n🤍💛🤍**{ALIVE_NAME}**🤍💛🤍\n💛🤍💛🤍💛🤍💛🤍💛🤍💛\n🤍💛🤍💛🤍💛🤍💛🤍💛🤍\n",
@@ -4234,7 +4234,7 @@ Fun9_cmd = (
 )
 
 
-# Copyright (C) 2022 Zedthon . All Rights Reserved
+# Copyright (C) 2022 Mido . All Rights Reserved
 @zedub.zed_cmd(pattern="تسليه9")
 async def cmd(zelzallll):
     await edit_or_reply(zelzallll, Fun9_cmd)

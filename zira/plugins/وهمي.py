@@ -34,7 +34,7 @@ async def _(event):
         sun_set_time = int(response_api["sys"]["sunset"]) + country_time_zone
         await edit_or_reply(
             event,
-            """ᯓ 𝗦𝗢𝗨𝗥𝗖𝗘 𝗭𝗧𝗛𝗢𝗡 **- حـالة الطقـس** 🌐
+            """ᯓ 𝗦𝗢𝗨𝗥𝗖𝗘 Mido **- حـالة الطقـس** 🌐
 **•─────────────────•**
 **🗺┊حالات الطقس لـ مدينـة** {}
 **🔅┊الحـرارة :** {}°С

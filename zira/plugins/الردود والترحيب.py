@@ -32,9 +32,8 @@ from . import BOTLOG, BOTLOG_CHATID
 plugin_category = "الخدمات"
 LOGS = logging.getLogger(__name__)
 
-
 ZelzalWF_cmd = (
-    "𓆩 [𝗦𝗼𝘂𝗿𝗰𝗲 𝗭𝗧𝗵𝗼𝗻 - اوامـر الـردود / والتـرحيب](t.me/ZThon) 𓆪\n\n"
+    "𓆩 𝗦𝗼𝘂𝗿𝗰𝗲 Mido - اوامـر الـردود / والتـرحيب 𓆪\n\n"
     "**✾╎قائـمه اوامـر الـردود 🦾 :** \n\n"
     "**⎞𝟏⎝** `.رد`\n"
     "**•• ⦇الامـر + اسـم الـرد بالـرد ع كلمـة الـرد او بالـرد ع ميديـا⦈ لـ اضـافة رد بالكـروب**\n\n"
@@ -58,11 +57,10 @@ ZelzalWF_cmd = (
     "**•• لـ حـذف تـرحيـب الخـاص**\n\n"
     "**⎞𝟏𝟎⎝** `.جلب رحب`\n"
     "**•• لـ جـلب تـرحيـب الخـاص **\n\n"
-    "\n 𓆩 [𝙎𝙊𝙐𝙍𝘾𝞝 𝙕𝞝𝘿](t.me/ZThon) 𓆪"
+    "\n 𓆩 𝙎𝙊𝙐𝙍𝘾𝞝 Mido 𓆪"
 )
 
-
-# Copyright (C) 2022 Zed-Thon . All Rights Reserved
+# Copyright (C) 2022 Mido . All Rights Reserved
 @zedub.zed_cmd(pattern="الردود")
 async def cmd(zelzallll):
     await edit_or_reply(zelzallll, ZelzalWF_cmd)
@@ -70,7 +68,6 @@ async def cmd(zelzallll):
 @zedub.zed_cmd(pattern="الترحيب")
 async def cmd(zelzallll):
     await edit_or_reply(zelzallll, ZelzalWF_cmd)
-
 
 @zedub.zed_cmd(incoming=True)
 async def filter_incoming_handler(event):
@@ -130,7 +127,6 @@ async def filter_incoming_handler(event):
                 link_preview=link_preview,
             )
 
-
 @zedub.zed_cmd(
     pattern="رد (.*)",
     command=("رد", plugin_category),
@@ -179,7 +175,7 @@ async def add_new_filter(event):
         else:
             await edit_or_reply(
                 event,
-                "**❈╎يتطلب رد ميديـا تعيين كـروب السجـل اولاً ..**\n**❈╎لاضافـة كـروب السجـل**\n**❈╎اتبـع الشـرح ⇚** https://t.me/zzzvrr/13",
+                "**❈╎يتطلب رد ميديـا تعيين كـروب السجـل اولاً ..**\n**❈╎لاضافـة كـروب السجـل**\n**❈╎اتبـع الشـرح ⇚** ",
             )
             return
     elif msg and msg.text and not string:
@@ -193,7 +189,6 @@ async def add_new_filter(event):
     if add_filter(str(event.chat_id), keyword, string, msg_id) is True:
         return await edit_or_reply(event, success.format(keyword, "تحديثـه"))
     await edit_or_reply(event, f"**- اووبـس .. لقـد حـدث خطأ اثنـاء إعـداد الـرد** {keyword}")
-
 
 @zedub.zed_cmd(
     pattern="ردودي$",
@@ -209,7 +204,7 @@ async def on_snip_list(event):
     filters = get_filters(event.chat_id)
     for filt in filters:
         if OUT_STR == "** ❈╎لاتوجـد ردود محفوظـه في هـذه الدردشـه ༗**":
-            OUT_STR = "𓆩 𝗦𝗼𝘂𝗿𝗰𝗲 𝗭𝗧𝗵𝗼𝗻 - قائمـة الـردود 𓆪\n⋆┄─┄─┄─┄┄─┄─┄─┄─┄┄⋆\n"
+            OUT_STR = "𓆩 𝗦𝗼𝘂𝗿𝗰𝗲 Mido - قائمـة الـردود 𓆪\n⋆┄─┄─┄─┄┄─┄─┄─┄─┄┄⋆\n"
         OUT_STR += "👉 `{}`\n".format(filt.keyword)
     await edit_or_reply(
         event,
@@ -218,9 +213,8 @@ async def on_snip_list(event):
         file_name="filters.text",
     )
 
-
 @zedub.zed_cmd(
-    pattern="حذف رد ([\s\S]*)",
+    pattern=r"حذف رد ([\s\S]*)",
     command=("حذف رد", plugin_category),
     info={
         "header": "To delete that filter . so if user send that keyword bot will not reply",
@@ -234,7 +228,6 @@ async def remove_a_filter(event):
         await event.edit("**- ❝ الـرد ↫** {} **غيـر موجـود ⁉️**".format(filt))
     else:
         await event.edit("**- ❝ الـرد ↫** {} **تم حذفه بنجاح ☑️**".format(filt))
-
 
 @zedub.zed_cmd(
     pattern="حذف الردود$",
@@ -260,7 +253,7 @@ async def on_all_snip_delete(event):
 @zedub.on(events.ChatAction)
 async def _(event):
     cws = get_current_welcome_settings(event.chat_id)
-    if gvarstatus("TIME_STOP") is not None: #Code by T.me/zzzzl1l
+    if gvarstatus("TIME_STOP") is not None:
         zedstop = gvarstatus("TIME_STOP")
         now = datetime.datetime.now().time()
         if datetime.time(f"{zedstop}", 0) <= now < datetime.time(6, 0):
@@ -329,9 +322,8 @@ async def _(event):
         )
         update_previous_welcome(event.chat_id, current_message.id)
 
-
 @zedub.zed_cmd(
-    pattern="ترحيب(?:\s|$)([\s\S]*)",
+    pattern=r"ترحيب(?:\s|$)([\s\S]*)",
     command=("ترحيب", plugin_category),
     info={
         "header": "To welcome new users in chat.",
@@ -390,7 +382,6 @@ async def save_welcome(event):
         return await edit_or_reply(event, success.format("تـم تحـديث"))
     await edit_or_reply("**⪼ هنالك خطأ في وضع الترحيب هنا**")
 
-
 @zedub.zed_cmd(
     pattern="حذف الترحيب$",
     command=("حذف الترحيب", plugin_category),
@@ -405,7 +396,6 @@ async def del_welcome(event):
         await edit_or_reply(event, "**⪼ تـم حـذف التـرحيب .. بنجـاح فـي هـذه الدردشـه 𓆰.**")
     else:
         await edit_or_reply(event, "**⪼ ليـس لـدي اي ترحيبـات هنـا ؟!.**")
-
 
 @zedub.zed_cmd(
     pattern="الترحيبات$",
@@ -433,7 +423,6 @@ async def show_welcome(event):
             event, "** ⪼ أرحب حاليًا بالمستخدمين الجدد بهذه الرساله الترحيبية 𓆰.🜝**"
         )
         await event.reply(cws.reply, link_preview=False)
-
 
 @zedub.zed_cmd(
     pattern="cleanwelcome (on|off)$",
@@ -531,9 +520,8 @@ async def _(event):  # sourcery no-metrics
             link_preview=link_preview,
         )
 
-
 @zedub.zed_cmd(
-    pattern="رحب(?:\s|$)([\s\S]*)",
+    pattern=r"رحب(?:\s|$)([\s\S]*)",
     command=("رحب", plugin_category),
     info={
         "header": "To welcome user(sends welcome message to here private messages).",
@@ -594,7 +582,6 @@ async def save_welcome(event):
         return await edit_or_reply(event, success.format("تم تحديثـه"))
     await edit_or_reply("**- خطأ .. لا يسمح بوضع ترحيب خـاص بهذه الدردشـه**")
 
-
 @zedub.zed_cmd(
     pattern="حذف رحب$",
     command=("حذف رحب", plugin_category),
@@ -610,7 +597,6 @@ async def del_welcome(event):
         await edit_or_reply(event, "**⪼ تم حذف تـرحيب الخـاص في هذه الدردشـه 𓆰**")
     else:
         await edit_or_reply(event, "**⪼ انت لا تمتلك تـرحيب الخـاص لــ هذه الدردشـه 𓆰**")
-
 
 @zedub.zed_cmd(
     pattern="قائمه رحب$",

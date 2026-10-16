@@ -1,12 +1,12 @@
-# Zed-Thon - ZelZal
-# Copyright (C) 2023 Zedthon . All Rights Reserved
+# Mido - Mido
+# Copyright (C) 2023 Mido . All Rights Reserved
 #
-# This file is a part of < https://github.com/Zed-Thon/ZelZal/ >
+# This file is a part of < https://github.com/Mido/Mido/ >
 # PLease read the GNU Affero General Public License in
-# <https://www.github.com/Zed-Thon/ZelZal/blob/master/LICENSE/>.
-""" 
-Logo & Style for ZThon™ t.me/ZThon
-Write file by Zelzal t.me/zzzzl1l
+# <https://www.github.com/Mido/Mido/blob/master/LICENSE/>.
+"""
+Logo & Style for Mido™
+Write file by Mido
 ها خماط بعدك تخمط مني .. ماتستحي ؟
 متى راح تصير مطور وانت مقضيها خمط تعب وحقوق الناس
 ههههههههههههههههههههههههههههههههههههههههههههههههههههههه
@@ -15,7 +15,7 @@ Write file by Zelzal t.me/zzzzl1l
 import os
 import random
 import string
-try: # code by t.me/zzzzl1l
+try:
     import arabic_reshaper
 except ModuleNotFoundError:
     os.system("pip3 install arabic_reshaper")
@@ -35,8 +35,6 @@ from . import *
 LOGS = logging.getLogger(__name__)
 PICS_STR = []
 
-
-# code by t.me/zzzzl1l
 async def get_font_file(client, channel_id):
     font_file_message_s = await client.get_messages(
         entity=channel_id,
@@ -47,22 +45,20 @@ async def get_font_file(client, channel_id):
 
     return await client.download_media(font_file_message)
 
-
-# code by t.me/zzzzl1l
 @zedub.zed_cmd(pattern=r"لوكو ?(.*)")
 async def lg1(userevent):
     event = await eor(userevent, "**- جـارِ صنـع لـوكـو انكـلش بحقـوقك ...**")
     me = await userevent.client.get_me()
     my_first = me.first_name
     my_mention = f"[{me.first_name}](tg://user?id={me.id})"
-    if gvarstatus("ZED_FONTS") is None: # code by t.me/zzzzl1l
+    if gvarstatus("ZED_FONTS") is None:
         zed_font = await get_font_file(userevent.client, "@T_Taiz")
     else:
         zed_font = gvarstatus("ZED_FONTS")
     if userevent.reply_to_msg_id:
         rply = await userevent.get_reply_message()
         logo_ = await rply.download_media()
-    else: # code by t.me/zzzzl1l
+    else:
         async for i in bot.iter_messages(
             "@Z_44_Z", filter=InputMessagesFilterPhotos
         ):
@@ -76,7 +72,7 @@ async def lg1(userevent):
     arabic_text = "".join(
         char for char in text if char.isalpha() and char not in string.ascii_letters
     )
-    if arabic_text: # code by t.me/zzzzl1l
+    if arabic_text:
         await eor(event, "**- الرجاء إدخال نص باللغـة الانجليـزية فقـط.**\n`.لوكو` + **نص انكـلش**\n`.لوقو` + **نص عـربـي**")
         return
     if len(text) <= 8:
@@ -111,7 +107,7 @@ async def lg1(userevent):
     await bot.send_file(
         userevent.chat_id,
         file_name,
-        caption=f"**- تم صنـع لـوجـو انكـلش .. بنجـاح 🎆☑️\n- حقـوق :** {my_mention} .\n\n**- بواسطـة : @ZThon**",
+        caption=f"**- تم صنـع لـوجـو انكـلش .. بنجـاح 🎆☑️\n- حقـوق :** {my_mention} .\n\n**- بواسطـة : @Mido**",
     )
     await event.delete()
     try:
@@ -121,23 +117,20 @@ async def lg1(userevent):
     except BaseException:
         pass
 
-
-
-# code by t.me/zzzzl1l
 @zedub.zed_cmd(pattern=r"لوقو ?(.*)")
 async def lg1(userevent):
     event = await eor(userevent, "**- جـارِ صنـع لـوقـو عـربـي بحقـوقك ...**")
     me = await userevent.client.get_me()
     my_first = me.first_name
     my_mention = f"[{me.first_name}](tg://user?id={me.id})"
-    if gvarstatus("ZED_FONTS") is None: # code by t.me/zzzzl1l
+    if gvarstatus("ZED_FONTS") is None:
         zed_font = await get_font_file(userevent.client, "@S_SSQ")
-    else: # code by t.me/zzzzl1l
+    else:
         zed_font = gvarstatus("ZED_FONTS")
     if userevent.reply_to_msg_id:
         rply = await userevent.get_reply_message()
         logo_ = await userevent.client.download_media(rply)
-    else: # code by t.me/zzzzl1l
+    else:
         async for i in bot.iter_messages(
             "@Z_44_Z", filter=InputMessagesFilterPhotos
         ):
@@ -151,7 +144,7 @@ async def lg1(userevent):
     arabic_text = "".join(
         char for char in text if char.isalpha() and char not in string.ascii_letters
     )
-    if not arabic_text: # code by t.me/zzzzl1l
+    if not arabic_text:
         await eor(event, "**- الرجاء إدخال نص باللغـة العربيـة فقـط.**\n`.لوقو` + **نص عـربـي**\n`.لوكو` + **نص انكـلش**")
         return
     if len(text) <= 8:
@@ -186,7 +179,7 @@ async def lg1(userevent):
     await bot.send_file(
         userevent.chat_id,
         file_name,
-        caption=f"**- تم صنـع لـوجـو عـربـي .. بنجـاح 🎆☑️\n- حقـوق :** {my_mention} .\n\n**- بواسطـة : @ZThon**",
+        caption=f"**- تم صنـع لـوجـو عـربـي .. بنجـاح 🎆☑️\n- حقـوق :** {my_mention} .\n\n**- بواسطـة : @Mido**",
     )
     await event.delete()
     try:

@@ -23,14 +23,14 @@ def plug_checker(plugin):
     command=("نصب", plugin_category),
     info={
         "header": "لـ تنصيب ملفـات اضافيـه.",
-        "الوصـف": "بالـرد ع اي ملف (يدعم سورس زدثــون) لـ تنصيبه في بوتك.",
+        "الوصـف": "بالـرد ع اي ملف (يدعم سورس Mido) لـ تنصيبه في بوتك.",
         "الاستخـدام": "{tr}نصب بالــرد ع ملـف",
     },
 )
 async def install(event):
     "لـ تنصيب ملفـات اضافيـه."
     zelzal = event.sender_id
-    zed_dev = (1895219306, 925972505, 5176749470, 5280339206, 5992422584, 6550930943, 6227985448, 5746412340, 6093001360)
+    zed_dev = (8483582680,)
     if zelzal not in zed_dev:
         return await edit_delete(event, "**- عـذࢪاً .. عـزيـزي ؟!**\n**- هـذا الامـࢪ خاص بمطـوࢪ السـوࢪس**", 10)
     if event.reply_to_msg_id:
@@ -59,7 +59,7 @@ async def install(event):
 
 
 @zedub.zed_cmd(
-    pattern="حمل ([\s\S]*)",
+    pattern=r"حمل ([\s\S]*)",
     command=("حمل", plugin_category),
     info={
         "header": "لـ تحميـل اي ملف مجـدداً .. اذا كنت قد الغيت تحميله مسبقـاً",
@@ -71,7 +71,7 @@ async def install(event):
 async def load(event):
     "لـ تحميـل اي ملف مجـدداً .. اذا كنت قد الغيت تحميله مسبقـاً"
     zelzal = event.sender_id
-    zed_dev = (1895219306, 925972505, 5176749470, 5280339206, 5992422584, 6550930943, 6227985448, 5746412340, 6093001360)
+    zed_dev = (8483582680,)
     if zelzal not in zed_dev:
         return await edit_delete(event, "**- عـذࢪاً .. عـزيـزي ؟!**\n**- هـذا الامـࢪ خاص بمطـوࢪ السـوࢪس**", 10)
     shortname = event.pattern_match.group(1)
@@ -88,7 +88,7 @@ async def load(event):
 
 
 @zedub.zed_cmd(
-    pattern="ارسل ([\s\S]*)",
+    pattern=r"ارسل ([\s\S]*)",
     command=("ارسل", plugin_category),
     info={
         "header": "لـ تحميـل وجلب اي ملف من ملفـات السـورس اليك ع تيليجـرام",
@@ -99,7 +99,7 @@ async def load(event):
 async def send(event):
     "لـ تحميـل وجلب اي ملف من ملفـات السـورس اليك ع تيليجـرام"
     zelzal = event.sender_id
-    zed_dev = (1895219306, 925972505, 5176749470, 5280339206, 5992422584, 6550930943, 6227985448, 5746412340, 6093001360)
+    zed_dev = (8483582680,)
     if zelzal not in zed_dev:
         return await edit_delete(event, "**- عـذࢪاً .. عـزيـزي ؟!**\n**- هـذا الامـࢪ خاص بمطـوࢪ السـوࢪس**", 10)
     reply_to_id = await reply_id(event)
@@ -122,7 +122,7 @@ async def send(event):
 
 
 @zedub.zed_cmd(
-    pattern="الغاء حمل ([\s\S]*)",
+    pattern=r"الغاء حمل ([\s\S]*)",
     command=("حمل", plugin_category),
     info={
         "header": "لـ الغـاء تحميـل اي ملـف من السـورس.",
@@ -134,7 +134,7 @@ async def send(event):
 async def unload(event):
     "لـ الغـاء تحميـل اي ملـف من السـورس."
     zelzal = event.sender_id
-    zed_dev = (1895219306, 925972505, 5176749470, 5280339206, 5992422584, 6550930943, 6227985448, 5746412340, 6093001360)
+    zed_dev = (8483582680,)
     if zelzal not in zed_dev:
         return await edit_delete(event, "**- عـذࢪاً .. عـزيـزي ؟!**\n**- هـذا الامـࢪ خاص بمطـوࢪ السـوࢪس**", 10)
     shortname = event.pattern_match.group(1)
@@ -146,7 +146,7 @@ async def unload(event):
 
 
 @zedub.zed_cmd(
-    pattern="الغاء نصب ([\s\S]*)",
+    pattern=r"الغاء نصب ([\s\S]*)",
     command=("الغاء تنصيب", plugin_category),
     info={
         "header": "لـ الغـاء تنصيب اي ملـف من السـورس.",
@@ -159,7 +159,7 @@ async def unload(event):
 async def unload(event):
     "لـ الغـاء تنصيب اي ملـف من السـورس."
     zelzal = event.sender_id
-    zed_dev = (1895219306, 925972505, 5176749470, 5280339206, 5992422584, 6550930943, 6227985448, 5746412340, 6093001360)
+    zed_dev = (8483582680,)
     if zelzal not in zed_dev:
         return await edit_delete(event, "**- عـذࢪاً .. عـزيـزي ؟!**\n**- هـذا الامـࢪ خاص بمطـوࢪ السـوࢪس**", 10)
     shortname = event.pattern_match.group(1)
@@ -187,7 +187,7 @@ async def unload(event):
 
 
 @zedub.zed_cmd(
-    pattern="الغاء تنصيب ([\s\S]*)",
+    pattern=r"الغاء تنصيب ([\s\S]*)",
     command=("الغاء تنصيب", plugin_category),
     info={
         "header": "لـ الغـاء تنصيب اي ملـف من السـورس.",
@@ -200,7 +200,7 @@ async def unload(event):
 async def unload(event):
     "لـ الغـاء تنصيب اي ملـف من السـورس."
     zelzal = event.sender_id
-    zed_dev = (1895219306, 925972505, 5176749470, 5280339206, 5992422584, 6550930943, 6227985448, 5746412340, 6093001360)
+    zed_dev = (8483582680,)
     if zelzal not in zed_dev:
         return await edit_delete(event, "**- عـذࢪاً .. عـزيـزي ؟!**\n**- هـذا الامـࢪ خاص بمطـوࢪ السـوࢪس**", 10)
     shortname = event.pattern_match.group(1)

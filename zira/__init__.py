@@ -13,12 +13,12 @@ from .helpers.utils.utils import runasync
 from .sql_helper.globals import addgvar, delgvar, gvarstatus
 
 __version__ = "3.3.2"
-__license__ = "حقـوق سـورس زدثــون"
-__author__ = "زدثــون <https://T.me/ZThon>"
-__copyright__ = "ZThon Source (C) 2020 - 2024  " + __author__
+__license__ = "حقـوق سـورس Mido"
+__author__ = "Mido "
+__copyright__ = "Mido Source (C) 2020 - 2024  " + __author__
 
 zedub.version = __version__
-LOGS = logging.getLogger("زدثــون")
+LOGS = logging.getLogger("Mido")
 bot = zedub
 
 StartTime = time.time()

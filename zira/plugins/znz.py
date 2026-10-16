@@ -1,14 +1,14 @@
-# Zilzalll
-# Copyright (C) 2023 Zilzalll . All Rights Reserved
+# Mido
+# Copyright (C) 2023 Mido . All Rights Reserved
 #
-# This file is a part of < https://github.com/Zilzalll/ZThon/ >
+# This file is a part of < https://github.com/Mido/Mido/ >
 # PLease read the GNU Affero General Public License in
-# <https://www.github.com/Zilzalll/ZThon/blob/main/LICENSE/>.
-"""سـورس زدثــون ™
+# <https://www.github.com/Mido/Mido/blob/main/LICENSE/>.
+"""سـورس Mido ™
 So تخمـط الملـف اهينك واطشك للناس خماط واوثق عليك
-Copyright (C) 2023 Zilzalll . All Rights Reserved
-Credit: https://github.com/Zilzalll/ZThon
-Devloper: https://t.me/zzzzl1l - زلــزال الهيبــه"""
+Copyright (C) 2023 Mido . All Rights Reserved
+Credit: https://github.com/Mido/Mido
+Devloper:  - Mido الهيبــه"""
 """import json
 import math
 import asyncio
@@ -35,7 +35,7 @@ from . import mention
 LOGS = logging.getLogger(__name__)
 tr = Config.COMMAND_HAND_LER
 
-# Copyright (C) 2023 Zilzalll . All Rights Reserved
+# Copyright (C) 2023 Mido . All Rights Reserved
 @zedub.tgbot.on(InlineQuery)
 async def inline_handler(event):
     from .ziiz import ttt, ddd, bbb, hmm, ymm, fmm, dss, hss, nmm, mnn, bmm, scc
@@ -51,19 +51,19 @@ async def inline_handler(event):
     full_name = gvarstatus("hmsa_name")
     username = gvarstatus("hmsa_user")
     if username.startswith("@"):
-        zelzal = gvarstatus("hmsa_user")
+        Mido = gvarstatus("hmsa_user")
     else:
-        zelzal = f"[{full_name}](tg://user?id={user_id})"
-    if query_user_id == Config.OWNER_ID or query_user_id in Config.SUDO_USERS:  # Code by T.me/zzzzl1l
+        Mido = f"[{full_name}](tg://user?id={user_id})"
+    if query_user_id == Config.OWNER_ID or query_user_id in Config.SUDO_USERS:
         malathid = Config.OWNER_ID
     elif query_user_id == user_id or query_user_id == int(user_id):
         malathid = user_id
-    if query_user_id == Config.OWNER_ID or query_user_id == user_id or query_user_id == int(user_id) or query_user_id in Config.SUDO_USERS:  # Code by T.me/zzzzl1l
+    if query_user_id == Config.OWNER_ID or query_user_id == user_id or query_user_id == int(user_id) or query_user_id in Config.SUDO_USERS:
         inf = re.compile("secret (.*) (.*)")
         match2 = re.findall(inf, query)
         if match2:
             user_list = []
-            zilzal = ""
+            Mido = ""
             query = query[7:]
             info_type = [hmm, ymm, fmm]
             if "|" in query:
@@ -79,12 +79,12 @@ async def inline_handler(event):
                 except ValueError:
                     u = await zedub(GetUsersRequest(usr))
                 if u.username:
-                    zilzal += f"@{u.username}"
+                    Mido += f"@{u.username}"
                 else:
-                    zilzal += f"[{u.first_name}](tg://user?id={u.id})"
+                    Mido += f"[{u.first_name}](tg://user?id={u.id})"
                 user_list.append(u.id)
-                zilzal += " "
-            zilzal = zilzal[:-1]
+                Mido += " "
+            Mido = Mido[:-1]
             old_msg = os.path.join("./zira", f"{scc}.txt")
             try:
                 jsondata = json.load(open(old_msg))
@@ -93,12 +93,12 @@ async def inline_handler(event):
             timestamp = int(time.time() * 2)
             new_msg = {
                 str(timestamp): {"userid": user_list, "text": query}
-            }  # Code by T.me/zzzzl1l
+            }
             buttons = [[Button.inline(info_type[2], data=f"{scc}_{timestamp}")],[Button.switch_inline(bmm, query=f"secret {malathid} \nهلو", same_peer=True)]]
             result = builder.article(
-                title=f"{hmm} {zilzal}",
+                title=f"{hmm} {Mido}",
                 description=f"{dss}",
-                text=f"{hss} {zilzal} \n**{dss}**",
+                text=f"{hss} {Mido} \n**{dss}**",
                 buttons=buttons,
                 link_preview=False,
             )
@@ -108,13 +108,13 @@ async def inline_handler(event):
                 json.dump(jsondata, open(old_msg, "w"))
             else:
                 json.dump(new_msg, open(old_msg, "w"))
-        elif string == "zelzal":
+        elif string == "Mido":
             results = []
             results.append(
                 builder.article(
                     title=f"{nmm}",
                     description=f"{mnn}",
-                    text=f"**{ttt}** {zelzal} **{ddd}**",
+                    text=f"**{ttt}** {Mido} **{ddd}**",
                     buttons=bbb,
                     link_preview=False,
                 ),

@@ -44,7 +44,7 @@ async def writer(e):
     for line in lines:
         draw.text((x, y), line, fill=(1, 22, 55), font=font)
         y = y + line_height - 5
-    file = "zilzal.jpg"
+    file = "Mido.jpg"
     img.save(file)
     await e.reply(file=file)
     os.remove(file)
@@ -52,7 +52,7 @@ async def writer(e):
 
 
 
-@zedub.zed_cmd(pattern="^\:/$")
+@zedub.zed_cmd(pattern=r"^\:/$")
 async def kek(keks):
     keks = await edit_or_reply(keks, ":\\")
     uio = ["/", "\\"]
@@ -62,7 +62,7 @@ async def kek(keks):
         await keks.edit(txt)
 
 
-@zedub.zed_cmd(pattern="^\-_-$")
+@zedub.zed_cmd(pattern=r"^\-_-$")
 async def lol(lel):
     lel = await edit_or_reply(lel, "-__-")
     okay = "-__-"
@@ -72,7 +72,7 @@ async def lol(lel):
         await lel.edit(okay)
 
 
-@zedub.zed_cmd(pattern="^\;_;$")
+@zedub.zed_cmd(pattern=r"^\;_;$")
 async def fun(e):
     e = await edit_or_reply(e, ";__;")
     t = ";__;"
@@ -109,7 +109,7 @@ async def typewriter(typew):
         await asyncio.sleep(sleep_time)
 
 
-@zedub.zed_cmd(pattern="كرر (\d*) (.*)")
+@zedub.zed_cmd(pattern=r"كرر (\d*) (.*)")
 async def _(event):
     if event.fwd_from:
         return

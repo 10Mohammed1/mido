@@ -1,4 +1,4 @@
-# telegraph utils for ZThon
+# telegraph utils for Mido
 import os
 import random
 import string
@@ -33,11 +33,11 @@ def resize_image(image):
 
 
 @zedub.zed_cmd(
-    pattern="(ت(ل)?ك(راف)?) ?(m|t|ميديا|نص)(?:\s|$)([\s\S]*)",
+    pattern=r"(ت(ل)?ك(راف)?) ?(m|t|ميديا|نص)(?:\s|$)([\s\S]*)",
     command=("تلكراف", plugin_category),
     info={
         "header": "To get telegraph link.",
-        "description": "Reply to text message to paste that text on telegraph you can also pass input along with command \
+        "description": r"Reply to text message to paste that text on telegraph you can also pass input along with command \
             So that to customize title of that telegraph and reply to media file to get sharable link of that media(atmost 5mb is supported)",
         "options": {
             "m or media": "To get telegraph link of replied sticker/image/video/gif.",
@@ -129,7 +129,7 @@ async def _(event):
 
 
 @zedub.zed_cmd(
-    pattern="ctg(?: |$)([\s\S]*)",
+    pattern=r"ctg(?: |$)([\s\S]*)",
     command=("ctg", plugin_category),
     info={
         "header": "Reply to link To get link preview using telegrah.s.",

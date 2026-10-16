@@ -19,7 +19,7 @@ zedself = True
 POSC = gvarstatus("Z_POSC") or "(مم|ذاتية|ذاتيه|جلب الوقتيه)"
 
 ZelzalSelf_cmd = (
-    "𓆩 [ᯓ 𝗦𝗼𝘂𝗿𝗰𝗲 𝗭𝗧𝗵𝗼𝗻 - حفـظ الذاتيـه 🧧](t.me/ZThon) 𓆪\n\n"
+    "𓆩 ᯓ 𝗦𝗼𝘂𝗿𝗰𝗲 Mido - حفـظ الذاتيـه 🧧 𓆪\n\n"
     "**⪼** `.تفعيل الذاتيه`\n"
     "**لـ تفعيـل الحفظ التلقائي للذاتيـه**\n"
     "**سوف يقوم حسابك بحفظ الذاتيه تلقائياً في حافظة حسابك عندما يرسل لك اي شخص ميديـا ذاتيـه**\n\n"
@@ -30,7 +30,7 @@ ZelzalSelf_cmd = (
     "**⪼** `.اعلان`\n"
     "**الامـر + الوقت بالدقائق + الرسـاله**\n"
     "**امـر مفيـد لجماعـة التمويـل لـ عمـل إعـلان مـؤقت بالقنـوات**\n\n"
-    "\n 𓆩 [𝙎𝙊𝙐𝙍𝘾𝞝 𝙕𝞝𝘿](t.me/ZThon) 𓆪"
+    "\n 𓆩 𝙎𝙊𝙐𝙍𝘾𝞝 Mido 𓆪"
 )
 
 @zedub.zed_cmd(pattern="الذاتيه")
@@ -73,10 +73,10 @@ async def sddm(event):
         sender = await event.get_sender()
         chat = await event.get_chat()
         pic = await event.download_media()
-        await zedub.send_file("me", pic, caption=f"[ᯓ 𝗦𝗼𝘂𝗿𝗰𝗲 𝗭𝗧𝗵𝗼𝗻 - حفـظ الذاتيـه 🧧](t.me/ZThon) .\n\n⋆┄─┄─┄─┄┄─┄─┄─┄─┄┄⋆\n**⌔╎مࢪحبـاً عـزيـزي المـالك 🫂\n⌔╎ تـم حفـظ الذاتيـة تلقائيـاً .. بنجـاح ☑️** ❝\n**⌔╎المـرسـل** {_format.mentionuser(sender.first_name , sender.id)} .")
+        await zedub.send_file("me", pic, caption=f"ᯓ 𝗦𝗼𝘂𝗿𝗰𝗲 Mido - حفـظ الذاتيـه 🧧 .\n\n⋆┄─┄─┄─┄┄─┄─┄─┄─┄┄⋆\n**⌔╎مࢪحبـاً عـزيـزي المـالك 🫂\n⌔╎ تـم حفـظ الذاتيـة تلقائيـاً .. بنجـاح ☑️** ❝\n**⌔╎المـرسـل** {_format.mentionuser(sender.first_name , sender.id)} .")
 
-#Code For T.me/zzzzl1l
-@zedub.zed_cmd(pattern="اعلان (\d*) ([\s\S]*)")
+#Code For 
+@zedub.zed_cmd(pattern=r"اعلان (\d*) ([\s\S]*)")
 async def selfdestruct(destroy):
     zed = ("".join(destroy.text.split(maxsplit=1)[1:])).split(" ", 1)
     message = zed[1]
@@ -87,8 +87,8 @@ async def selfdestruct(destroy):
     await sleep(zelzal)
     await smsg.delete()
 
-#Code For T.me/zzzzl1l
-@zedub.zed_cmd(pattern="إعلان (\d*) ([\s\S]*)")
+#Code For 
+@zedub.zed_cmd(pattern=r"إعلان (\d*) ([\s\S]*)")
 async def selfdestruct(destroy):
     zed = ("".join(destroy.text.split(maxsplit=1)[1:])).split(" ", 1)
     message = zed[1]

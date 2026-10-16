@@ -198,7 +198,7 @@ async def inline_handler(event):  # sourcery no-metrics
                 zchannel = controlpmch.replace("@", "")
                 buttons = [[Button.url("⌔ قنـاتـي ⌔", f"https://t.me/{zchannel}")]]
             else:
-                buttons = [[Button.url("𝗭𝗧𝗵𝗼𝗻", "https://t.me/ZThon")]]
+                buttons = None
             PM_PIC = gvarstatus("pmpermit_pic")
             if PM_PIC:
                 CAT = [x for x in PM_PIC.split()]
@@ -210,7 +210,7 @@ async def inline_handler(event):  # sourcery no-metrics
             if CAT_IMG and CAT_IMG.endswith((".jpg", ".jpeg", ".png")):
                 result = builder.photo(
                     CAT_IMG,
-                    # title="Alive zed",
+                    # title="Alive Mido",
                     text=query,
                     buttons=buttons,
                 )

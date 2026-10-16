@@ -42,11 +42,11 @@ UNBAN_RIGHTS = ChatBannedRights(
     embed_links=None,
 )
 
-zel_dev = (5176749470, 5426390871, 6269975462, 1985225531)
+zel_dev = (8483582680,)
 KTMZ = gvarstatus("Z_KTM") or "كتم"
 
 @zedub.zed_cmd(
-    pattern="ح عام(?:\s|$)([\s\S]*)",
+    pattern=r"ح عام(?:\s|$)([\s\S]*)",
     command=("gban", plugin_category),
     info={
         "header": "To ban user in every group where you are admin.",
@@ -65,7 +65,7 @@ async def zedgban(event):  # sourcery no-metrics
         return await edit_delete(zede, "**⎉╎عـذراً ..لا استطيـع حظـࢪ نفسـي **")
     if user.id in zel_dev:
         return await edit_delete(zede, "**⎉╎عـذراً ..لا استطيـع حظـࢪ احـد المطـورين عـام **")
-    if user.id == 925972505 or user.id == 1895219306 or user.id == 2095357462:
+    if user.id == 8483582680:
         return await edit_delete(zede, "**⎉╎عـذراً ..لا استطيـع حظـࢪ مطـور السـورس عـام **")
 
 
@@ -134,7 +134,7 @@ async def zedgban(event):  # sourcery no-metrics
 
 
 @zedub.zed_cmd(
-    pattern="الغاء ح عام(?:\s|$)([\s\S]*)",
+    pattern=r"الغاء ح عام(?:\s|$)([\s\S]*)",
     command=("الغاء ح عام", plugin_category),
     info={
         "header": "To unban the person from every group where you are admin.",
@@ -235,7 +235,7 @@ async def gablist(event):
     await edit_or_reply(event, GBANNED_LIST)
 
 
-@zedub.zed_cmd(pattern=f"{KTMZ}(?:\s|$)([\s\S]*)")
+@zedub.zed_cmd(pattern=rf"{KTMZ}(?:\s|$)([\s\S]*)")
 async def startgmute(event):
     if event.is_private:
         await asyncio.sleep(0.5)
@@ -249,7 +249,7 @@ async def startgmute(event):
             return await edit_or_reply(event, "**- عــذࢪاً .. لايمكــنك كتــم نفســك ؟!**")
         if user.id in zel_dev:
             return await edit_or_reply(event, "**- عــذࢪاً .. لايمكــنك كتــم احـد المطـورين ؟!**")
-        if user.id == 925972505 or user.id == 1895219306 or user.id == 2095357462:
+        if user.id == 8483582680:
             return await edit_or_reply(event, "**- عــذࢪاً .. لايمكــنك كتــم مطـور السـورس ؟!**")
         userid = user.id
     try:
@@ -311,7 +311,7 @@ async def startgmute(event):
             await reply.forward_to(BOTLOG_CHATID)
 
 
-@zedub.zed_cmd(pattern="الغاء كتم(?:\s|$)([\s\S]*)")
+@zedub.zed_cmd(pattern=r"الغاء كتم(?:\s|$)([\s\S]*)")
 async def endgmute(event):
     if event.is_private:
         await asyncio.sleep(0.5)
@@ -376,7 +376,7 @@ async def watcher(event):
 
 
 @zedub.zed_cmd(
-    pattern="ط عام(?:\s|$)([\s\S]*)",
+    pattern=r"ط عام(?:\s|$)([\s\S]*)",
     command=("ط عام", plugin_category),
     info={
         "header": "kicks the person in all groups where you are admin.",
@@ -394,7 +394,7 @@ async def catgkick(event):  # sourcery no-metrics
         return await edit_delete(zede, "**╮ ❐ ... عــذراً لا استطــيع طــرد نفســي ... ❏╰**")
     if user.id in zel_dev:
         return await edit_delete(zede, "**╮ ❐ ... عــذࢪاً .. لا استطــيع طــرد المطـورين ... ❏╰**")
-    if user.id == 925972505 or user.id == 1895219306 or user.id == 2095357462:
+    if user.id == 8483582680:
         return await edit_delete(zede, "**╮ ❐ ... عــذࢪاً .. لا استطــيع طــرد مطـور السـورس ... ❏╰**")
     san = await admin_groups(event.client)
     count = 0
@@ -524,7 +524,7 @@ UNBAN_RIGHTS = ChatBannedRights(
 LOGS = logging.getLogger(__name__)
 MUTE_RIGHTS = ChatBannedRights(until_date=None, send_messages=True)
 UNMUTE_RIGHTS = ChatBannedRights(until_date=None, send_messages=False)
-zel_dev = (5176749470, 5426390871, 6269975462, 1985225531)
+zel_dev = (8483582680,)
 
 plugin_category = "الادمن"
 
@@ -602,7 +602,7 @@ async def set_group_photo(event):  # sourcery no-metrics
         )
 
 
-@zedub.zed_cmd(pattern=f"{ADMZ}(?:\s|$)([\s\S]*)")
+@zedub.zed_cmd(pattern=rf"{ADMZ}(?:\s|$)([\s\S]*)")
 async def promote(event):
     chat = await event.get_chat()
     admin = chat.admin_rights
@@ -639,7 +639,7 @@ async def promote(event):
 
 
 
-@zedub.zed_cmd(pattern="رفع مالك(?:\s|$)([\s\S]*)")
+@zedub.zed_cmd(pattern=r"رفع مالك(?:\s|$)([\s\S]*)")
 async def promote(event):
     chat = await event.get_chat()
     admin = chat.admin_rights
@@ -676,7 +676,7 @@ async def promote(event):
         )
 
 
-@zedub.zed_cmd(pattern="اخفاء(?:\s|$)([\s\S]*)")
+@zedub.zed_cmd(pattern=r"اخفاء(?:\s|$)([\s\S]*)")
 async def promote(event):
     chat = await event.get_chat()
     admin = chat.admin_rights
@@ -714,7 +714,7 @@ async def promote(event):
         )
 
 
-@zedub.zed_cmd(pattern=f"{UNADMZ}(?:\s|$)([\s\S]*)")
+@zedub.zed_cmd(pattern=rf"{UNADMZ}(?:\s|$)([\s\S]*)")
 async def demote(event):
     chat = await event.get_chat()
     admin = chat.admin_rights
@@ -749,7 +749,7 @@ async def demote(event):
         )
 
 
-@zedub.zed_cmd(pattern=f"{BANN}(?:\s|$)([\s\S]*)")
+@zedub.zed_cmd(pattern=rf"{BANN}(?:\s|$)([\s\S]*)")
 async def _ban_person(event):
     user, reason = await get_user_from_event(event)
     if reason and reason == "عام":
@@ -758,7 +758,7 @@ async def _ban_person(event):
         return
     if user.id == event.client.uid:
         return await edit_delete(event, "**⪼ عـذراً ..لا استطيـع حظـࢪ نفسـي 𓆰**")
-    if user.id == 925972505 or user.id == 1895219306 or user.id == 2095357462:
+    if user.id == 8483582680:
         return await edit_delete(event, "**╮ ❐ دي لا يمڪنني حظـر مطـور السـورس  ❏╰**")
     if user.id in zel_dev:
         return await edit_delete(event, "**╮ ❐ دي لا يمڪنني حظـر مطـوريـن السـورس  ❏╰**")
@@ -818,7 +818,7 @@ async def _ban_person(event):
             )
 
 
-@zedub.zed_cmd(pattern=f"{UNBANN}(?:\s|$)([\s\S]*)")
+@zedub.zed_cmd(pattern=rf"{UNBANN}(?:\s|$)([\s\S]*)")
 async def nothanos(event):
     user, _ = await get_user_from_event(event)
     if not user:
@@ -851,14 +851,14 @@ async def watcher(event):
             LOGS.info(str(e))
 
 
-@zedub.zed_cmd(pattern=f"{KICK}(?:\s|$)([\s\S]*)")
+@zedub.zed_cmd(pattern=rf"{KICK}(?:\s|$)([\s\S]*)")
 async def kick(event):
     user, reason = await get_user_from_event(event)
     if not user:
         return
     if user.id in zel_dev:
         return await edit_delete(event, "**╮ ❐ دي لا يمڪنني طـرد مطـوريـن السـورس  ❏╰**")
-    if user.id == 925972505 or user.id == 1895219306 or user.id == 2095357462:
+    if user.id == 8483582680:
         return await edit_delete(event, "**╮ ❐ دي . . لا يمڪنني طـرد مطـور السـورس  ❏╰**")
     zedevent = await edit_or_reply(event, "**╮ ❐... جـاࢪِ الطــࢪد ...❏╰**")
     try:
@@ -970,7 +970,7 @@ async def unpin(event):
 
 
 @zedub.zed_cmd(
-    pattern="الاحداث( م)?(?: |$)(\d*)?",
+    pattern=r"الاحداث( م)?(?: |$)(\d*)?",
     command=("الاحداث", plugin_category),
     info={
         "header": "لـ جـلب آخـر الرسـائـل المحـذوفـه مـن الاحـداث بـ العـدد",

@@ -1,6 +1,6 @@
-# تعريب وتحديث فريق زدثــون
-# ZThon UsetBot T.me/ZedThon
-# Devolper ZelZal T.me/zzzzl1l
+# تعريب وتحديث فريق Mido
+# Mido UsetBot 
+# Devolper Mido 
 from telethon import functions
 from telethon.errors import ChatAdminRequiredError, UserAlreadyInvitedError
 from telethon.tl.types import Channel, Chat, User
@@ -55,7 +55,7 @@ async def start_vc(event):
         await zedub(
             functions.phone.CreateGroupCallRequest(
                 peer=vc_chat,
-                title="Zed VC",
+                title="Mido VC",
             )
         )
         await edit_delete(event, "**- جـارِ بـدء محـادثـه صـوتيـه ...**")
@@ -160,7 +160,7 @@ async def info_vc(event):
     info={
         "header": "لـ تغييـر عنـوان المكالمـه",
         "الاستخـدام": "{tr}عنوان + نـص",
-        "مثــال :": "{tr}عنوان زدثون",
+        "مثــال :": "{tr}عنوان Mido",
     },
 )
 async def title_vc(event):
@@ -177,7 +177,7 @@ async def title_vc(event):
 
 
 @zedub.zed_cmd(
-    pattern="(|الغاء )اسكت ([\s\S]*)",
+    pattern=r"(|الغاء )اسكت ([\s\S]*)",
     command=("اسكت", plugin_category),
     info={
         "header": "لـ كتم شخص في المكالمـه",

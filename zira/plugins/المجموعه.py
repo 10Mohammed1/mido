@@ -1,4 +1,4 @@
-#𝙕𝙚𝙙𝙏𝙝𝙤𝙣 ®
+#Mido ®
 import asyncio
 import time
 import io
@@ -129,17 +129,17 @@ IMOGE_ZEDTHON = "⎉╎"
 
 
 # =========================================================== #
-#                                                           ZThon                                                                #
+#                                                           Mido                                                                #
 # =========================================================== #
 STAT_INDICATION = "**⎉╎جـارِ جـلب الاحصـائيـات إنتظـر ⅏ . . .**"
-CHANNELS_STR = "𓆩 𝙎𝙊𝙐𝙍𝘾𝞝 𝙕𝞝𝘿 **- 🝢 - احصـائيـات جميـع القنـوات** 𓆪\n\n"
-CHANNELS_ADMINSTR = "𓆩 𝙎𝙊𝙐𝙍𝘾𝞝 𝙕𝞝𝘿 **- 🝢 - احصـائيـات جميـع القنـوات اشـراف** 𓆪\n\n"
-CHANNELS_OWNERSTR = "𓆩 𝙎𝙊𝙐𝙍𝘾𝞝 𝙕𝞝𝘿 **- 🝢 - احصـائيـات جميـع القنـوات ملكيـة** 𓆪\n\n"
-GROUPS_STR = "𓆩 𝙎𝙊𝙐𝙍𝘾𝞝 𝙕𝞝𝘿 **- 🝢 - احصـائيـات جميـع المجمـوعـات** 𓆪\n\n"
-GROUPS_ADMINSTR = "𓆩 𝙎𝙊𝙐𝙍𝘾𝞝 𝙕𝞝𝘿 **- 🝢 - احصـائيـات جميـع المجمـوعـات اشـراف** 𓆪\n\n"
-GROUPS_OWNERSTR = "𓆩 𝙎𝙊𝙐𝙍𝘾𝞝 𝙕𝞝𝘿 **- 🝢 - احصـائيـات جميـع المجمـوعـات ملكيـة** 𓆪\n\n"
+CHANNELS_STR = "𓆩 𝙎𝙊𝙐𝙍𝘾𝞝 Mido **- 🝢 - احصـائيـات جميـع القنـوات** 𓆪\n\n"
+CHANNELS_ADMINSTR = "𓆩 𝙎𝙊𝙐𝙍𝘾𝞝 Mido **- 🝢 - احصـائيـات جميـع القنـوات اشـراف** 𓆪\n\n"
+CHANNELS_OWNERSTR = "𓆩 𝙎𝙊𝙐𝙍𝘾𝞝 Mido **- 🝢 - احصـائيـات جميـع القنـوات ملكيـة** 𓆪\n\n"
+GROUPS_STR = "𓆩 𝙎𝙊𝙐𝙍𝘾𝞝 Mido **- 🝢 - احصـائيـات جميـع المجمـوعـات** 𓆪\n\n"
+GROUPS_ADMINSTR = "𓆩 𝙎𝙊𝙐𝙍𝘾𝞝 Mido **- 🝢 - احصـائيـات جميـع المجمـوعـات اشـراف** 𓆪\n\n"
+GROUPS_OWNERSTR = "𓆩 𝙎𝙊𝙐𝙍𝘾𝞝 Mido **- 🝢 - احصـائيـات جميـع المجمـوعـات ملكيـة** 𓆪\n\n"
 # =========================================================== #
-#                                                           ZThon                                                                #
+#                                                           Mido                                                                #
 # =========================================================== #
 
 
@@ -223,7 +223,7 @@ async def stats(event):  # sourcery no-metrics
         unread += dialog.unread_count
     stop_time = time.time() - start_time
     full_name = inline_mention(await event.client.get_me())
-    response = f"𓆩 𝙎𝙊𝙐𝙍𝘾𝞝 𝙕𝞝𝘿 **- 🝢 - احصـائيـات {full_name}** 𓆪\n"
+    response = f"𓆩 𝙎𝙊𝙐𝙍𝘾𝞝 Mido **- 🝢 - احصـائيـات {full_name}** 𓆪\n"
     response += f"**𓍹ⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧ𓍻**\n"
     response += f"**- الخـاص :** {private_chats} \n"
     response += f"   ★ **اشخـاص :** `{private_chats - bots}` \n"
@@ -438,7 +438,7 @@ async def admem(event):
 
 
 @zedub.zed_cmd(
-    pattern="المشرفين(?:\s|$)([\s\S]*)",
+    pattern=r"المشرفين(?:\s|$)([\s\S]*)",
     command=("المشرفين", plugin_category),
     info={
         "header": "To get list of admins.",
@@ -452,13 +452,13 @@ async def admem(event):
 )
 async def _(event):
     "To get list of admins."
-    mentions = "𓆩 𝑺𝑶𝑼𝑹𝑪𝑬 𝙕𝞝𝘿𝙏𝙃𝙊𝙉 𝑮𝑹𝑶𝑼𝑷 𝑫𝑨𝑻𝑨 𓆪\n** ⪼ المشرفـون في ۿذه المجموعه :** \n"
+    mentions = "𓆩 𝑺𝑶𝑼𝑹𝑪𝑬 Mido 𝑮𝑹𝑶𝑼𝑷 𝑫𝑨𝑻𝑨 𓆪\n** ⪼ المشرفـون في ۿذه المجموعه :** \n"
     reply_message = await reply_id(event)
     input_str = event.pattern_match.group(1)
     to_write_chat = await event.get_input_chat()
     chat = None
     if input_str:
-        mentions = f"𓆩 𝑺𝑶𝑼𝑹𝑪𝑬 𝙕𝞝𝘿𝙏𝙃𝙊𝙉 𝑮𝑹𝑶𝑼𝑷 𝑫𝑨𝑻𝑨 𓆪\n** ⪼ المشرفـون في {input_str} :** \n"
+        mentions = f"𓆩 𝑺𝑶𝑼𝑹𝑪𝑬 Mido 𝑮𝑹𝑶𝑼𝑷 𝑫𝑨𝑻𝑨 𓆪\n** ⪼ المشرفـون في {input_str} :** \n"
         try:
             chat = await event.client.get_entity(input_str)
         except Exception as e:
@@ -492,7 +492,7 @@ async def _(event):
 
 
 @zedub.zed_cmd(
-    pattern="الاعضاء(?:\s|$)([\s\S]*)",
+    pattern=r"الاعضاء(?:\s|$)([\s\S]*)",
     command=("الاعضاء", plugin_category),
     info={
         "header": "To get list of users.",
@@ -506,10 +506,10 @@ async def _(event):
 )
 async def get_users(show):
     "To get list of Users."
-    mentions = "𓆩 𝑺𝑶𝑼𝑹𝑪𝑬 𝙕𝞝𝘿𝙏𝙃𝙊𝙉 𝑮𝑹𝑶𝑼𝑷 𝑫𝑨𝑻𝑨 𓆪\n**⎉╎الأعضـاء فـي هـذه المجموعـة 𓎤:**\n\n"
+    mentions = "𓆩 𝑺𝑶𝑼𝑹𝑪𝑬 Mido 𝑮𝑹𝑶𝑼𝑷 𝑫𝑨𝑻𝑨 𓆪\n**⎉╎الأعضـاء فـي هـذه المجموعـة 𓎤:**\n\n"
     await reply_id(show)
     if input_str := show.pattern_match.group(1):
-        mentions = "𓆩 𝑺𝑶𝑼𝑹𝑪𝑬 𝙕𝞝𝘿𝙏𝙃𝙊𝙉 𝑮𝑹𝑶𝑼𝑷 𝑫𝑨𝑻𝑨 𓆪\n**⎉╎الأعضاء في {} من المجموعات 𓎤:**\n".format(input_str)
+        mentions = "𓆩 𝑺𝑶𝑼𝑹𝑪𝑬 Mido 𝑮𝑹𝑶𝑼𝑷 𝑫𝑨𝑻𝑨 𓆪\n**⎉╎الأعضاء في {} من المجموعات 𓎤:**\n".format(input_str)
         try:
             chat = await show.client.get_entity(input_str)
         except Exception as e:
@@ -540,7 +540,7 @@ async def get_users(show):
 
 
 @zedub.zed_cmd(
-    pattern="المعلومات(?:\s|$)([\s\S]*)",
+    pattern=r"المعلومات(?:\s|$)([\s\S]*)",
     command=("المعلومات", plugin_category),
     info={
         "header": "To get Group details.",
@@ -823,7 +823,7 @@ async def fetch_info(chat, event):  # sourcery no-metrics
 
 
 @zedub.zed_cmd(
-    pattern="اكسباير ?([\s\S]*)",
+    pattern=r"اكسباير ?([\s\S]*)",
     command=("اكسباير", plugin_category),
     info={
         "header": "To get breif summary of members in the group",
@@ -943,7 +943,7 @@ async def _(event):  # sourcery no-metrics
         elif i.status is None:
             n += 1
     if input_str:
-        required_string = """𓆰 𓆩 𝙎𝙊𝙐𝙍𝘾𝞝 𝙕𝞝𝘿 **- 🝢 - معـلومـات المجمـوعــه** 𓆪\n 𓍹ⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧ𓍻 
+        required_string = """𓆰 𓆩 𝙎𝙊𝙐𝙍𝘾𝞝 Mido **- 🝢 - معـلومـات المجمـوعــه** 𓆪\n 𓍹ⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧ𓍻 
 ⪼ المطرودين {} / {} المستخدمين
 ⪼ **الحسابات المحذوفه ↫** {}
 ⪼ **اخر ظهور منذ زمن طويل ↫** {}
@@ -959,7 +959,7 @@ async def _(event):  # sourcery no-metrics
         await et.edit(required_string.format(c, p, d, y, m, w, o, q, r, b, n))
         await sleep(5)
     await et.edit(
-        """𓆰 𓆩 𝙎𝙊𝙐𝙍𝘾𝞝 𝙕𝞝𝘿 **- 🝢 - معـلومـات المجمـوعــه** 𓆪\n 𓍹ⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧ𓍻
+        """𓆰 𓆩 𝙎𝙊𝙐𝙍𝘾𝞝 Mido **- 🝢 - معـلومـات المجمـوعــه** 𓆪\n 𓍹ⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧ𓍻
 ⪼ **العدد ↫ {} **مستخدماً
 ⪼ **الحسابات المحذوفه ↫** {}
 ⪼ **اخر ظهور منذ زمن طويل ↫** {}
@@ -1108,7 +1108,7 @@ async def count(event):
         else:
             print(d)
 
-    result += f"𓆩 𝙎𝙊𝙐𝙍𝘾𝞝 𝙕𝞝𝘿 **- 🝢 - احصـائيـات الحسـاب** 𓆪\n"
+    result += f"𓆩 𝙎𝙊𝙐𝙍𝘾𝞝 Mido **- 🝢 - احصـائيـات الحسـاب** 𓆪\n"
     result += f"𓍹ⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧ𓍻\n"
     result += f"**⎉╎المستخدمون :**\t**{u}**\n"
     result += f"**⎉╎المجموعات :**\t**{g}**\n"

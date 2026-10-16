@@ -104,3 +104,6 @@ config.py
 
 # mypy
 .mypy_cache/
+*.session
+*.db
+temp/

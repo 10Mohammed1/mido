@@ -183,7 +183,7 @@ async def plugininfo(input_str, event, flag):
 
 
 async def grpinfo():
-    outstr = "**Plugins in ZThon are:**\n\n"
+    outstr = "**Plugins in Mido are:**\n\n"
     outstr += f"**👩‍💻 Usage : ** `{cmdprefix}help <plugin name>`\n\n"
     category = ["admin", "bot", "fun", "misc", "tools", "utils", "extra"]
     if Config.BADCAT:
@@ -198,7 +198,7 @@ async def grpinfo():
 
 
 async def cmdlist():
-    outstr = "**Total list of Commands in your ZThon are :**\n\n"
+    outstr = "**Total list of Commands in your Mido are :**\n\n"
     category = ["admin", "bot", "fun", "misc", "tools", "utils", "extra"]
     if Config.BADCAT:
         category.append("useless")

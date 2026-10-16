@@ -1,9 +1,9 @@
-# Zed-Thon
-# Copyright (C) 2023 Zed-Thon . All Rights Reserved
+# Mido
+# Copyright (C) 2023 Mido . All Rights Reserved
 #
-# This file is a part of < https://github.com/Zed-Thon/ZelZal/ >
+# This file is a part of < https://github.com/Mido/Mido/ >
 # PLease read the GNU Affero General Public License in
-# <https://www.github.com/Zed-Thon/ZelZal/blob/master/LICENSE/>.
+# <https://www.github.com/Mido/Mido/blob/master/LICENSE/>.
 
 import base64
 import contextlib
@@ -24,18 +24,16 @@ from . import zedub
 LOGS = logging.getLogger(__name__)
 
 # =========================================================== #
-#                           الملـــف كتـــابـــة مـــن الصفـــر - T.me/ZThon                           #
+#                           الملـــف كتـــابـــة مـــن الصفـــر -                            #
 # =========================================================== #
 Warn = "تخمـط بـدون ذكـر المصـدر - ابلعــك نعــال وراح اهينــك"
 REPO_SEARCH_STRING = "<b>╮ جـارِ التحميـل مـن كيثـاب ...♥️╰</b>"
 REPO_NOT_FOUND = "<b>⎉╎عـذراً .. لـم استطـع ايجـاد المطلـوب</b>"
 # =========================================================== #
-#                                      زلـــزال الهيبـــه - T.me/zzzzl1l                                  #
+#                                      Mido الهيبـــه -                                   #
 # =========================================================== #
 
-
-#Write Code By T.me/zzzzl1l
-@zedub.zed_cmd(pattern="repo(?:\s|$)([\s\S]*)")
+@zedub.zed_cmd(pattern=r"repo(?:\s|$)([\s\S]*)")
 async def zelzal2(event):
     zelzal = event.pattern_match.group(1)
     chat = "@GitHub_Download_robot"

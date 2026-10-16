@@ -1,4 +1,4 @@
-# reverse search and google search  plugin for zedthon
+# reverse search and google search  plugin for Mido
 import contextlib
 import os
 import re
@@ -58,7 +58,7 @@ async def scam(results, lim):
 
 
 @zedub.zed_cmd(
-    pattern="جو ([\s\S]*)",
+    pattern=r"جو ([\s\S]*)",
     command=("جو", plugin_category),
     info={
         "header": "Google search command.",
@@ -141,7 +141,7 @@ async def gsearch(q_event):
 
 
 @zedub.zed_cmd(
-    pattern="مصادر ([\s\S]*)",
+    pattern=r"مصادر ([\s\S]*)",
     command=("مصادر", plugin_category),
     info={
         "header": "Google search in image format",
@@ -234,7 +234,7 @@ async def grs(event):
 
 
 @zedub.zed_cmd(
-    pattern="تحليل(?:\s|$)([\s\S]*)",
+    pattern=r"تحليل(?:\s|$)([\s\S]*)",
     command=("تحليل", plugin_category),
     info={
         "header": "Google reverse search command.",
@@ -307,7 +307,7 @@ async def reverse(event):
 
 
 @zedub.zed_cmd(
-    pattern="جوجل(?:\s|$)([\s\S]*)",
+    pattern=r"جوجل(?:\s|$)([\s\S]*)",
     command=("جوجل", plugin_category),
     info={
         "header": "To get link for google search",

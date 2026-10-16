@@ -125,7 +125,6 @@ async def get_user_from_event(
 
 
 async def checking(zedub):
-    zed_c = base64.b64decode("WTZiV2trWnhuekpoTURROA==")
-    with contextlib.suppress(BaseException):
-        ward = Get(zed_c)
-        await zedub(ward)
+    # الأصل هنا كان بيفك تشفيـر رابط دعـوة مخفـي (base64) ويـدخـل قنـاة السـورس
+    # تلقائيـاً مع كل اعـادة تشغيـل .. اتشال بالكامـل
+    return None

@@ -8,7 +8,7 @@ plugin_category = "الادوات"
 
 
 @zedub.zed_cmd(
-    pattern="احسب ([\s\S]*)",
+    pattern=r"احسب ([\s\S]*)",
     command=("احسب", plugin_category),
     info={
         "header": "لـ حل المعـادلات والمسائـل الرياضيـه",

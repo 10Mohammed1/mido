@@ -9,7 +9,7 @@ plugin_category = "الادوات"
 
 
 @zedub.zed_cmd(
-    pattern="دومين(?:\s|$)([\s\S]*)",
+    pattern=r"دومين(?:\s|$)([\s\S]*)",
     command=("dns", plugin_category),
     info={
         "header": "To get Domain Name System(dns) of the given link.",
@@ -43,12 +43,12 @@ async def _(event):
 
 
 @zedub.zed_cmd(
-    pattern="اختصار(?:\s|$)([\s\S]*)",
+    pattern=r"اختصار(?:\s|$)([\s\S]*)",
     command=("اختصار", plugin_category),
     info={
         "header": "To short the given url.",
         "الاستخـدام": "{tr}short <url/reply to url>",
-        "مثــال": "{tr}اختصار https://github.com/Zed-Thon/ZelZal",
+        "مثــال": "{tr}اختصار https://github.com/Mido/Mido",
     },
 )
 async def _(event):
@@ -79,7 +79,7 @@ async def _(event):
 
 
 @zedub.zed_cmd(
-    pattern="الغاء اختصار(?:\s|$)([\s\S]*)",
+    pattern=r"الغاء اختصار(?:\s|$)([\s\S]*)",
     command=("unshort", plugin_category),
     info={
         "header": "To unshort the given dagb shorten url.",
@@ -121,7 +121,7 @@ async def _(event):
 
 # By Priyam Kalra
 @zedub.zed_cmd(
-    pattern="اخفاء(?:\s|$)([\s\S]*)",
+    pattern=r"اخفاء(?:\s|$)([\s\S]*)",
     command=("hl", plugin_category),
     info={
         "header": "To hide the url with white spaces using hyperlink.",

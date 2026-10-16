@@ -1,6 +1,6 @@
-# تحديث واضافات زدثــون
-# ZThon UsetBot T.me/ZedThon
-# Devolper ZelZal T.me/zzzzl1l
+# تحديث واضافات Mido
+# Mido UsetBot
+# Devolper Mido
 import asyncio
 import contextlib
 import io
@@ -39,7 +39,6 @@ from ..sql_helper.globals import gvarstatus
 
 plugin_category = "الادوات"
 
-
 combot_stickers_url = "https://combot.org/telegram/stickers?q="
 
 EMOJI_SEN = [
@@ -57,10 +56,8 @@ KANGING_STR = [
     "⪼ جاري صنع الملصق ...",
 ]
 
-
 def verify_cond(catarray, text):
     return any(i in text for i in catarray)
-
 
 def pack_name(userid, pack, is_anim, is_video):
     if is_anim:
@@ -69,10 +66,12 @@ def pack_name(userid, pack, is_anim, is_video):
         return f"catuserbot_{userid}_{pack}_vid"
     return f"catuserbot_{userid}_{pack}"
 
-
 def char_is_emoji(character):
-    return character in zedemoji.UNICODE_EMOJI["en"]
-
+    # emoji >= 2.0 removed the UNICODE_EMOJI mapping; is_emoji() is its
+    # replacement (both answer "is this a single emoji character?").
+    if hasattr(zedemoji, "UNICODE_EMOJI"):
+        return character in zedemoji.UNICODE_EMOJI["en"]
+    return zedemoji.is_emoji(character)
 
 def pack_nick(username, pack, is_anim, is_video):
     if gvarstatus("CUSTOM_STICKER_PACKNAME"):
@@ -88,7 +87,6 @@ def pack_nick(username, pack, is_anim, is_video):
         return f"@{username} ɵ̷᷄ˬɵ̷᷅.{pack}"
     return f"@{username} ɵ̷᷄ˬɵ̷᷅.{pack}"
 
-
 async def delpack(zedevent, conv, args, packname):
     try:
         await conv.send_message("/delpack")
@@ -103,7 +101,6 @@ async def delpack(zedevent, conv, args, packname):
     await conv.send_message("Yes, I am totally sure.")
     await conv.get_response()
     await args.client.send_read_acknowledge(conv.chat_id)
-
 
 async def resize_photo(photo):
     """Resize the given photo to 512x512"""
@@ -127,7 +124,6 @@ async def resize_photo(photo):
         maxsize = (512, 512)
         image.thumbnail(maxsize)
     return image
-
 
 async def newpacksticker(
     zedevent,
@@ -189,7 +185,6 @@ async def newpacksticker(
     if not pkang:
         return otherpack, packname, emoji
     return pack, packname
-
 
 async def add_to_pack(
     zedevent,
@@ -279,9 +274,8 @@ async def add_to_pack(
         return packname, emoji
     return pack, packname
 
-
 @zedub.zed_cmd(
-    pattern="ملصق(?:\s|$)([\s\S]*)",
+    pattern=r"ملصق(?:\s|$)([\s\S]*)",
     command=("ملصق", plugin_category),
     info={
         "header": "لـ صنـع ملصـق ووضعــه بـ حزمـة ملصقـات بحقـوقـك",
@@ -469,9 +463,8 @@ async def kang(args):  # sourcery no-metrics
                     time=100,
                 )
 
-
 @zedub.zed_cmd(
-    pattern="حزمه(?:\s|$)([\s\S]*)",
+    pattern=r"حزمه(?:\s|$)([\s\S]*)",
     command=("حزمه", plugin_category),
     info={
         "header": "To kang entire sticker sticker.",
@@ -661,7 +654,6 @@ async def pack_kang(event):
         )
     await zedevent.edit(result)
 
-
 @zedub.zed_cmd(
     pattern="متحرك$",
     command=("متحرك", plugin_category),
@@ -730,9 +722,8 @@ async def pussycat(args):
     if os.path.exists(sticker):
         os.remove(sticker)
 
-
 @zedub.zed_cmd(
-    pattern="حزمة(?:\s|$)([\s\S]*)",
+    pattern=r"حزمة(?:\s|$)([\s\S]*)",
     command=("حزمة", plugin_category),
     info={
         "header": "To split the replied image and make sticker pack.",
@@ -744,7 +735,7 @@ async def pussycat(args):
             "{tr}حزمة -e👌 <packname>",
         ],
         "مثــال": [
-            "{tr}حزمة -e👌 ZThon",
+            "{tr}حزمة -e👌 Mido",
         ],
     },
 )
@@ -776,7 +767,7 @@ async def pic2packcmd(event):
     except Exception:
         emoji = "▫️"
     chat = "@Stickers"
-    name = "ZThon_" + "".join(
+    name = "Mido_" + "".join(
         random.choice(list(string.ascii_lowercase + string.ascii_uppercase))
         for _ in range(16)
     )
@@ -840,7 +831,6 @@ async def pic2packcmd(event):
             f"**- تم بنجـاح صنـع حزمـة ملصقـات لـ الميديـا بالـرد :** [{args}]({stick_pack_name})"
         )
 
-
 @zedub.zed_cmd(
     pattern="معلومات الملصق$",
     command=("معلومات الملصق", plugin_category),
@@ -885,7 +875,7 @@ async def get_pack_info(event):
         if document_sticker.emoticon not in pack_emojis:
             pack_emojis.append(document_sticker.emoticon)
     OUTPUT = (
-        f"ᯓ 𝗭𝗧𝗵𝗼𝗻 𝗨𝘀𝗲𝗿𝗯𝗼𝘁 - معلومـات الملصـق 🎟\n"
+        f"ᯓ Mido 𝗨𝘀𝗲𝗿𝗯𝗼𝘁 - معلومـات الملصـق 🎟\n"
         f"⋆┄─┄─┄─┄┄─┄─┄─┄─┄┄⋆\n"
         f"⪼ **عنوان الملصق:** {get_stickerset.set.title}\n"
         f"⪼ **الاسم المختصر للملصق:** {get_stickerset.set.short_name}\n"
@@ -896,10 +886,9 @@ async def get_pack_info(event):
     )
     await zedevent.edit(OUTPUT)
 
-
-@zedub.zed_cmd(pattern="ملصقات ?([\s\S]*)")
+@zedub.zed_cmd(pattern=r"ملصقات ?([\s\S]*)")
 async def cb_sticker(event):
-    split = event.pattern_match.group(1) #Code by T.me/zzzzl1l
+    split = event.pattern_match.group(1)
     if "sex" in split or "pussy" in split or "rape" in split or "fuk" in split or "عير" in split or "كس " in split or "penis" in split or "كحب" in split or "قحب" in split or "كحاب" in split:
         return await event.client.send_message("@zizio", f"- Cmd : مصلقات {split} 🔞")
     if not split:
@@ -911,7 +900,7 @@ async def cb_sticker(event):
     results = soup.find_all("div", {"class": "sticker-pack__header"})
     if not results:
         return await edit_delete(zedevent, "**- لايوجـد نتائـج بحث عن {split} :(**\n**- جـرب البحـث عن اسـم آخـر**", 5)
-    reply = f"ᯓ 𝗭𝗧𝗵𝗼𝗻 𝗨𝘀𝗲𝗿𝗯𝗼𝘁 - بحث الملصقـات 🎟\n⋆┄─┄─┄─┄┄─┄─┄─┄─┄┄⋆\n**- نتائـج البحث عـن حـزم ملصقـات بـ اسـم {split} :**"
+    reply = f"ᯓ Mido 𝗨𝘀𝗲𝗿𝗯𝗼𝘁 - بحث الملصقـات 🎟\n⋆┄─┄─┄─┄┄─┄─┄─┄─┄┄⋆\n**- نتائـج البحث عـن حـزم ملصقـات بـ اسـم {split} :**"
     for pack in results:
         if pack.button:
             packtitle = (pack.find("div", "sticker-pack__title")).get_text()
@@ -920,8 +909,6 @@ async def cb_sticker(event):
             reply += f"\n **• الحزمـه : ** [{packtitle}]({packlink})\n **• الايـدي : **`{packid}`"
     await zedevent.edit(reply)
 
-
-#Code by T.me/zzzzl1l
 @zedub.zed_cmd(pattern="حذف_ملصق$")
 async def zelzal_gif(event):
     reply = await event.get_reply()
@@ -931,15 +918,15 @@ async def zelzal_gif(event):
         or await media_type(reply) != "Sticker"
     ):
         return await edit_or_reply(event, "**- قـم بالـرد ع ملصـق فقـط 🧸🎈**")
-    chat = "@Stickers" #Code by T.me/zzzzl1l
+    chat = "@Stickers"
     zed = await edit_or_reply(event, "**⎉╎جـارِ حـذف الملصـق مـن حزمتـك ...**")
-    async with borg.conversation(chat) as conv: #Code by T.me/zzzzl1l
+    async with borg.conversation(chat) as conv:
         try:
             await conv.send_message("/start")
             await conv.get_response()
             await conv.send_message("/delsticker")
             await conv.get_response()
-            await conv.send_file(reply) #Code by T.me/zzzzl1l
+            await conv.send_file(reply)
             await conv.get_response()
             await asyncio.sleep(5)
             zedthon = await conv.get_response()
@@ -957,5 +944,3 @@ async def zelzal_gif(event):
             zedthon = await conv.get_response()
             await zed.delete()
             await borg.send_message(event.chat_id, zedthon)
-
-

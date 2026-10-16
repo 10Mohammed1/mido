@@ -31,7 +31,7 @@ cmhd = Config.COMMAND_HAND_LER
 @zedub.bot_cmd(pattern="^/help$", from_users=Config.OWNER_ID)
 async def bot_help(event):
     await event.reply(
-        """ᯓ 𝗭𝗧𝗵𝗼𝗻 𝗯𝗼𝘁 **- قائمــة اوامــر البـوت المسـاعـد 🤖♥️**
+        """ᯓ Mido 𝗯𝗼𝘁 **- قائمــة اوامــر البـوت المسـاعـد 🤖♥️**
 **⋆┄─┄─┄─┄┄─┄─┄─┄─┄┄⋆**
 **📑 اولاً الاوامــر الإداريـة الخاصـه بالبــوت المسـاعــد الخـاص بـك :**
 **ملاحـظــه :**

@@ -14,7 +14,7 @@ from ..helpers.tools import media_type
 from ..helpers.utils import _zedtools, _zedutils, _format, install_pip, reply_id
 from .decorators import admin_cmd, sudo_cmd
 
-LOGS = logging.getLogger("Zelzal")
+LOGS = logging.getLogger("Mido")
 
 
 def load_module(shortname, plugin_path=None):
@@ -92,10 +92,14 @@ def remove_plugin(shortname):
 
 
 def checkplugins(filename):
-    with open(filename, "r") as f:
-        filedata = f.read()
-    filedata = filedata.replace("sendmessage", "send_message")
-    filedata = filedata.replace("sendfile", "send_file")
-    filedata = filedata.replace("editmessage", "edit_message")
-    with open(filename, "w") as f:
-        f.write(filedata)
+    # ── runtime source rewriting DISABLED ────────────────────────────────
+    # This used to open every plugin file, blindly run
+    #     .replace("sendmessage", "send_message") ...
+    # and write the file back.  Two things were wrong with that:
+    #   * it rewrote the whole project on every start (CRLF -> LF, and it
+    #     turned the *intended* alias-fix inside تجربة.py into a no-op,
+    #     breaking `.تجربة <code>`),
+    #   * it silently modified the source tree underneath the operator.
+    # The replacements have already been applied to every plugin, so the
+    # loader no longer touches files on disk.
+    return

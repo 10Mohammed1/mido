@@ -1,5 +1,5 @@
-#𝙕𝙏𝙝𝙤𝙣 ®
-#الملـف حقـوق وكتابـة زلـزال الهيبـه ⤶ @zzzzl1l خاص بسـورس ⤶ 𝙕𝙏𝙝𝙤𝙣
+#Mido ®
+#الملـف حقـوق وكتابـة Mido الهيبـه ⤶ @M_O_EG خاص بسـورس ⤶ Mido
 #الملف مرفـوع ع استضـافتـي مهمـا خمطت راح تطلـع حقـــوقــي بســورســـك
 #هههههههههههههههههه
 
@@ -13,16 +13,15 @@ from ..core.managers import edit_delete, edit_or_reply
 from ..helpers.utils import reply_id
 
 ZelzalPH_cmd = (
-    "𓆩 [𝗦𝗼𝘂𝗿𝗰𝗲 𝗭𝗧𝗵𝗼𝗻 📲 - كـاشـف الارقـام العربيــة](t.me/ZThon) 𓆪\n\n"
+    "𓆩 𝗦𝗼𝘂𝗿𝗰𝗲 Mido 📲 - كـاشـف الارقـام العربيــة 𓆪\n\n"
     "**⪼ الامــر ↵**\n\n"
     "⪼ `.اكشف` + الـرقـم مـع مفتـاح الـدولة\n\n"
     "**⪼ الوصـف :**\n"
     "**- لجـلب قائمـه بـ أسمـاء صاحب رقـم هـاتف معيـن**\n\n"
 )
 
-
-@zedub.zed_cmd(pattern="اكشف(?: |$)([\s\S]*)")
-async def _(event): #Code by T.me/zzzzl1l
+@zedub.zed_cmd(pattern=r"اكشف(?: |$)([\s\S]*)")
+async def _(event):
     number = event.pattern_match.group(1)
     reply = await event.get_reply_message()
     if not number and reply:
@@ -33,9 +32,9 @@ async def _(event): #Code by T.me/zzzzl1l
         return await edit_delete(
             event, "**- الرقم خطأ او لم تقم بادخال كود الدولة +**", 10
         )
-    zelzal = "@ZZIIIbot" #Code by T.me/zzzzl1l
+    zelzal = "@ZZIIIbot"
     zed = await edit_or_reply(event, "**⎉╎جـارِ الكشـف عن الرقـم 📲**\n**⎉╎انتظـر قليـلاً ... ▬▭**")
-    async with borg.conversation(zelzal) as conv: # code by t.me/zzzzl1l
+    async with borg.conversation(zelzal) as conv:
         try:
             await conv.send_message("/start")
             await conv.get_response()
@@ -54,9 +53,7 @@ async def _(event): #Code by T.me/zzzzl1l
             await borg.send_message(event.chat_id, zthon)
             await zed.delete()
 
-
-
-# Copyright (C) 2022 Zed-Thon . All Rights Reserved
+# Copyright (C) 2022 Mido . All Rights Reserved
 @zedub.zed_cmd(pattern="الكاشف")
 async def cmd(zelzallll):
     await edit_or_reply(zelzallll, ZelzalPH_cmd)

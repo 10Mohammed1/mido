@@ -23,7 +23,7 @@ def clear_screen():
 
 
 def get_api_id_and_hash():
-    print("ZThon Session Pyrogram")
+    print("Mido Session Pyrogram")
     print("\n---------------------------\n")
     try:
         API_ID = int(input("Please enter your API ID: "))
@@ -62,11 +62,11 @@ def telethon_session():
     # logging in
     try:
         with TelegramClient(StringSession(), API_ID, API_HASH) as zthon:
-            print("Generating a string session for •ZThon•")
+            print("Generating a string session for •Mido•")
             try:
                 zthon.send_message(
                     "me",
-                    f"**- هـذا هو كـود سيشـن تيليثـون الخـاص بـك ☑️**:\n\n`{zthon.session.save()}`\n\n**- لا تشـارك هـذا الكـود مع اي احـد ⚠️؟!**\n**- فقـط قم بنسخـه ولصقـه في مربعـات التنصيب 🛃**\n\n**- سـورس زدثــون : @ZThon**",
+                    f"**- هـذا هو كـود سيشـن تيليثـون الخـاص بـك ☑️**:\n\n`{zthon.session.save()}`\n\n**- لا تشـارك هـذا الكـود مع اي احـد ⚠️؟!**\n**- فقـط قم بنسخـه ولصقـه في مربعـات التنصيب 🛃**\n\n**- سـورس Mido : @Mido**",
                 )
                 print(
                     "Your SESSION has been generated. Check your Telegram saved messages!"
@@ -74,7 +74,7 @@ def telethon_session():
                 return
             except UserIsBotError:
                 print("You are trying to Generate Session for your Bot's Account?")
-                print("Here is That \n{zthon.session.save()}\n\n")
+                print("Here is That \n{Mido.session.save()}\n\n")
                 print("NOTE: You can't use that as User Session..")
     except ApiIdInvalidError:
         print(
@@ -112,7 +112,7 @@ def pyro_session():
     API_ID, API_HASH = get_api_id_and_hash()
     print("Enter phone number when asked.\n\n")
     with Client(
-        name="zthon", api_id=API_ID, api_hash=API_HASH, in_memory=True
+        name="Mido", api_id=API_ID, api_hash=API_HASH, in_memory=True
     ) as pyro:
         ss = pyro.export_session_string()
         pyro.send_message(
@@ -128,7 +128,7 @@ def main():
     try:
         type_of_ss = int(
             input(
-                "\nZThon Userbot\n\nWhich session do you want to generate?\n1. Telethon Session.\n2. Pyrogram Session.\n\nEnter choice:  "
+                "\nMido Userbot\n\nWhich session do you want to generate?\n1. Telethon Session.\n2. Pyrogram Session.\n\nEnter choice:  "
             )
         )
     except Exception as e:

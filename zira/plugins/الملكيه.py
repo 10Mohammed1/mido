@@ -1,6 +1,6 @@
 """امـر نقـل ملكيـة القنـاة/الكـروب
-كتابـة وتطويـر الكـود لـ زلـزال الهيبـه T.ME/zzzzl1l
-حقـــوق زدثـــون™ T.me/ZThon"""
+كتابـة وتطويـر الكـود لـ Mido الهيبـه 
+حقـــوق Mido™ """
 
 import telethon.password as pwd_mod
 from telethon.tl import functions
@@ -14,7 +14,7 @@ plugin_category = "الادوات"
 
 
 @zedub.zed_cmd(
-    pattern="تحويل ملكية ([\s\S]*)",
+    pattern=r"تحويل ملكية ([\s\S]*)",
     command=("تحويل ملكية", plugin_category),
     info={
         "header": "لـ تحويـل ملكيـة القنـاة او الكـروب",

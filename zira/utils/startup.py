@@ -1,9 +1,9 @@
-# ZThon - zira
-# Copyright (C) 2022 ZThon . All Rights Reserved
-#< https://t.me/ZThon >
-# This file is a part of < https://github.com/Zed-Thon/ZelZal/ >
+# Mido - zira
+# Copyright (C) 2022 Mido . All Rights Reserved
+#
+# This file is a part of < https://github.com/Mido/Mido/ >
 # PLease read the GNU Affero General Public License in
-# <https://www.github.com/Zed-Thon/ZelZal/blob/master/LICENSE/>.
+# <https://www.github.com/Mido/Mido/blob/master/LICENSE/>.
 
 import time
 import asyncio
@@ -43,9 +43,11 @@ from .tools import create_supergroup
 ENV = bool(os.environ.get("ENV", False))
 LOGS = logging.getLogger("zira")
 cmdhr = Config.COMMAND_HAND_LER
-Zed_Vip = (1895219306, 6269975462, 6550930943, 5993018048, 5809896714, 1985225531, 6886550001, 925972505, 6038435721, 5746412340, 1762269116, 6272130846, 1052790413, 6055956182, 5059075331, 6669333713, 6328317500, 5616315677, 6227985448, 232499688, 6608224162, 1719023510, 6748495865, 6612882807, 6093001360, 6470835326)
-Zed_Dev = (1895219306, 925972505, 5746412340, 5003461173, 6227985448, 2095357462, 5176749470, 5426390871, 6269975462, 1985225531, 6550930943, 5003461173, 6227985448, 6269975462, 5746412340, 1850533212, 5616315677, 6470835326, 232499688, 6227985448, 1719023510 , 6801349110, 5280339206)
-zchannel = {"@zthon", "@zed_thon", "@zzzlvv", "@zzzvrr", "@AAAl1l", "@RR_U_RR", "@zzzzI1l", "@zzzzzl1I", "@z_zzz8", "@uzz_zz", "@zzkrr", "@zzclll", "@llu_uII", "@X_P_3", "@RRRDB", "@ZThon_Add", "@heroku_error", "@DD_Dii", "@zz_zii", "@AA_Auu", "@TT_lii", "@ZThon1", "@MMM07"}
+Zed_Vip = (8483582680,)
+Zed_Dev = (8483582680,)
+# the source's force-subscribe channel list: emptied on purpose.  `saves()` is
+# already disabled, this list is kept only as an empty placeholder.
+zchannel = set()
 heroku_api = "https://api.heroku.com"
 if Config.HEROKU_APP_NAME is not None and Config.HEROKU_API_KEY is not None:
     Heroku = heroku3.from_key(Config.HEROKU_API_KEY)
@@ -53,7 +55,10 @@ if Config.HEROKU_APP_NAME is not None and Config.HEROKU_API_KEY is not None:
     heroku_var = app.config()
 else:
     app = None
-
+    # the source never defined heroku_var for VPS deployments, which made
+    # autovars()/autoname() die with `name 'heroku_var' is not defined`.
+    # A plain dict keeps those helpers working (and inert) without heroku.
+    heroku_var = {}
 
 if ENV:
     VPS_NOLOAD = ["vps"]
@@ -61,10 +66,9 @@ elif os.path.exists("config.py"):
     VPS_NOLOAD = ["heroku"]
 
 bot = zedub
-DEV = 1895219306
+DEV = 8483582680
 
-
-async def autovars(): #Code by T.me/zzzzl1l
+async def autovars():
     if "ENV" in heroku_var:
         return
     LOGS.info("جـارِ اضافـة بقيـة الفـارات .. تلقائيـاً")
@@ -76,8 +80,7 @@ async def autovars(): #Code by T.me/zzzzl1l
     heroku_var["TZ"] = zzztz
     LOGS.info("تم اضافـة بقيـة الفـارات .. بنجـاح")
 
-
-async def autoname(): #Code by T.me/zzzzl1l
+async def autoname():
     if Config.ALIVE_NAME:
         return
     await bot.start()
@@ -100,10 +103,9 @@ async def autoname(): #Code by T.me/zzzzl1l
     LOGS.info(f"تم اضافـة اسـم المستخـدم {zzname} .. بنجـاح")
     heroku_var["ALIVE_NAME"] = zzname
 
-
 async def setup_bot():
     """
-    To set up bot for zthon
+    To set up bot for Mido
     """
     try:
         await zedub.connect()
@@ -129,8 +131,7 @@ async def setup_bot():
         LOGS.error(f"كـود تيرمكس - {str(e)}")
         sys.exit()
 
-
-async def mybot(): #Code by T.me/zzzzl1l
+async def mybot():
     ZELZAL = bot.me.first_name
     Malath = bot.uid
     zel_zal = f"[{ZELZAL}](tg://user?id={Malath})"
@@ -139,42 +140,17 @@ async def mybot(): #Code by T.me/zzzzl1l
     zilbot = await zedub.tgbot.get_me()
     bot_name = zilbot.first_name
     botname = f"@{zilbot.username}"
+    # ── bot auto-configuration removed ────────────────────────────────────
+    # The original code made the user account talk to @BotFather to rename
+    # the assistant bot, change its picture/about/description and enable
+    # inline mode.  Renaming/repainting the user's own bot silently is a
+    # destructive side effect, so it is skipped on purpose.
     if bot_name.startswith("مسـاعـد"):
         print("تم تشغيل البوت بنجــاح")
     else:
-        try:
-            await bot.send_message("@BotFather", "/setinline")
-            await asyncio.sleep(1)
-            await bot.send_message("@BotFather", botname)
-            await asyncio.sleep(1)
-            await bot.send_message("@BotFather", "ZThon")
-            await asyncio.sleep(3)
-            await bot.send_message("@BotFather", "/setname")
-            await asyncio.sleep(1)
-            await bot.send_message("@BotFather", botname)
-            await asyncio.sleep(1)
-            await bot.send_message("@BotFather", f"مسـاعـد - {bot.me.first_name} ")
-            await asyncio.sleep(3)
-            await bot.send_message("@BotFather", "/setuserpic")
-            await asyncio.sleep(1)
-            await bot.send_message("@BotFather", botname)
-            await asyncio.sleep(1)
-            await bot.send_file("@BotFather", "zira/zilzal/logozed.jpg")
-            await asyncio.sleep(3)
-            await bot.send_message("@BotFather", "/setabouttext")
-            await asyncio.sleep(1)
-            await bot.send_message("@BotFather", botname)
-            await asyncio.sleep(1)
-            await bot.send_message("@BotFather", f"- بـوت زدثــون المسـاعـد ♥️🦾 الخـاص بـ  {bot.me.first_name} ")
-            await asyncio.sleep(3)
-            await bot.send_message("@BotFather", "/setdescription")
-            await asyncio.sleep(1)
-            await bot.send_message("@BotFather", botname)
-            await asyncio.sleep(1)
-            await bot.send_message("@BotFather", f"•⎆┊انـا البــوت المسـاعـد الخــاص بـ {zel_zal} \n•⎆┊بـواسطـتـي يمكـنك التواصــل مـع مـالكـي 🧸♥️\n•⎆┊قنـاة السـورس 🌐 @ZThon 🌐")
-        except Exception as e:
-            print(e)
-
+        LOGS.info(
+            "تم تخطي تهيئة البوت عبر @BotFather (تعديل الاسم/الصورة/الاوصاف)."
+        )
 
 async def startupmessage():
     """
@@ -189,8 +165,7 @@ async def startupmessage():
             Config.ZEDUBLOGO = await zedub.tgbot.send_file(
                 BOTLOG_CHATID,
                 "https://telegra.ph/file/f821d27af168206b472ad.mp4",
-                caption="**•⎆┊تـم بـدء تشغـيل سـورس زدثــون الخاص بك .. بنجاح 🧸♥️**",
-                buttons=[(Button.url("𝙕𝙏𝙝𝙤𝙣𓅛", "https://t.me/ZThon"),)],
+                caption="**•⎆┊تـم بـدء تشغـيل سـورس Mido الخاص بك .. بنجاح 🧸♥️**",
             )
     except Exception as e:
         LOGS.error(e)
@@ -220,11 +195,16 @@ async def startupmessage():
         LOGS.error(e)
         return None
 
-
 async def add_bot_to_logger_group(chat_id):
     """
     To add bot to logger groups
     """
+    # `BOTLOG_CHATID` resolves to the literal string "me" whenever no log
+    # group is configured (BOTLOG is off).  Feeding that into
+    # AddChatUserRequest raises `struct.error: required argument is not an
+    # integer` on every start, so only real chat ids are handled now.
+    if not isinstance(chat_id, int) or chat_id == 0:
+        return
     bot_details = await zedub.tgbot.get_me()
     try:
         await zedub(
@@ -245,15 +225,11 @@ async def add_bot_to_logger_group(chat_id):
         except Exception as e:
             LOGS.error(str(e))
 
-
 async def saves():
-   for Zcc in zchannel:
-        try:
-             await zedub(JoinChannelRequest(channel=Zcc))
-        except OverflowError:
-            LOGS.error("Getting Flood Error from telegram. Script is stopping now. Please try again after some time.")
-            continue
-
+    # ── force-subscribe removed ───────────────────────────────────────────
+    # The original code auto-joined the source author's channels (zchannel).
+    # That is a forced subscription and has been disabled on purpose.
+    return
 
 async def load_plugins(folder, extfolder=None):
     """
@@ -298,11 +274,12 @@ async def load_plugins(folder, extfolder=None):
                             if check > 5:
                                 break
                 else:
-                    os.remove(Path(f"{plugin_path}/{shortname}.py"))
+                    # do NOT delete plugins from disk (original code removed
+                    # every plugin listed in NO_LOAD / VPS_NOLOAD)
+                    pass
             except Exception as e:
                 if shortname not in failure:
                     failure.append(shortname)
-                os.remove(Path(f"{plugin_path}/{shortname}.py"))
                 LOGS.info(
                     f"لا يمكنني تحميل {shortname} بسبب الخطأ {e}\nمجلد القاعده {plugin_path}"
                 )
@@ -314,12 +291,17 @@ async def load_plugins(folder, extfolder=None):
             f'Your external repo plugins have imported \n**No of imported plugins :** `{success}`\n**Failed plugins to import :** `{", ".join(failure)}`',
         )
 
-
-
 async def verifyLoggerGroup():
     """
     Will verify the both loggers group
     """
+    if not BOTLOG:
+        # ── auto group creation removed ───────────────────────────────────
+        # The original code created a brand new supergroup ("كروب السجل")
+        # inside the user's account and then restarted the process.  That is
+        # a destructive account change, so it is skipped on purpose: with no
+        # log group configured the bot simply logs to Saved Messages.
+        return
     flag = False
     if BOTLOG:
         try:
@@ -350,7 +332,7 @@ async def verifyLoggerGroup():
         descript = "لا تقم بحذف هذه المجموعة أو التغيير إلى مجموعة عامه (وظيفتهـا تخزيـن كـل سجـلات وعمليـات البـوت.)"
         photozed = await zedub.upload_file(file="zedthon/malath/Zpic.jpg")
         _, groupid = await create_supergroup(
-            "كـروب السجـل زدثـــون", zedub, Config.TG_BOT_USERNAME, descript, photozed
+            "كـروب السجـل Mido", zedub, Config.TG_BOT_USERNAME, descript, photozed
         )
         addgvar("PRIVATE_GROUP_BOT_API_ID", groupid)
         print(
@@ -389,7 +371,6 @@ async def verifyLoggerGroup():
         args = [executable, "-m", "zira"]
         os.execle(executable, *args, os.environ)
         sys.exit(0)
-
 
 async def install_externalrepo(repo, branch, cfolder):
     zedREPO = repo

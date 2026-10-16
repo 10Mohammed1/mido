@@ -30,7 +30,7 @@ LOGS = logging.getLogger(__name__)
 
 
 @zedub.zed_cmd(
-    pattern="cur(?:\s|$)([\s\S]*)",
+    pattern=r"cur(?:\s|$)([\s\S]*)",
     command=("cur", plugin_category),
     info={
         "header": "To convert one currency value to other.",
@@ -169,7 +169,7 @@ async def parseqr(event):
 
 
 @zedub.zed_cmd(
-    pattern="barcode ?([\s\S]*)",
+    pattern=r"barcode ?([\s\S]*)",
     command=("barcode", plugin_category),
     info={
         "header": "To get barcode of given text.",
@@ -221,7 +221,7 @@ async def _(event):
 
 
 @zedub.zed_cmd(
-    pattern="makeqr(?: |$)([\s\S]*)",
+    pattern=r"makeqr(?: |$)([\s\S]*)",
     command=("makeqr", plugin_category),
     info={
         "header": "To get makeqr of given text.",
@@ -265,7 +265,7 @@ async def make_qr(makeqr):
 
 
 @zedub.zed_cmd(
-    pattern="cal ([\s\S]*)",
+    pattern=r"cal ([\s\S]*)",
     command=("cal", plugin_category),
     info={
         "header": "To get calendar of given month and year.",
@@ -290,7 +290,7 @@ async def _(event):
 
 
 @zedub.zed_cmd(
-    pattern="ip(?:\s|$)([\s\S]*)",
+    pattern=r"ip(?:\s|$)([\s\S]*)",
     command=("ip", plugin_category),
     info={
         "header": "Find details of an IP address",
@@ -376,7 +376,7 @@ async def spy(event):
 
 
 @zedub.zed_cmd(
-    pattern="ifsc ([\s\S]*)",
+    pattern=r"ifsc ([\s\S]*)",
     command=("ifsc", plugin_category),
     info={
         "header": "to get details of the relevant bank or branch.",
@@ -399,7 +399,7 @@ async def _(event):
 
 
 @zedub.zed_cmd(
-    pattern="color ([\s\S]*)",
+    pattern=r"color ([\s\S]*)",
     command=("color", plugin_category),
     info={
         "header": "To get color pic of given hexa color code.",
@@ -435,7 +435,7 @@ async def _(event):
 
 
 @zedub.zed_cmd(
-    pattern="xkcd(?:\s|$)([\s\S]*)",
+    pattern=r"xkcd(?:\s|$)([\s\S]*)",
     command=("xkcd", plugin_category),
     info={
         "header": "Searches for the query for the relevant XKCD comic.",

@@ -12,12 +12,12 @@ from . import *
 async def hi(event):
     await edit_or_reply(
         event,
-        "**[ᯓ 𝗭𝗧𝗵𝗼𝗻 𝗨𝘀𝗲𝗿𝗯𝗼𝘁 - تنفيــذ الاكــواد](t.me/ZThon)\n⋆─┄─┄─┄──┄─┄─┄─⋆**\n\n الامر: `.تجربه` + كود برمجي\n- يقوم بتشغيل الكود و أظهار النتيجة",
+        "**ᯓ Mido 𝗨𝘀𝗲𝗿𝗯𝗼𝘁 - تنفيــذ الاكــواد\n⋆─┄─┄─┄──┄─┄─┄─⋆**\n\n الامر: `.تجربه` + كود برمجي\n- يقوم بتشغيل الكود و أظهار النتيجة",
         link_preview=False,
     )
 
 
-@zedub.zed_cmd(pattern="تجربه(?:\s|$)([\s\S]*)")
+@zedub.zed_cmd(pattern=r"تجربه(?:\s|$)([\s\S]*)")
 async def _(event):
     cmd = "".join(event.message.message.split(maxsplit=1)[1:])
     if not cmd:

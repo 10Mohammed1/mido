@@ -1,6 +1,6 @@
-# تعريب وتحديث فريق زدثــون
-# ZThon UsetBot T.me/ZedThon
-# Devolper ZelZal T.me/zzzzl1l
+# تعريب وتحديث فريق Mido
+# Mido UsetBot 
+# Devolper Mido 
 import asyncio
 import logging
 
@@ -45,7 +45,7 @@ ALLOWED_USERS = set()
 
 
 @zedub.zed_cmd(
-    pattern="انضمام ?(\S+)? ?(?:ك)? ?(\S+)?",
+    pattern=r"انضمام ?(\S+)? ?(?:ك)? ?(\S+)?",
     command=("انضمام", plugin_category),
     info={
         "header": "لـ الانضمـام الى المحـادثه الصـوتيـه",
@@ -153,7 +153,7 @@ async def get_playlist(event):
 
 
 @zedub.zed_cmd(
-    pattern="فيد ?(1)? ?([\S ]*)?",
+    pattern=r"فيد ?(1)? ?([\S ]*)?",
     command=("فيد", plugin_category),
     info={
         "header": "تشغيـل مقـاطع الفيـديـو في المكـالمـات",
@@ -199,7 +199,7 @@ async def play_video(event):
 
 
 @zedub.zed_cmd(
-    pattern="شغل ?(1)? ?([\S ]*)?",
+    pattern=r"شغل ?(1)? ?([\S ]*)?",
     command=("شغل", plugin_category),
     info={
         "header": "تشغيـل المقـاطع الصـوتيـه في المكـالمـات",

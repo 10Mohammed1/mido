@@ -46,13 +46,13 @@ LOGS = logging.getLogger(__name__)
 plugin_category = "البحث"
 
 # =========================================================== #
-#                                                             𝙕𝙏𝙝𝙤𝙣
+#                                                             Mido
 # =========================================================== #
 SONG_SEARCH_STRING = "<b>╮ جـارِ البحث ؏ـن المقطـٓع الصٓوتـي... 🎧♥️╰</b>"
 SONG_NOT_FOUND = "<b>⎉╎لـم استطـع ايجـاد المطلـوب .. جرب البحث باستخـدام الامـر (.اغنيه)</b>"
 SONG_SENDING_STRING = "<b>╮ جـارِ تحميـل المقطـٓع الصٓوتـي... 🎧♥️╰</b>"
 # =========================================================== #
-#                                                             𝙕𝙏𝙝𝙤𝙣
+#                                                             Mido
 # =========================================================== #
 
 video_opts = {
@@ -72,9 +72,8 @@ video_opts = {
     "quiet": True,
 }
 
-
 @zedub.zed_cmd(
-    pattern="ابحث(?:\ع|$)([\s\S]*)",
+    pattern=r"ابحث(?:\ع|$)([\s\S]*)",
     command=("ابحث", plugin_category),
     info={
         "header": "To reverse search song.",
@@ -98,7 +97,7 @@ async def shazamcmd(event):
             event, "**- بالــرد ع مقطـع صـوتي**"
         )
     zedevent = await edit_or_reply(event, "**- جـار تحميـل المقـطع الصـوتي ...**")
-    name = "zed.mp3"
+    name = "Mido.mp3"
     try:
         for attr in getattr(reply.document, "attributes", []):
             if isinstance(attr, types.DocumentAttributeFilename):
@@ -151,9 +150,7 @@ async def shazamcmd(event):
     if delete:
         await delete_conv(event, chat, purgeflag)
 
-
-# Code by T.me/zzzzl1l
-@zedub.zed_cmd(pattern=".ff(?:\s|$)([\s\S]*)")
+@zedub.zed_cmd(pattern=r".ff(?:\s|$)([\s\S]*)")
 async def zelzal_song(event):
     song = event.pattern_match.group(1)
     chat = "@ROOTMusic_bot"
@@ -183,9 +180,8 @@ async def zelzal_song(event):
         await zzevent.delete()
         await delete_conv(event, chat, purgeflag)
 
-
 @zedub.zed_cmd(
-    pattern="يوتيوب(?: |$)(\d*)? ?([\s\S]*)",
+    pattern=r"يوتيوب(?: |$)(\d*)? ?([\s\S]*)",
     command=("يوتيوب", plugin_category),
     info={
         "header": "لـ البحـث عـن روابــط بالكلمــه المحــدده علـى يـوتيــوب",
@@ -220,7 +216,6 @@ async def you_search(event):
     reply_text = f"**•  اليك عزيزي قائمة بروابط الكلمة اللتي بحثت عنها:**\n`{query}`\n\n**•  النتائج:**\n{full_response}"
     await edit_or_reply(video_q, reply_text)
 
-
 async def ytdl_down(event, opts, url):
     ytdl_data = None
     try:
@@ -248,7 +243,6 @@ async def ytdl_down(event, opts, url):
     except Exception as e:
         await event.edit(f"**Error : **\n__{e}__")
     return ytdl_data
-
 
 async def fix_attributes(
     path, info_dict: dict, supports_streaming: bool = False, round_message: bool = False

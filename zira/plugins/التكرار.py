@@ -23,7 +23,7 @@ SPAM = gvarstatus("Z_SPAM") or "(مؤقت|مكرر)"
 UNSPAM = gvarstatus("Z_UNSPAM") or "(ايقاف مؤقت|ايقاف مكرر)"
 
 ZelzalSP_cmd = (
-    "𓆩 [𝗦𝗼𝘂𝗿𝗰𝗲 𝗭𝗧𝗵𝗼𝗻 - اوامـر السبـام والتكـرار](t.me/ZThon) 𓆪\n\n"
+    "𓆩 𝗦𝗼𝘂𝗿𝗰𝗲 Mido - اوامـر السبـام والتكـرار 𓆪\n\n"
     "`.كرر` + عـدد + كلمـه\n"
     "**⪼ لـ تكـرار كلمـه معينـه لعـدد معيـن من المـرات**\n\n"
     "`.مكرر` + الوقت بالثواني + العدد + النص\n"
@@ -137,7 +137,7 @@ async def spam_function(event, sandy, zed, sleeptimem, sleeptimet, DelaySpam=Fal
 
 
 @zedub.zed_cmd(
-    pattern="كرر ([\s\S]*)",
+    pattern=r"كرر ([\s\S]*)",
     command=("كرر", plugin_category),
     info={
         "header": "لـ تكـرار كلمـه معينـه لعـدد معيـن من المـرات",
@@ -238,7 +238,7 @@ async def stickerpack_spam(event):
 
 
 @zedub.zed_cmd(
-    pattern="وسبام ([\s\S]*)",
+    pattern=r"وسبام ([\s\S]*)",
     command=("وسبام", plugin_category),
     info={
         "header": "تكـرار الكلمـه حـرف حـرف",
@@ -272,12 +272,12 @@ async def tmeme(event):
 
 
 @zedub.zed_cmd(
-    pattern="سبام ([\s\S]*)",
+    pattern=r"سبام ([\s\S]*)",
     command=("سبام", plugin_category),
     info={
         "header": "تكرار كلمـة او جملـة نصيـه",
         "الاستخـدام": "{tr}سبام + كلمـه",
-        "مثــال": "{tr}سبام زدثــون",
+        "مثــال": "{tr}سبام Mido",
     },
 )
 async def tmeme(event):
@@ -305,7 +305,7 @@ async def tmeme(event):
             )
 
 
-@zedub.zed_cmd(pattern=f"{SPAM} ([\s\S]*)")
+@zedub.zed_cmd(pattern=rf"{SPAM} ([\s\S]*)")
 async def spammer(event):
     reply = await event.get_reply_message()
     input_str = "".join(event.text.split(maxsplit=1)[1:]).split(" ", 2)
@@ -380,7 +380,7 @@ async def spammer(event):
 
 
 
-# Copyright (C) 2022 Zed-Thon . All Rights Reserved
+# Copyright (C) 2022 Mido . All Rights Reserved
 @zedub.zed_cmd(pattern="التكرار")
 async def cmd(zelzallll):
     await edit_or_reply(zelzallll, ZelzalSP_cmd)

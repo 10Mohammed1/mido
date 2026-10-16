@@ -29,7 +29,7 @@ class Config(object):
     TG_BOT_USERNAME = None
     # get this value from http://www.timezoneconverter.com/cgi-bin/findzone.tzc
     TZ = os.environ.get("TZ", "Asia/Baghdad")
-    # set this with required zed repo link
+    # set this with required Mido repo link
     UPSTREAM_REPO = os.environ.get(
         "UPSTREAM_REPO", "https://github.com/Zilzalll/ZThon"
     )
@@ -66,7 +66,7 @@ class Config(object):
         or 0
     )
 
-    #فارات زدثــون
+    #فارات Mido
     CUSTOM_ALIVE_TEXT = os.environ.get("CUSTOM_ALIVE_TEXT", None)
     CUSTOM_ALIVE_EMOJI = os.environ.get("CUSTOM_ALIVE_EMOJI", None)
     CUSTOM_ALIVE_EMZED = os.environ.get("CUSTOM_ALIVE_EMZED", None)
@@ -85,11 +85,11 @@ class Config(object):
     ZI_FN = os.environ.get("ZI_FN", "𝟭𝟮𝟯𝟰𝟱𝟲𝟳𝟴𝟵𝟬")
     CUSTOM_PMPERMIT_TEXT = os.environ.get("CUSTOM_PMPERMIT_TEXT", None)
 
-    # Custom vars for zthon
+    # Custom vars for Mido
     # set this will channel id of your custom plugins
     PLUGIN_CHANNEL = int(os.environ.get("PLUGIN_CHANNEL") or 0)
     # set this value with your required name for telegraph plugin
-    TELEGRAPH_SHORT_NAME = os.environ.get("TELEGRAPH_SHORT_NAME", "ZThon")
+    TELEGRAPH_SHORT_NAME = os.environ.get("TELEGRAPH_SHORT_NAME", "Mido")
     # for custom thumb image set this with your required thumb telegraoh link
     THUMB_IMAGE = os.environ.get(
         "THUMB_IMAGE", "https://telegra.ph/file/c91c09fb188f0f281e628.jpg"
@@ -110,7 +110,7 @@ class Config(object):
     FINISHED_PROGRESS_STR = os.environ.get("FINISHED_PROGRESS_STR", "▰")
     UNFINISHED_PROGRESS_STR = os.environ.get("UNFINISHED_PROGRESS_STR", "▱")
 
-    # API VARS FOR ZTHON
+    # API VARS FOR Mido
     # Get your own ACCESS_KEY from http://api.screenshotlayer.com/api/capture for screen shot
     SCREEN_SHOT_LAYER_ACCESS_KEY = os.environ.get("SCREEN_SHOT_LAYER_ACCESS_KEY", None)
     # Get your own APPID from https://api.openweathermap.org/data/2.5/weather

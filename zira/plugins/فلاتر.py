@@ -136,7 +136,7 @@ async def maccmd(event):  # sourcery no-metrics
 
 
 @zedub.zed_cmd(
-    pattern="(حقوق|اطبع)(?:\s|$)([\s\S]*)",
+    pattern=r"(حقوق|اطبع)(?:\s|$)([\s\S]*)",
     command=("حقوق", plugin_category),
     info={
         "header": "لـ عمل حقوق على ملف الميديا",
@@ -223,25 +223,25 @@ async def memes(event):
 
 
 @zedub.zed_cmd(
-    pattern="الخطوط(?:\s|$)([\s\S]*)",
+    pattern=r"الخطوط(?:\s|$)([\s\S]*)",
     command=("الخطوط", plugin_category),
     info={
-        "header": "لعـرض قائمـة خطـوط زدثــون",
+        "header": "لعـرض قائمـة خطـوط Mido",
         "الاستخـدام": "{tr}.الخطوط",
     },
 )
 async def lang(event):
-    "لعـرض قائمـة خطـوط زدثــون"
+    "لعـرض قائمـة خطـوط Mido"
     input_str = event.pattern_match.group(1)
     if not input_str:
-        await event.edit(f"**⎉╎قائمـة خطـوط زدثــون هـي :-**\n**قم بنسخ اسم الخط ثم ارسل (.خط + اسم الخط)**\n\n{FONTS}")
+        await event.edit(f"**⎉╎قائمـة خطـوط Mido هـي :-**\n**قم بنسخ اسم الخط ثم ارسل (.خط + اسم الخط)**\n\n{FONTS}")
         return
     else:
         return
 
 
 @zedub.zed_cmd(
-    pattern="خطوط(?:\s|$)([\s\S]*)",
+    pattern=r"خطوط(?:\s|$)([\s\S]*)",
     command=("خطوط", plugin_category),
     info={
         "header": "لـ تغييـر خط كتابـة الحقـوق",
@@ -262,7 +262,7 @@ async def lang(event):
     if input_str not in font_list:
         catevent = await edit_or_reply(event, "**⎉╎قم بكتابه اسم الخط بشكل صحيح ...؟!**")
         await asyncio.sleep(1)
-        await catevent.edit(f"**⎉╎قائمـة خطـوط زدثــون هـي :-**\n\n{FONTS}")
+        await catevent.edit(f"**⎉╎قائمـة خطـوط Mido هـي :-**\n\n{FONTS}")
     else:
         arg = f"zira/helpers/styles/{input_str}"
         addgvar("ZED_FONTS", arg)
@@ -270,7 +270,7 @@ async def lang(event):
 
 
 @zedub.zed_cmd(
-    pattern="رقميه(?:\s|$)([\s\S]*)",
+    pattern=r"رقميه(?:\s|$)([\s\S]*)",
     command=("رقميه", plugin_category),
     info={
         "header": "لتحويـل الصـورة الى صـورة رقميـه",
@@ -550,7 +550,7 @@ async def memes(event):
 
 
 @zedub.zed_cmd(
-    pattern="زوم ?([\s\S]*)",
+    pattern=r"زوم ?([\s\S]*)",
     command=("زوم", plugin_category),
     info={
         "header": "zooms your media file,",
@@ -603,7 +603,7 @@ async def memes(event):
 
 
 @zedub.zed_cmd(
-    pattern="اطار ?([\s\S]*)",
+    pattern=r"اطار ?([\s\S]*)",
     command=("اطار", plugin_category),
     info={
         "header": "make a frame for your media file.",

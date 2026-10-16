@@ -1,10 +1,9 @@
-# Zed-Thon - ZelZal
-# Copyright (C) 2023 Zedthon . All Rights Reserved
+# Mido - Mido
+# Copyright (C) 2023 Mido . All Rights Reserved
 #
-# This file is a part of < https://github.com/Zed-Thon/ZelZal/ >
+# This file is a part of < https://github.com/Mido/Mido/ >
 # PLease read the GNU Affero General Public License in
-# <https://www.github.com/Zed-Thon/ZelZal/blob/master/LICENSE/>.
-
+# <https://www.github.com/Mido/Mido/blob/master/LICENSE/>.
 
 import requests
 import asyncio
@@ -27,13 +26,11 @@ from ..helpers.utils import reply_id
 
 plugin_category = "البوت"
 
-
-# code by t.me/zzzzl1l
 @zedub.zed_cmd(pattern="بريد$")
 async def zelzal_gpt(event):
-    chat = "@TeMail_Robot" # code by t.me/zzzzl1l
+    chat = "@TeMail_Robot"
     zed = await edit_or_reply(event, "**⎉╎جـار إنشـاء ايميـل وهمـي 📧...**")
-    async with borg.conversation(chat) as conv: # code by t.me/zzzzl1l
+    async with borg.conversation(chat) as conv:
         try:
             await conv.send_message("/start")
             await conv.get_response()
@@ -42,7 +39,7 @@ async def zelzal_gpt(event):
             zedthon = await conv.get_response()
             malath = zedthon.text
             if "📧 Your temporary email" in zedthon.text:
-                aa = malath.replace("📧 Your temporary email address:", "**⎉╎تم انشـاء Email وهمـي .. بنجـاح ☑️\n⎉╎لجلب رسائـل الوارد ارسـل (.الوارد)\n⎉╎الايميـل الوهمـي الخـاص بك هـو 📧 :**") 
+                aa = malath.replace("📧 Your temporary email address:", "**⎉╎تم انشـاء Email وهمـي .. بنجـاح ☑️\n⎉╎لجلب رسائـل الوارد ارسـل (.الوارد)\n⎉╎الايميـل الوهمـي الخـاص بك هـو 📧 :**")
                 await zed.delete()
                 await borg.send_message(event.chat_id, aa)
         except YouBlockedUserError:
@@ -54,18 +51,15 @@ async def zelzal_gpt(event):
             zedthon = await conv.get_response()
             malath = zedthon.text
             if "📧 Your temporary email" in zedthon.text:
-                aa = malath.replace("📧 Your temporary email address:", "**⎉╎تم انشـاء Email وهمـي .. بنجـاح ☑️\n⎉╎لجلب رسائـل الوارد ارسـل (.الوارد)\n⎉╎الايميـل الوهمـي الخـاص بك هـو 📧 :**") 
+                aa = malath.replace("📧 Your temporary email address:", "**⎉╎تم انشـاء Email وهمـي .. بنجـاح ☑️\n⎉╎لجلب رسائـل الوارد ارسـل (.الوارد)\n⎉╎الايميـل الوهمـي الخـاص بك هـو 📧 :**")
                 await zed.delete()
                 await borg.send_message(event.chat_id, aa)
 
-
-
-# code by t.me/zzzzl1l
 @zedub.zed_cmd(pattern="الوارد$")
 async def zelzal_gpt(event):
-    chat = "@TeMail_Robot" # code by t.me/zzzzl1l
+    chat = "@TeMail_Robot"
     zed = await edit_or_reply(event, "**⎉╎جـار جلب رسائـل البريـد 📬...**")
-    async with borg.conversation(chat) as conv: # code by t.me/zzzzl1l
+    async with borg.conversation(chat) as conv:
         try:
             await conv.send_message("/start")
             await conv.get_response()
@@ -74,14 +68,14 @@ async def zelzal_gpt(event):
             zedthon = await conv.get_response()
             malath = zedthon.text
             if "❌ No OTP" in zedthon.text:
-                aa = malath.replace("❌ No OTP were received...", "**⎉╎لا يوجـد رسـالة واردة لبريـدك الوهمـي بعـد 📭❌**") 
+                aa = malath.replace("❌ No OTP were received...", "**⎉╎لا يوجـد رسـالة واردة لبريـدك الوهمـي بعـد 📭❌**")
                 await zed.delete()
                 return await borg.send_message(event.chat_id, aa)
             if "📬 Inbox" in zedthon.text:
                 await zed.delete()
-                return await borg.send_message(event.chat_id, f"**{malath}**\n\n───────────────────\n𝗭𝗧𝗵𝗼𝗻 𝗨**ꜱᴇʀʙᴏᴛ** 𝗧**ᴏᴏʟꜱ**\n\t\t\t\t\t\t\t\tᶻᵉˡᶻᵃˡ • البـريد الـوارد")
+                return await borg.send_message(event.chat_id, f"**{malath}**\n\n───────────────────\nMido 𝗨**ꜱᴇʀʙᴏᴛ** 𝗧**ᴏᴏʟꜱ**\n\t\t\t\t\t\t\t\tMido • البـريد الـوارد")
             await zed.delete()
-            await borg.send_message(event.chat_id, f"**{malath}**\n\n───────────────────\n𝗭𝗧𝗵𝗼𝗻 𝗨**ꜱᴇʀʙᴏᴛ** 𝗧**ᴏᴏʟꜱ**\n\t\t\t\t\t\t\t\tᶻᵉˡᶻᵃˡ • البـريد الـوارد")
+            await borg.send_message(event.chat_id, f"**{malath}**\n\n───────────────────\nMido 𝗨**ꜱᴇʀʙᴏᴛ** 𝗧**ᴏᴏʟꜱ**\n\t\t\t\t\t\t\t\tMido • البـريد الـوارد")
         except YouBlockedUserError:
             await zedub(unblock("TeMail_Robot"))
             await conv.send_message("/start")
@@ -91,12 +85,11 @@ async def zelzal_gpt(event):
             zedthon = await conv.get_response()
             malath = zedthon.text
             if "❌ No OTP" in zedthon.text:
-                aa = malath.replace("❌ No OTP were received...", "**⎉╎لا يوجـد رسـالة واردة لبريـدك الوهمـي بعـد 📭❌**") 
+                aa = malath.replace("❌ No OTP were received...", "**⎉╎لا يوجـد رسـالة واردة لبريـدك الوهمـي بعـد 📭❌**")
                 await zed.delete()
                 return await borg.send_message(event.chat_id, aa)
             if "📬 Inbox" in zedthon.text:
                 await zed.delete()
-                return await borg.send_message(event.chat_id, f"**{malath}**\n\n───────────────────\n𝗭𝗧𝗵𝗼𝗻 𝗨**ꜱᴇʀʙᴏᴛ** 𝗧**ᴏᴏʟꜱ**\n\t\t\t\t\t\t\t\tᶻᵉˡᶻᵃˡ • البـريد الـوارد")
+                return await borg.send_message(event.chat_id, f"**{malath}**\n\n───────────────────\nMido 𝗨**ꜱᴇʀʙᴏᴛ** 𝗧**ᴏᴏʟꜱ**\n\t\t\t\t\t\t\t\tMido • البـريد الـوارد")
             await zed.delete()
-            await borg.send_message(event.chat_id, f"**{malath}**\n\n───────────────────\n𝗭𝗧𝗵𝗼𝗻 𝗨**ꜱᴇʀʙᴏᴛ** 𝗧**ᴏᴏʟꜱ**\n\t\t\t\t\t\t\t\tᶻᵉˡᶻᵃˡ • البـريد الـوارد")
-
+            await borg.send_message(event.chat_id, f"**{malath}**\n\n───────────────────\nMido 𝗨**ꜱᴇʀʙᴏᴛ** 𝗧**ᴏᴏʟꜱ**\n\t\t\t\t\t\t\t\tMido • البـريد الـوارد")

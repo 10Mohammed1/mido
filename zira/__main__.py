@@ -8,7 +8,7 @@ from .core.session import zedub
 from .utils import mybot, autoname, autovars, saves
 from .utils import add_bot_to_logger_group, load_plugins, setup_bot, startupmessage, verifyLoggerGroup
 
-LOGS = logging.getLogger("Zelzal")
+LOGS = logging.getLogger("Mido")
 cmdhr = Config.COMMAND_HAND_LER
 
 try:
@@ -27,9 +27,9 @@ if not Config.ALIVE_NAME:
         LOGS.error(f"- {e}")
 
 try:
-    LOGS.info("⌭ بـدء تنزيـل زدثــون ⌭")
+    LOGS.info("⌭ بـدء تنزيـل Mido ⌭")
     zedub.loop.run_until_complete(setup_bot())
-    LOGS.info("✓ تـم تنزيـل زدثــون .. بـنجـاح ✓")
+    LOGS.info("✓ تـم تنزيـل Mido .. بـنجـاح ✓")
 except Exception as e:
     LOGS.error(f"{str(e)}")
     sys.exit()
@@ -47,9 +47,9 @@ except Exception as e:
     LOGS.error(f"- {e}")
 
 try:
-    LOGS.info("⌭ جـارِ تفعيـل الاشتـراك ⌭")
+    LOGS.info("⌭ الاشتـراك الاجبـاري معطّـل .. تمـام ⌭")
     zedub.loop.create_task(saves())
-    LOGS.info("✓ تـم تفعيـل الاشتـراك .. بنجـاح ✓")
+    LOGS.info("✓ لا يـوجـد أي اشـتـراك اجـبـاري .. بـنجـاح ✓")
 except Exception as e:
     LOGS.error(f"- {e}")
 
@@ -58,7 +58,7 @@ async def startup_process():
     await verifyLoggerGroup()
     await load_plugins("plugins")
     await load_plugins("assistant")
-    LOGS.info(f"⌔ تـم تنصيـب زدثــون . . بنجـاح ✓ \n⌔ لـ إظهـار الاوامـر ارسـل (.الاوامر)")
+    LOGS.info(f"⌔ تـم تنصيـب Mido . . بنجـاح ✓ \n⌔ لـ إظهـار الاوامـر ارسـل (.الاوامر)")
     await verifyLoggerGroup()
     await add_bot_to_logger_group(BOTLOG_CHATID)
     if PM_LOGGER_GROUP_ID != -100:

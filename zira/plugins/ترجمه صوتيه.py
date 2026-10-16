@@ -19,7 +19,7 @@ plugin_category = "الخدمات"
 
 
 @zedub.zed_cmd(
-    pattern="صوت جوجل(?:\s|$)([\s\S]*)",
+    pattern=r"صوت جوجل(?:\s|$)([\s\S]*)",
     command=("صوت جوجل", plugin_category),
     info={
         "header": "Text to speech command.",

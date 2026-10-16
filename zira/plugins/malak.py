@@ -68,4 +68,11 @@ if Config.ZELZAL_A:
         if gvarstatus("GRPLOOG") is not None:
             addgvar("GRPLOG", h_type)
 
-    zedub.loop.create_task(install())
+    # ── remote plugin downloader DISABLED ─────────────────────────────────
+    # this task pulled extra .py files straight out of the source author's
+    # Telegram channel (-1001338009605), dropped them into zira/plugins/ and
+    # auto-loaded them together with whatever they pip-installed, and it also
+    # overwrote the PMLOG/GRPLOG globals.  It ran on every start and threw an
+    # unhandled ValueError on any account that is not subscribed, so it is
+    # disabled on purpose.
+    # zedub.loop.create_task(install())

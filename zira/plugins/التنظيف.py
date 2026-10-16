@@ -1,4 +1,4 @@
-# ZThon module for purging unneeded messages(usually spam or ot).
+# Mido module for purging unneeded messages(usually spam or ot).
 import re
 import asyncio
 from asyncio import sleep
@@ -25,7 +25,6 @@ from . import BOTLOG, BOTLOG_CHATID
 
 plugin_category = "الادوات"
 
-
 purgelist = {}
 
 purgetype = {
@@ -42,9 +41,8 @@ purgetype = {
     # "s": search
 }
 
-
 @zedub.zed_cmd(
-    pattern="مسح(\s*| \d+)$",
+    pattern=r"مسح(\s*| \d+)$",
     command=("del", plugin_category),
     info={
         "header": "لـ حذف رسـاله بالـرد",
@@ -89,9 +87,8 @@ async def delete_it(event):
     elif not input_str:
         await event.delete()
 
-
 @zedub.zed_cmd(
-    pattern=".مسح(\s*| \d+)$",
+    pattern=r".مسح(\s*| \d+)$",
     command=("del", plugin_category),
     info={
         "header": "لـ حذف رسـاله بالـرد",
@@ -100,7 +97,7 @@ async def delete_it(event):
         "مثــال": "{tr}del 2",
     },
 )
-async def delete_it(event): #Code by T.me/zzzzl1l
+async def delete_it(event):
     "To delete replied message."
     input_str = event.pattern_match.group(1).strip()
     msg_src = await event.get_reply_message()
@@ -136,7 +133,6 @@ async def delete_it(event): #Code by T.me/zzzzl1l
     elif not input_str:
         await event.delete()
 
-
 @zedub.zed_cmd(pattern="بداية الحذف")
 async def purge_from(event):
     reply = await event.get_reply_message()
@@ -149,7 +145,6 @@ async def purge_from(event):
         )
     else:
         await edit_delete(event, "**- بالـرد على اول رسالة تريد الحذف من عندهـا**")
-
 
 @zedub.zed_cmd(pattern="نهاية الحذف")
 async def purge_to(event):
@@ -194,13 +189,12 @@ async def purge_to(event):
     except Exception as e:
         await edit_delete(event, f"**- خطـأ :**\n`{e}`")
 
-
 @zedub.zed_cmd(pattern="حذف رسائلي")
 async def purgeme(event):
     message = event.text
-    if message: #Code by T.me/zzzzl1l
+    if message:
         count = int(message[12:])
-    else: #Code by T.me/zzzzl1l
+    else:
         count = int(10000)
     i = 1
     async for message in event.client.iter_messages(event.chat_id, from_user="me"):
@@ -221,10 +215,9 @@ async def purgeme(event):
     await sleep(5)
     await smsg.delete()
 
-
 # TODO: only sticker messages.
 @zedub.zed_cmd(
-    pattern="تنظيف(?:\s|$)([\s\S]*)",
+    pattern=r"تنظيف(?:\s|$)([\s\S]*)",
     command=("تنظيف", plugin_category),
     info={
         "header": "To purge messages from the replied message.",
@@ -476,9 +469,8 @@ async def fastpurger(event):  # sourcery no-metrics
     await sleep(5)
     await hi.delete()
 
-
 @zedub.zed_cmd(
-    pattern="حذف رسائله( الكل)?(?:\s|$)([\s\S]*)",
+    pattern=r"حذف رسائله( الكل)?(?:\s|$)([\s\S]*)",
     command=("حذف رسائله", plugin_category),
     info={
         "header": "To purge messages from the replied message of replied user.",

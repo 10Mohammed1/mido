@@ -38,6 +38,17 @@ COLORS = [
 
 
 logger = logging.getLogger(__name__)
+
+
+def is_emoji_char(character):
+    """True when `character` is a single emoji.
+
+    emoji >= 2.0 removed the ``UNICODE_EMOJI`` mapping, so fall back to the
+    ``is_emoji()`` helper that replaced it.
+    """
+    if hasattr(emoji, "UNICODE_EMOJI"):
+        return character in emoji.UNICODE_EMOJI["en"]
+    return emoji.is_emoji(character)
 logger.setLevel(logging.DEBUG)
 
 
@@ -272,7 +283,7 @@ async def process(msg, user, client, reply, event, replied=None):  # sourcery no
     space = pfpbg.width + 30
     namefallback = ImageFont.truetype("./temp/Quivira.otf", 43, encoding="utf-16")
     for letter in tot:
-        if letter in emoji.UNICODE_EMOJI["en"]:
+        if is_emoji_char(letter):
             newemoji, mask = await emoji_fetch(letter)
             canvas.paste(newemoji, (space, 24), mask)
             space += 40
@@ -325,7 +336,7 @@ async def process(msg, user, client, reply, event, replied=None):  # sourcery no
                         "./temp/Roboto-Regular.ttf", 35, encoding="utf-16"
                     )
                     textcolor = "#59a7f6"
-            if letter in emoji.UNICODE_EMOJI["en"]:
+            if is_emoji_char(letter):
                 newemoji, mask = await emoji_fetch(letter)
                 canvas.paste(newemoji, (x, y - 2), mask)
                 x += 45

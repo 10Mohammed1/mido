@@ -1,4 +1,4 @@
-# PLUGIN MADE BY @RRRLz FOR @ZThon
+# PLUGIN MADE BY @RRRLz FOR @Mido
 # 𝖹Ꭵᥣᴢᥲ️ᥣ
 
 import random, re

@@ -1,9 +1,9 @@
-# Zed-Thon
-# Copyright (C) 2022 Zed-Thon . All Rights Reserved
+# Mido
+# Copyright (C) 2022 Mido . All Rights Reserved
 #
-# This file is a part of < https://github.com/Zed-Thon/ZelZal/ >
+# This file is a part of < https://github.com/Mido/Mido/ >
 # PLease read the GNU Affero General Public License in
-# <https://www.github.com/Zed-Thon/ZelZal/blob/master/LICENSE/>.
+# <https://www.github.com/Mido/Mido/blob/master/LICENSE/>.
 from sqlalchemy import Column, String, Boolean
 
 from . import BASE, SESSION

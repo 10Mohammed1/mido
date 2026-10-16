@@ -1,6 +1,6 @@
-#𝙕𝙏𝙝𝙤𝙣 ®
-# Port to ZThon
-# modified by @ZThon
+#Mido ®
+# Port to Mido
+# modified by @Mido
 # Copyright (C) 2022.
 
 import asyncio
@@ -17,7 +17,7 @@ from ..core.managers import edit_delete, edit_or_reply
 plugin_category = "البحث"
 
 @zedub.zed_cmd(
-    pattern="ريماكس ([\s\S]*)",
+    pattern=r"ريماكس ([\s\S]*)",
     command=("ريماكس", plugin_category),
     info={
         "header": "ريمكسـات اغـانـي قصيـره",
@@ -42,7 +42,7 @@ async def remaxzedthon(zedrm):
     
 
 @zedub.zed_cmd(
-    pattern="ريمكس ([\s\S]*)",
+    pattern=r"ريمكس ([\s\S]*)",
     command=("ريمكس", plugin_category),
     info={
         "header": "ريمكسـات اغـانـي قصيـره",

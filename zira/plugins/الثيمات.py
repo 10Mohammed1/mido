@@ -1,10 +1,10 @@
-# Zed-Thon - ZelZal
-# Copyright (C) 2022 Zedthon . All Rights Reserved
+# Mido - Mido
+# Copyright (C) 2022 Mido . All Rights Reserved
 #
-# This file is a part of < https://github.com/Zed-Thon/ZelZal/ >
+# This file is a part of < https://github.com/Mido/Mido/ >
 # PLease read the GNU Affero General Public License in
-# <https://www.github.com/Zed-Thon/ZelZal/blob/main/LICENSE/>.
-#حقوق زد ثـون ومتعوب عليها .. تخمط اذكر المصدر لو اهينك
+# <https://www.github.com/Mido/Mido/blob/main/LICENSE/>.
+#حقوق Mido ومتعوب عليها .. تخمط اذكر المصدر لو اهينك
 
 import random
 
@@ -158,7 +158,7 @@ async def stsfanan(zelzal):
     zel = await rd(zelzal)
     if sts_fanan:
         zelzal_c = f"**{FANAN}**\n"
-        zelzal_c += f"•━─━─━─━─𝙕𝞝𝘿─━─━─━─━•\n\n"
+        zelzal_c += f"•━─━─━─━─Mido─━─━─━─━•\n\n"
         zelzal_c += f"**⪼ ثيـم علـم العـراق 🇮🇶♥️**\n"
         zelzal_c += f"**⪼ لـ تحميـل الثيـم ارســل ↫** `.ث1`"
         await zelzal.client.send_file(zelzal.chat_id, sts_fanan, caption=zelzal_c, reply_to=zel)
@@ -171,7 +171,7 @@ async def stsfanan(lon):
     lonid = await rd(lon)
     if sts_fanan2:
         zed_c = f"**{FANAN}**\n"
-        zed_c += f"•━─━─━─━─𝙕𝞝𝘿─━─━─━─━•\n\n"
+        zed_c += f"•━─━─━─━─Mido─━─━─━─━•\n\n"
         zed_c += f"**⪼ ثيم البشير شو HD غير مضر للعيون ❤️ ...**\n"
         zed_c += f"**⪼ لـ تحميـل الثيـم ارســل ↫** `.ث2`"
         await lon.client.send_file(lon.chat_id, sts_fanan2, caption=zed_c, reply_to=lonid)
@@ -184,7 +184,7 @@ async def stsfanan(i):
     sic_id = await rd(i)
     if sts_fanan3:
         tumc = f"**{FANAN}**\n"
-        tumc += f"•━─━─━─━─𝙕𝞝𝘿─━─━─━─━•\n\n"
+        tumc += f"•━─━─━─━─Mido─━─━─━─━•\n\n"
         tumc += f"**⪼ ثيم البشير_شو2..ثيم تجريبي🧸❤️ **\n"
         tumc += f"**⪼ لـ تحميـل الثيـم ارســل ↫** `.ث3`"
         await i.client.send_file(i.chat_id, sts_fanan3, caption=tumc, reply_to=sic_id)
@@ -197,7 +197,7 @@ async def stsfanan(lon):
     reply_to_id = await rd(lon)
     if sts_fanan4:
         tumc = f"**{FANAN}**\n"
-        tumc += f"•━─━─━─━─𝙕𝞝𝘿─━─━─━─━•\n\n"
+        tumc += f"•━─━─━─━─Mido─━─━─━─━•\n\n"
         tumc += f"**⪼ ثيم احمر وازرق بخلفية جوكر بنت كارتونيه متدرج بأحترافيه🧸🧡**\n"
         tumc += f"**⪼ لـ تحميـل الثيـم ارســل ↫** `.ث4`"
         await lon.client.send_file(
@@ -212,7 +212,7 @@ async def stsfanan(malat):
     reply_to_id = await rd(malat)
     if sts_fanan5:
         tumc = f"**{FANAN}**\n"
-        tumc += f"•━─━─━─━─𝙕𝞝𝘿─━─━─━─━•\n\n"
+        tumc += f"•━─━─━─━─Mido─━─━─━─━•\n\n"
         tumc += f"**⪼ ثيم بخلفية بناتية بألوان متنوعة ومتدرجه ولماعة جداً غير مضر للعيون🎁🤍**\n"
         tumc += f"**⪼ لـ تحميـل الثيـم ارســل ↫** `.ث5`"
         await malat.client.send_file(
@@ -227,7 +227,7 @@ async def stsfanan(zelzalo):
     reply_to_id = await rd(zelzalo)
     if sts_fanan6:
         tumc = f"**{FANAN}**\n"
-        tumc += f"•━─━─━─━─𝙕𝞝𝘿─━─━─━─━•\n\n"
+        tumc += f"•━─━─━─━─Mido─━─━─━─━•\n\n"
         tumc += f"**⪼ ثيم للفنانة (بيلي اليش) الثيم ازرق فاتح وأبيض غير مضر للعيون🧸💙**\n"
         tumc += f"**⪼ لـ تحميـل الثيـم ارســل ↫** `.ث6`"
         await zelzalo.client.send_file(
@@ -242,7 +242,7 @@ async def stsfanan(zed):
     reply_to_id = await rd(zed)
     if sts_fanan7:
         tumc = f"**{FANAN}**\n"
-        tumc += f"•━─━─━─━─𝙕𝞝𝘿─━─━─━─━•\n\n"
+        tumc += f"•━─━─━─━─Mido─━─━─━─━•\n\n"
         tumc += f"**⪼ ثيم اخضر وأبيض للفنانه بيلي اليش🧸💚...**\n"
         tumc += f"**⪼ لـ تحميـل الثيـم ارســل ↫** `.ث7`"
         await zed.client.send_file(
@@ -257,7 +257,7 @@ async def stsfanan(zed):
     reply_to_id = await rd(zed)
     if sts_fanan8:
         tumc = f"**{FANAN}**\n"
-        tumc += f"•━─━─━─━─𝙕𝞝𝘿─━─━─━─━•\n\n"
+        tumc += f"•━─━─━─━─Mido─━─━─━─━•\n\n"
         tumc += f"**⪼ ثيم فرقه ( BTS ) الثيم متناسق مع قليل من الشفافيه 🧸🌌...**\n"
         tumc += f"**⪼ لـ تحميـل الثيـم ارســل ↫** `.ث8`"
         await zed.client.send_file(
@@ -271,7 +271,7 @@ async def stsfanan(zed):
     reply_to_id = await rd(zed)
     if sts_fanan9:
         tumc = f"**{FANAN}**\n"
-        tumc += f"•━─━─━─━─𝙕𝞝𝘿─━─━─━─━•\n\n"
+        tumc += f"•━─━─━─━─Mido─━─━─━─━•\n\n"
         tumc += f"**⪼ ثيم لفرقة bts الكورية باللون الأسود🧸🌌..**\n"
         tumc += f"**⪼ لـ تحميـل الثيـم ارســل ↫** `.ث9`"
         await zed.client.send_file(
@@ -285,7 +285,7 @@ async def stsfanan(zed):
     reply_to_id = await rd(zed)
     if sts_fanan10:
         tumc = f"**{FANAN}**\n"
-        tumc += f"•━─━─━─━─𝙕𝞝𝘿─━─━─━─━•\n\n"
+        tumc += f"•━─━─━─━─Mido─━─━─━─━•\n\n"
         tumc += f"**⪼ ثيم لفرقة bts الكورية بلون فاتح غير مضر للعيون 🧸🌁...**\n"
         tumc += f"**⪼ لـ تحميـل الثيـم ارســل ↫** `.ث10`"
         await zed.client.send_file(
@@ -299,7 +299,7 @@ async def stsfanan(zed):
     reply_to_id = await rd(zed)
     if sts_fanan11:
         tumc = f"**{FANAN}**\n"
-        tumc += f"•━─━─━─━─𝙕𝞝𝘿─━─━─━─━•\n\n"
+        tumc += f"•━─━─━─━─Mido─━─━─━─━•\n\n"
         tumc += f"**⪼ ثيم أنمي برسائل شفافه غير مضر للعيون 🧸🤍...**\n"
         tumc += f"**⪼ لـ تحميـل الثيـم ارســل ↫** `.ث11`"
         await zed.client.send_file(
@@ -313,7 +313,7 @@ async def stsfanan(zed):
     reply_to_id = await rd(zed)
     if sts_fanan12:
         tumc = f"**{FANAN}**\n"
-        tumc += f"•━─━─━─━─𝙕𝞝𝘿─━─━─━─━•\n\n"
+        tumc += f"•━─━─━─━─Mido─━─━─━─━•\n\n"
         tumc += f"**⪼ ثيم داكن أزرق غامق وأبيض خفيف، بقليل من الشفافية🤍...**\n"
         tumc += f"**⪼ لـ تحميـل الثيـم ارســل ↫** `.ث12`"
         await zed.client.send_file(
