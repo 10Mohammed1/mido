@@ -5,7 +5,6 @@ import re
 import urllib
 from datetime import datetime
 
-import requests
 from bs4 import BeautifulSoup
 from PIL import Image
 from search_engine_parser import BingSearch, GoogleSearch, YahooSearch
@@ -17,6 +16,7 @@ from ..Config import Config
 from ..core.managers import edit_delete, edit_or_reply
 from ..helpers.functions import deEmojify
 from ..helpers.utils import reply_id
+from zira.helpers.utils.http import aget, apost
 
 opener = urllib.request.build_opener()
 useragent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.104 Safari/537.36"
@@ -30,7 +30,7 @@ async def ParseSauce(googleurl):
     source = opener.open(googleurl).read()
     soup = BeautifulSoup(source, "html.parser")
     results = {"similar_images": "", "best_guess": ""}
-    with contextlib.suppress(BaseException):
+    with contextlib.suppress(Exception):
         for similar_image in soup.findAll("input", {"class": "gLFyf"}):
             url = "https://www.google.com/search?tbm=isch&q=" + urllib.parse.quote_plus(
                 similar_image.get("value")
@@ -190,7 +190,7 @@ async def grs(event):
                 "image_content": "",
             }
             # https://stackoverflow.com/a/28792943/4723940
-            google_rs_response = requests.post(
+            google_rs_response = await apost(
                 SEARCH_URL, files=multipart, allow_redirects=False
             )
             the_location = google_rs_response.headers.get("Location")
@@ -199,13 +199,13 @@ async def grs(event):
             previous_message_text = previous_message.message
             SEARCH_URL = "{}/searchbyimage?image_url={}"
             request_url = SEARCH_URL.format(BASE_URL, previous_message_text)
-            google_rs_response = requests.get(request_url, allow_redirects=False)
+            google_rs_response = await aget(request_url, allow_redirects=False)
             the_location = google_rs_response.headers.get("Location")
         await zedevent.edit("Found Google Result. Pouring some soup on it!")
         headers = {
             "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:84.0) Gecko/20100101 Firefox/84.0"
         }
-        response = requests.get(the_location, headers=headers)
+        response = await aget(the_location, headers=headers)
         soup = BeautifulSoup(response.text, "html.parser")
         # document.getElementsByClassName("r5a77d"): PRS
         try:
@@ -272,7 +272,7 @@ async def reverse(event):
     # https://stackoverflow.com/questions/23270175/google-reverse-image-search-using-post-request#28792943
     searchUrl = "https://www.google.com/searchbyimage/upload"
     multipart = {"encoded_image": (name, open(name, "rb")), "image_content": ""}
-    response = requests.post(searchUrl, files=multipart, allow_redirects=False)
+    response = await apost(searchUrl, files=multipart, allow_redirects=False)
     if response != 400:
         await event.edit(
             "**تم تحميل الصورة بنجاح إلى جوجل✓**"
@@ -293,7 +293,7 @@ async def reverse(event):
     images = await scam(match, lim)
     yeet = []
     for i in images:
-        k = requests.get(i)
+        k = await aget(i)
         yeet.append(k.content)
     with contextlib.suppress(TypeError):
         await event.client.send_file(

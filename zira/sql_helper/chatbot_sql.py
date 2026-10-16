@@ -36,7 +36,7 @@ ChatBot.__table__.create(bind=SESSION.get_bind(), checkfirst=True)
 def is_added(chat_id, user_id):
     try:
         return SESSION.query(ChatBot).get((str(chat_id), str(user_id)))
-    except BaseException:
+    except Exception:
         return None
     finally:
         SESSION.close()
@@ -52,7 +52,7 @@ def get_users(chat_id):
 def get_all_users():
     try:
         return SESSION.query(ChatBot).all()
-    except BaseException:
+    except Exception:
         return None
     finally:
         SESSION.close()

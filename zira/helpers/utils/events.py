@@ -38,7 +38,7 @@ async def get_chatinfo(event, match, zedevent):
         match = int(match)
     try:
         chat_info = await event.client(GetFullChatRequest(match))
-    except BaseException:
+    except Exception:
         try:
             chat_info = await event.client(GetFullChannelRequest(match))
         except ChannelInvalidError:

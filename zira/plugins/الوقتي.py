@@ -17,7 +17,6 @@ import shutil
 import time
 import urllib3
 import base64
-import requests
 from datetime import datetime
 
 from PIL import Image, ImageDraw, ImageFont
@@ -83,7 +82,7 @@ async def digitalpicloop():
             await zedub(functions.photos.UploadProfilePhotoRequest(file))
             os.remove(autophoto_path)
             await asyncio.sleep(CHANGE_TIME)
-        except BaseException:
+        except Exception:
             return
         DIGITALPICSTART = gvarstatus("digitalpic") == "true"
 
@@ -319,9 +318,9 @@ async def _(event):  # sourcery no-metrics
             parse_mode=_format.parse_pre,
         )
 
-zedub.loop.create_task(digitalpicloop())
-zedub.loop.create_task(autoname_loop())
-zedub.loop.create_task(autobio_loop())
+asyncio.get_running_loop().create_task(digitalpicloop())
+asyncio.get_running_loop().create_task(autoname_loop())
+asyncio.get_running_loop().create_task(autobio_loop())
 
 # ================================================================================================ #
 # =========================================الوقتيه================================================= #

@@ -26,7 +26,7 @@ def gvarstatus(variable):
             .first()
             .value
         )
-    except BaseException:
+    except Exception:
         return None
     finally:
         SESSION.close()

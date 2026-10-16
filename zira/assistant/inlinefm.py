@@ -241,7 +241,7 @@ async def send(event):
     ul = io.open(Path(path), "rb")
     uploaded = await event.client.fast_upload_file(
         file=ul,
-        progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+        progress_callback=lambda d, t: asyncio.get_running_loop().create_task(
             progress(
                 d,
                 t,

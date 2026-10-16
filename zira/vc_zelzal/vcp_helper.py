@@ -1,7 +1,6 @@
 import asyncio
 from pathlib import Path
 
-import requests
 from pytgcalls import PyTgCalls, StreamType
 from pytgcalls.exceptions import (
     AlreadyJoinedError,
@@ -17,6 +16,7 @@ from telethon.errors import ChatAdminRequiredError
 from yt_dlp import YoutubeDL
 
 from .stream_helper import Stream, check_url, video_dl, yt_regex
+from zira.helpers.utils.http import aget, apost
 
 
 class ZedVC:
@@ -102,7 +102,7 @@ class ZedVC:
                 return "**- خطـأ بجلب الرابـط**"
         elif check_url(input):
             try:
-                res = requests.get(input, allow_redirects=True, stream=True)
+                res = await aget(input, allow_redirects=True, stream=True)
                 ctype = res.headers.get("Content-Type")
                 if "video" not in ctype or "audio" not in ctype:
                     return "- رابـط غيـر صـالح ؟!"

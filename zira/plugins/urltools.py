@@ -1,9 +1,9 @@
-import requests
 from validators.url import url
 
 from . import zedub
 
 from ..core.managers import edit_delete, edit_or_reply
+from zira.helpers.utils.http import aget, apost
 
 plugin_category = "الادوات"
 
@@ -34,7 +34,7 @@ async def _(event):
     if not check:
         return await edit_delete(event, "**⎉╎عـذراً .. هـذا الرابـط غيـر مدعـوم ؟!**", 10)
     sample_url = f"https://da.gd/dns/{input_str}"
-    if response_api := requests.get(sample_url).text:
+    if response_api := (await aget(sample_url)).text:
         await edit_or_reply(event, f"**⎉╎الدوميـن الخـاص بالرابـط** {input_str} \n**⎉╎هـو :** \n{response_api}")
     else:
         await edit_or_reply(
@@ -70,7 +70,7 @@ async def _(event):
     if not input_str.startswith("http"):
         input_str = f"http://{input_str}"
     sample_url = f"https://da.gd/s?url={input_str}"
-    if response_api := requests.get(sample_url).text:
+    if response_api := (await aget(sample_url)).text:
         await edit_or_reply(
             event, f"**⎉╎الرابـط المختصر** {response_api} \n**⎉╎الرابـط** {input_str} \n**⎉╎تم انشـاء الإختصـار .. بنجـاح**", link_preview=False
         )
@@ -105,7 +105,7 @@ async def _(event):
         return await edit_delete(event, "**⎉╎عـذراً .. هـذا الرابـط غيـر مدعـوم ؟!**", 10)
     if not input_str.startswith("http"):
         input_str = f"http://{input_str}"
-    r = requests.get(input_str, allow_redirects=False)
+    r = await aget(input_str, allow_redirects=False)
     if str(r.status_code).startswith("3"):
         await edit_or_reply(
             event,

@@ -76,7 +76,7 @@ async def load(event):
         return await edit_delete(event, "**- عـذࢪاً .. عـزيـزي ؟!**\n**- هـذا الامـࢪ خاص بمطـوࢪ السـوࢪس**", 10)
     shortname = event.pattern_match.group(1)
     try:
-        with contextlib.suppress(BaseException):
+        with contextlib.suppress(Exception):
             remove_plugin(shortname)
         load_module(shortname)
         await edit_delete(event, f"**⎉╎تـم تحميـل المـلف** {shortname} **.. بـ نجـاح ☑️**", 10)

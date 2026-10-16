@@ -35,7 +35,7 @@ def getcurrent_welcome_settings(chat_id):
         return (
             SESSION.query(JoinWelcome).filter(JoinWelcome.chat_id == str(chat_id)).one()
         )
-    except BaseException:
+    except Exception:
         return None
     finally:
         SESSION.close()
@@ -62,7 +62,7 @@ def rmwelcome_setting(chat_id):
             SESSION.delete(rem)
             SESSION.commit()
             return True
-    except BaseException:
+    except Exception:
         return False
 
 

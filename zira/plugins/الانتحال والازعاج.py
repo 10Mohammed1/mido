@@ -105,7 +105,7 @@ async def echo(event):
     try:
         addecho(chat_id, user_id, chat_name, user_name, user_username, chat_type)
     except Exception as e:
-        await edit_delete(zedubevent, f"**⎉╎خطـأ :**\n`{str(e)}`")
+        await edit_delete(event, f"**⎉╎خطـأ :**\n`{str(e)}`")
     else:
         await edit_or_reply(
             zedubevent,
@@ -123,7 +123,7 @@ async def echo(event):
         try:
             remove_echo(chat_id, user_id)
         except Exception as e:
-            await edit_delete(zedubevent, f"**⎉╎خطـأ :**\n`{e}`")
+            await edit_delete(event, f"**⎉╎خطـأ :**\n`{e}`")
         else:
             await edit_or_reply(event, "**⎉╎تم ايقاف التقليد لهذا المستخدم**")
     else:

@@ -8,7 +8,6 @@ import io
 import traceback
 from datetime import datetime
 
-import requests
 from selenium import webdriver
 from validators.url import url
 
@@ -17,6 +16,7 @@ from . import zedub
 from ..Config import Config
 from ..core.managers import edit_or_reply
 from . import reply_id
+from zira.helpers.utils.http import aget, apost
 
 plugin_category = "العروض"
 
@@ -132,7 +132,7 @@ async def _(event):
         caturl = url(inputstr)
     if not caturl:
         return await zzevent.edit("**- عـذراً .. الرابـط المدخـل ليس رابـط مدعـوم ؟!**")
-    response_api = requests.get(
+    response_api = await aget(
         sample_url.format(
             Config.SCREEN_SHOT_LAYER_ACCESS_KEY, inputstr, "1", "2560x1440", "PNG", "1"
         )

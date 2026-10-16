@@ -3,8 +3,13 @@ import re
 
 try:
     import akinator
-except ModuleNotFoundError:
-    os.system("pip3 install akinator.py")
+except ModuleNotFoundError:  # pragma: no cover
+    import subprocess
+    import sys
+
+    subprocess.call(
+        [sys.executable, "-m", "pip", "install", "-q", "akinator.py"]
+    )
     import akinator
 
 from telethon import Button

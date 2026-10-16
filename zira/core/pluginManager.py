@@ -6,6 +6,7 @@ import sys
 from telethon import TelegramClient
 
 from ..core.logger import logging
+from .loop import get_loop
 from ..sql_helper.global_collection import (
     add_to_collectionlist,
     del_keyword_collectionlist,
@@ -58,8 +59,7 @@ async def install_pip_packages(packages):
 
 def run_async(func: callable):
     """Run async functions with the right event loop."""
-    asyncio.get_event_loop()
-    return loop.run_until_complete(func)
+    return get_loop().run_until_complete(func)
 
 
 async def restart_script(client: TelegramClient, sandy):

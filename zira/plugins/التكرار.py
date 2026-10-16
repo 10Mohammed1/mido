@@ -188,7 +188,7 @@ async def stickerpack_spam(event):
         zedevent = await edit_or_reply(
             event, "**- جـارِ إحضـار تفاصيل حـزمة الملصقات .. يرجى الإنتظـار**"
         )
-    except BaseException:
+    except Exception:
         await edit_delete(event, "**- هذا الملصق ليس مرتبط بـ أي حـزمة .. لذا تعذر إيجـاد الحـزمة ؟!**", 5)
         return
     try:
@@ -373,10 +373,10 @@ async def stopspamrz(event):
 
 @zedub.zed_cmd(pattern=f"{UNSPAM} ?(.*)")
 async def spammer(event):
-    reply = await event.get_reply_message()
-    await event.delete()
-    delgvar("spamwork")
-    await spam_function(event, reply, sleeptimem, sleeptimet, DelaySpam=False)
+    if gvarstatus("spamwork") == "true":
+        delgvar("spamwork")
+        return await edit_delete(event, "**- تم ايقـاف التڪـرار .. بنجـاح ✅**", 5)
+    return await edit_delete(event, "**- لايوجـد هنـاك تڪرار لـ إيقافه ؟!**", 5)
 
 
 

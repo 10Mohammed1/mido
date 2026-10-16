@@ -3,12 +3,12 @@ Credit:
 @M_O_EG - كتـابـة الملـف :  Mido الهيبــه"""
 
 import json
-import requests
 from . import zedub
 from ..core.logger import logging
 
 from ..Config import Config
 from ..core.managers import edit_delete, edit_or_reply
+from zira.helpers.utils.http import aget, apost
 
 plugin_category = "البحث"
 
@@ -24,7 +24,7 @@ async def get_adzan(adzan):
     ZELZAL = adzan.pattern_match.group(1)
     if ZELZAL == "صنعاء" or ZELZAL == "اليمن":
 	    url = f"https://api.pray.zone/v2/times/today.json?city=Sanaa"
-	    request = requests.get(url)
+	    request = await aget(url)
 	    if request.status_code != 200:
 	        await edit_delete(
 	            adzan,
@@ -52,7 +52,7 @@ async def get_adzan(adzan):
 	    await edit_or_reply(adzan, zedthonresult, "html")
     elif ZELZAL == "مصر" or ZELZAL == "القاهرة" or ZELZAL == "القاهره":
 	    url = f"https://api.pray.zone/v2/times/today.json?city=Cairo"
-	    request = requests.get(url)
+	    request = await aget(url)
 	    if request.status_code != 200:
 	        await edit_delete(
 	            adzan,
@@ -80,7 +80,7 @@ async def get_adzan(adzan):
 	    await edit_or_reply(adzan, zedthonresult, "html")
     elif ZELZAL == "بغداد" or ZELZAL == "العراق":
 	    url = f"https://api.pray.zone/v2/times/today.json?city=Baghdad"
-	    request = requests.get(url)
+	    request = await aget(url)
 	    if request.status_code != 200:
 	        await edit_delete(
 	            adzan,
@@ -108,7 +108,7 @@ async def get_adzan(adzan):
 	    await edit_or_reply(adzan, zedthonresult, "html")
     elif ZELZAL == "دمشق" or ZELZAL == "سوريا":
 	    url = f"https://api.pray.zone/v2/times/today.json?city=Damascus"
-	    request = requests.get(url)
+	    request = await aget(url)
 	    if request.status_code != 200:
 	        await edit_delete(
 	            adzan,
@@ -136,7 +136,7 @@ async def get_adzan(adzan):
 	    await edit_or_reply(adzan, zedthonresult, "html")
     elif ZELZAL == "الدوحه" or ZELZAL == "قطر":
 	    url = f"https://api.pray.zone/v2/times/today.json?city=Doha"
-	    request = requests.get(url)
+	    request = await aget(url)
 	    if request.status_code != 200:
 	        await edit_delete(
 	            adzan,
@@ -164,7 +164,7 @@ async def get_adzan(adzan):
 	    await edit_or_reply(adzan, zedthonresult, "html")
     elif ZELZAL == "مسقط" or ZELZAL == "سلطنه عمان":
 	    url = f"https://api.pray.zone/v2/times/today.json?city=Muscat"
-	    request = requests.get(url)
+	    request = await aget(url)
 	    if request.status_code != 200:
 	        await edit_delete(
 	            adzan,
@@ -192,7 +192,7 @@ async def get_adzan(adzan):
 	    await edit_or_reply(adzan, zedthonresult, "html")
     elif ZELZAL == "مكه" or ZELZAL == "السعوديه":
 	    url = f"https://api.pray.zone/v2/times/today.json?city=Mecca"
-	    request = requests.get(url)
+	    request = await aget(url)
 	    if request.status_code != 200:
 	        await edit_delete(
 	            adzan,
@@ -220,7 +220,7 @@ async def get_adzan(adzan):
 	    await edit_or_reply(adzan, zedthonresult, "html")
     elif ZELZAL == "بيروت" or ZELZAL == "لبنان":
 	    url = f"https://api.pray.zone/v2/times/today.json?city=Beirut"
-	    request = requests.get(url)
+	    request = await aget(url)
 	    if request.status_code != 200:
 	        await edit_delete(
 	            adzan,
@@ -248,7 +248,7 @@ async def get_adzan(adzan):
 	    await edit_or_reply(adzan, zedthonresult, "html")
     elif ZELZAL == "عمان" or ZELZAL == "الاردن":
 	    url = f"https://api.pray.zone/v2/times/today.json?city=Amman"
-	    request = requests.get(url)
+	    request = await aget(url)
 	    if request.status_code != 200:
 	        await edit_delete(
 	            adzan,
@@ -276,7 +276,7 @@ async def get_adzan(adzan):
 	    await edit_or_reply(adzan, zedthonresult, "html")
     elif ZELZAL == "الرباط" or ZELZAL == "المغرب":
 	    url = f"https://api.pray.zone/v2/times/today.json?city=Rabat"
-	    request = requests.get(url)
+	    request = await aget(url)
 	    if request.status_code != 200:
 	        await edit_delete(
 	            adzan,
@@ -304,7 +304,7 @@ async def get_adzan(adzan):
 	    await edit_or_reply(adzan, zedthonresult, "html")
     elif ZELZAL == "الخرطوم" or ZELZAL == "السودان":
 	    url = f"https://api.pray.zone/v2/times/today.json?city=Khartoum"
-	    request = requests.get(url)
+	    request = await aget(url)
 	    if request.status_code != 200:
 	        await edit_delete(
 	            adzan,
@@ -332,7 +332,7 @@ async def get_adzan(adzan):
 	    await edit_or_reply(adzan, zedthonresult, "html")
     elif ZELZAL == "بنغازي" or ZELZAL == "ليبيا":
 	    url = f"https://api.pray.zone/v2/times/today.json?city=Benghazi"
-	    request = requests.get(url)
+	    request = await aget(url)
 	    if request.status_code != 200:
 	        await edit_delete(
 	            adzan,
@@ -360,7 +360,7 @@ async def get_adzan(adzan):
 	    await edit_or_reply(adzan, zedthonresult, "html")
     elif ZELZAL == "تونس":
 	    url = f"https://api.pray.zone/v2/times/today.json?city=Tunis"
-	    request = requests.get(url)
+	    request = await aget(url)
 	    if request.status_code != 200:
 	        await edit_delete(
 	            adzan,
@@ -388,7 +388,7 @@ async def get_adzan(adzan):
 	    await edit_or_reply(adzan, zedthonresult, "html")
     elif ZELZAL == "ازمير" or ZELZAL == "اسطنبول" or ZELZAL == "انقره" or ZELZAL == "تركيا":
 	    url = f"https://api.pray.zone/v2/times/today.json?city=Izmir"
-	    request = requests.get(url)
+	    request = await aget(url)
 	    if request.status_code != 200:
 	        await edit_delete(
 	            adzan,

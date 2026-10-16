@@ -108,7 +108,7 @@ async def do_pm_permit_action(event, chat):  # sourcery no-metrics
                 BOTLOG_CHATID,
                 the_message,
             )
-        except BaseException:
+        except Exception:
             return
     custompmpermit = gvarstatus("pmpermit_txt") or None
     if custompmpermit is not None:
@@ -237,7 +237,7 @@ async def do_pm_options_action(event, chat):
             BOTLOG_CHATID,
             the_message,
         )
-    except BaseException:
+    except Exception:
         return
 
 
@@ -284,7 +284,7 @@ async def do_pm_enquire_action(event, chat):
             BOTLOG_CHATID,
             the_message,
         )
-    except BaseException:
+    except Exception:
         return
 
 
@@ -331,7 +331,7 @@ async def do_pm_request_action(event, chat):
             BOTLOG_CHATID,
             the_message,
         )
-    except BaseException:
+    except Exception:
         return
 
 
@@ -378,7 +378,7 @@ async def do_pm_chat_action(event, chat):
             BOTLOG_CHATID,
             the_message,
         )
-    except BaseException:
+    except Exception:
         return
 
 
@@ -408,7 +408,7 @@ async def do_pm_spam_action(event, chat):
             BOTLOG_CHATID,
             the_message,
         )
-    except BaseException:
+    except Exception:
         return
 
 

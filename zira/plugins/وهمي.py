@@ -71,10 +71,10 @@ async def _(event):
     else:
         try:
             t = int(t)
-        except BaseException:
+        except Exception:
             try:
                 t = await event.ban_time(t)
-            except BaseException:
+            except Exception:
                 return await event.edit("**- خطـأ .. عليك كتابة الامـر بشكل صحيح**\n**- وهمي كتابه + عـدد الثواني**\n**- مثــال :**\n`.وهمي كتابه 20`")
     await event.edit(f"**⎉╎تم بدء وضع الكتابه الوهمي لـ {t} من الثوانـي ✓**")
     async with event.client.action(event.chat_id, "typing"):
@@ -88,10 +88,10 @@ async def _(event):
     else:
         try:
             t = int(t)
-        except BaseException:
+        except Exception:
             try:
                 t = await event.ban_time(t)
-            except BaseException:
+            except Exception:
                 return await event.edit("**- خطـأ .. عليك كتابة الامـر بشكل صحيح**\n**- وهمي صوت + عـدد الثواني**\n**- مثــال :**\n`.وهمي صوت 20`")
     await event.edit(f"**⎉╎تم بدء وضع ارسال تسجيل الصوت الوهمي لـ {t} من الثوانـي ✓**")
     async with event.client.action(event.chat_id, "record-audio"):
@@ -105,10 +105,10 @@ async def _(event):
     else:
         try:
             t = int(t)
-        except BaseException:
+        except Exception:
             try:
                 t = await event.ban_time(t)
-            except BaseException:
+            except Exception:
                 return await event.edit("**- خطـأ .. عليك كتابة الامـر بشكل صحيح**\n**- وهمي فيديو + عـدد الثواني**\n**- مثــال :**\n`.وهمي فيديو 20`")
     await event.edit(f"**⎉╎تم بدء وضع ارسال الفيديو الوهمي لـ {t} من الثوانـي ✓**")
     async with event.client.action(event.chat_id, "record-video"):
@@ -122,10 +122,10 @@ async def _(event):
     else:
         try:
             t = int(t)
-        except BaseException:
+        except Exception:
             try:
                 t = await event.ban_time(t)
-            except BaseException:
+            except Exception:
                 return await event.edit("**- خطـأ .. عليك كتابة الامـر بشكل صحيح**\n**- وهمي لعبه + عـدد الثواني**\n**- مثــال :**\n`.وهمي لعبه 20`")
     await event.edit(f"**⎉╎تم بدء وضع اللعب الوهمي لـ {t} من الثوانـي ✓**")
     async with event.client.action(event.chat_id, "game"):
@@ -139,10 +139,10 @@ async def _(event):
     else:
         try:
             t = int(t)
-        except BaseException:
+        except Exception:
             try:
                 t = await event.ban_time(t)
-            except BaseException:
+            except Exception:
                 return await event.edit("**- خطـأ .. عليك كتابة الامـر بشكل صحيح**\n**- وهمي صوره + عـدد الثواني**\n**- مثــال :**\n`.وهمي صوره 20`")
     await event.edit(f"**⎉╎تم بدء وضع ارسال صوره وهمي لـ {t} من الثوانـي ✓**")
     async with event.client.action(event.chat_id, "photo"):
@@ -156,10 +156,10 @@ async def _(event):
     else:
         try:
             t = int(t)
-        except BaseException:
+        except Exception:
             try:
                 t = await event.ban_time(t)
-            except BaseException:
+            except Exception:
                 return await event.edit("**- خطـأ .. عليك كتابة الامـر بشكل صحيح**\n**- وهمي موقع + عـدد الثواني**\n**- مثــال :**\n`.وهمي موقع 20`")
     await event.edit(f"**⎉╎تم بدء وضع ارسال الموقع الوهمي لـ {t} من الثوانـي ✓**")
     async with event.client.action(event.chat_id, "location"):
@@ -173,10 +173,10 @@ async def _(event):
     else:
         try:
             t = int(t)
-        except BaseException:
+        except Exception:
             try:
                 t = await event.ban_time(t)
-            except BaseException:
+            except Exception:
                 return await event.edit("**- خطـأ .. عليك كتابة الامـر بشكل صحيح**\n**- وهمي جهات + عـدد الثواني**\n**- مثــال :**\n`.وهمي جهات 20`")
     await event.edit(f"**⎉╎تم بدء وضع ارسال الجهات الوهمي لـ {t} من الثوانـي ✓**")
     async with event.client.action(event.chat_id, "contact"):
@@ -190,10 +190,10 @@ async def _(event):
     else:
         try:
             t = int(t)
-        except BaseException:
+        except Exception:
             try:
                 t = await event.ban_time(t)
-            except BaseException:
+            except Exception:
                 return await event.edit("**- خطـأ .. عليك كتابة الامـر بشكل صحيح**\n**- وهمي ملف + عـدد الثواني**\n**- مثــال :**\n`.وهمي ملف 20`")
     await event.edit(f"**⎉╎تم بدء وضع ارسال الملف الوهمي لـ {t} من الثوانـي ✓**")
     async with event.client.action(event.chat_id, "document"):
@@ -207,10 +207,10 @@ async def _(event):
     else:
         try:
             t = int(t)
-        except BaseException:
+        except Exception:
             try:
                 t = await event.ban_time(t)
-            except BaseException:
+            except Exception:
                 return await event.edit("**- خطـأ .. عليك كتابة الامـر بشكل صحيح**\n**- وهمي مرئي + عـدد الثواني**\n**- مثــال :**\n`.وهمي مرئي 20`")
     await event.edit(f"**⎉╎تم بدء وضع ارسال البصمه المرئيه الوهمي لـ {t} من الثوانـي ✓**")
     async with event.client.action(event.chat_id, "round"):

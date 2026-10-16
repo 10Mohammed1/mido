@@ -90,7 +90,7 @@ async def stop_tagall(event):
   else:
     try:
       moment_worker.remove(event.chat_id)
-    except:
+    except Exception:
       pass
     return await edit_or_reply(event, '**⎉╎تم إيقـاف التـاك .. بنجـاح ✓**')
 

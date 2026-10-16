@@ -2,10 +2,10 @@ import math
 import time
 
 import heroku3
-import requests
 
 from ...Config import Config
 from .utils import get_readable_time
+from zira.helpers.utils.http import aget, apost
 
 Heroku = heroku3.from_key(Config.HEROKU_API_KEY)
 heroku_api = "https://api.heroku.com"
@@ -58,7 +58,7 @@ async def zedalive(StartTime):
             "Accept": "application/vnd.heroku+json; version=3.account-quotas",
         }
         path = f"/accounts/{user_id}/actions/get-quota"
-        r = requests.get(heroku_api + path, headers=headers)
+        r = await aget(heroku_api + path, headers=headers)
         result = r.json()
         quota = result["account_quota"]
         quota_used = result["quota_used"]

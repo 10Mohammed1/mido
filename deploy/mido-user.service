@@ -1,0 +1,43 @@
+# ══════════════════════════════════════════════════════════════════════════════
+#  Mido · systemd unit (per-user — does NOT need sudo)
+#
+#  Install:
+#      mkdir -p ~/.config/systemd/user
+#      cp deploy/mido-user.service ~/.config/systemd/user/mido.service
+#      systemctl --user daemon-reload
+#      systemctl --user enable --now mido
+#
+#  Keep it running after you log out / close the terminal:
+#      loginctl enable-linger "$USER"
+#
+#  Control:
+#      systemctl --user status mido
+#      systemctl --user restart mido
+#      journalctl --user -u mido -f
+# ══════════════════════════════════════════════════════════════════════════════
+
+[Unit]
+Description=Mido Telegram userbot (user service)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/medo/Downloads/zz/ZThon
+
+Environment=PYTHONUNBUFFERED=1
+Environment=TZ=Africa/Cairo
+
+ExecStart=/usr/bin/python3 -u -m zira
+Restart=always
+RestartSec=15
+
+KillSignal=SIGINT
+TimeoutStopSec=30
+KillMode=mixed
+
+StandardOutput=append:/home/medo/Downloads/zz/ZThon/logs/mido.log
+StandardError=append:/home/medo/Downloads/zz/ZThon/logs/mido.log
+
+[Install]
+WantedBy=default.target

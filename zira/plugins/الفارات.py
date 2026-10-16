@@ -15,7 +15,6 @@ import math
 import os
 
 import heroku3
-import requests
 import urllib3
 import random
 import string
@@ -35,6 +34,7 @@ from . import zedub
 from ..Config import Config
 from ..core.logger import logging
 from ..core.managers import edit_delete, edit_or_reply
+from ..core.managers import edit_delete as ed
 from ..helpers.functions import delete_conv
 from ..sql_helper.globals import addgvar, delgvar, gvarstatus
 

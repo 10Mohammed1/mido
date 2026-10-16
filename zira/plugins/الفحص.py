@@ -5,7 +5,6 @@ import psutil
 from datetime import datetime
 from platform import python_version
 
-import requests
 from telethon import version
 from telethon.errors.rpcerrorlist import (
     MediaEmptyError,

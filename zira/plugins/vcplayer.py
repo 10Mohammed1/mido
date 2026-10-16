@@ -294,7 +294,7 @@ async def skip_stream(event):
 
 """
 @zedub.zed_cmd(
-    pattern="a(?:llow)?vc ?([\d ]*)?",
+    pattern="a(?:llow)?vc ?([\\d ]*)?",
     command=("allowvc", plugin_category),
     info={
         "header": "To allow a user to control VC.",
@@ -320,7 +320,7 @@ async def allowvc(event):
 
 
 @zedub.zed_cmd(
-    pattern="d(?:isallow)?vc ?([\d ]*)?",
+    pattern="d(?:isallow)?vc ?([\\d ]*)?",
     command=("disallowvc", plugin_category),
     info={
         "header": "To disallowvc a user to control VC.",
@@ -346,7 +346,7 @@ async def disallowvc(event):
 
 
 @zedub.on(
-    events.NewMessage(outgoing=True, pattern=f"{tr}(speak|sp)(h|j)?(?:\s|$)([\s\S]*)")
+    events.NewMessage(outgoing=True, pattern=f"{tr}(speak|sp)(h|j)?(?:\\s|$)([\\s\\S]*)")
 )  #only for zedub client
 async def speak(event):
     "Speak in vc"

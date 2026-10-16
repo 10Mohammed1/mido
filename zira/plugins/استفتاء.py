@@ -47,7 +47,7 @@ async def pollcreator(catpoll):
             )
         except ForbiddenError:
             await edit_or_reply(catpoll, "**⌔∮ هذه الدردشة تحظر استطلاعات الرأي. **")
-        except exception as e:
+        except Exception as e:
             await edit_or_reply(catpoll, str(e))
     else:
         catinput = string.split("|")

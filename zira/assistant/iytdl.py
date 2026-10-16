@@ -151,7 +151,7 @@ async def ytdl_download_callback(c_q: CallbackQuery):  # sourcery no-metrics
     ul = io.open(Path(_fpath), "rb")
     uploaded = await c_q.client.fast_upload_file(
         file=ul,
-        progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+        progress_callback=lambda d, t: asyncio.get_running_loop().create_task(
             progress(
                 d,
                 t,

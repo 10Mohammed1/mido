@@ -9,6 +9,7 @@ import os
 from telethon import events
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 from . import zedub
+from ..helpers.functions.utils import deEmojify
 from ..core.logger import logging
 
 from ..Config import Config

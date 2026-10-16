@@ -73,7 +73,7 @@ async def gcast(event):
                     try:
                         await borg.send_message(chat, zelzal, link_preview=False)
                         done += 1
-                    except BaseException:
+                    except Exception:
                         er += 1
                 else:
                     try:
@@ -84,9 +84,9 @@ async def gcast(event):
                             link_preview=False,
                         )
                         done += 1
-                    except BaseException:
+                    except Exception:
                         er += 1
-            except BaseException:
+            except Exception:
                 er += 1
     await zzz.edit(
         f"**⎉╎تمت الاذاعـه بنجـاح الـى ** `{done}` **من المجموعـات** \n**⎉╎خطـأ في الارسـال الـى ** `{er}` **من المجموعـات**"
@@ -114,7 +114,7 @@ async def gcast(event):
                     try:
                         await borg.send_message(chat, zelzal, link_preview=False)
                         done += 1
-                    except BaseException:
+                    except Exception:
                         er += 1
                 else:
                     try:
@@ -125,9 +125,9 @@ async def gcast(event):
                             link_preview=False,
                         )
                         done += 1
-                    except BaseException:
+                    except Exception:
                         er += 1
-            except BaseException:
+            except Exception:
                 return
     await zzz.edit(
         f"**⎉╎تمت الاذاعـه بنجـاح الـى ** `{done}` **من المجموعـات ، خطـأ في الارسـال الـى ** `{er}` **من المجموعـات**"
@@ -155,7 +155,7 @@ async def gucast(event):
                     try:
                         await borg.send_message(chat, zelzal, link_preview=False)
                         done += 1
-                    except BaseException:
+                    except Exception:
                         return
                 else:
                     try:
@@ -166,9 +166,9 @@ async def gucast(event):
                             link_preview=False,
                         )
                         done += 1
-                    except BaseException:
+                    except Exception:
                         er += 1
-            except BaseException:
+            except Exception:
                 return
     await zzz.edit(
         f"**⎉╎تمت الاذاعـه بنجـاح الـى ** `{done}` **من الخـاص**\n**⎉╎خطـأ في الارسـال الـى ** `{er}` **من الخـاص**"
@@ -181,7 +181,7 @@ async def pmto(event):
     chat_id = p[0]
     try:
         chat_id = int(chat_id)
-    except BaseException:
+    except Exception:
         pass
     zelzal = ""
     for i in p[1:]:
@@ -191,5 +191,5 @@ async def pmto(event):
     try:
         await zedub.send_message(chat_id, zelzal)
         await event.edit("**⎉╎تـم ارسال الرسـالة بنجـاح ✓**\n**⎉╎بـدون الدخـول للخـاص**")
-    except BaseException:
+    except Exception:
         await event.edit("**⎉╎اووبس .. لقـد حدث خطـأ مـا .. اعـد المحـاوله**")

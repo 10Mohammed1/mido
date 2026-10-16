@@ -56,6 +56,7 @@ from ..helpers import reply_id
 from ..helpers.utils import _format, get_user_from_event, reply_id
 from ..helpers import media_type
 from ..helpers.google_image_download import googleimagesdownload
+from ..helpers.progress import readable_time
 from ..helpers.tools import media_type
 from ..sql_helper.locks_sql import get_locks, is_locked, update_lock
 from ..utils import is_admin
@@ -587,7 +588,7 @@ async def get_chatinfo(event, zedevent):
             chat = event.chat_id
     try:
         chat_info = await event.client(GetFullChatRequest(chat))
-    except BaseException:
+    except Exception:
         try:
             chat_info = await event.client(GetFullChannelRequest(chat))
         except ChannelInvalidError:

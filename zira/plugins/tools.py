@@ -7,7 +7,6 @@ from urllib.parse import quote
 
 import barcode
 import qrcode
-import requests
 from barcode.writer import ImageWriter
 from bs4 import BeautifulSoup
 from PIL import Image, ImageColor
@@ -22,6 +21,7 @@ from ..core.managers import edit_delete, edit_or_reply
 from ..helpers import AioHttp
 from ..helpers.functions import delete_conv
 from ..helpers.utils import _zedutils, reply_id
+from zira.helpers.utils.http import aget, apost
 
 plugin_category = "الادوات"
 
@@ -315,7 +315,7 @@ async def spy(event):
             "**Get an API key from [Ipdata](https://dashboard.ipdata.co/sign-up.html) & set that in heroku var `IPDATA_API`**",
             80,
         )
-    url = requests.get(f"https://api.ipdata.co/{check}?api-key={API}")
+    url = await aget(f"https://api.ipdata.co/{check}?api-key={API}")
     r = url.json()
     try:
         return await edit_delete(event, f"**{r['message']}**", 60)
@@ -388,7 +388,7 @@ async def _(event):
     "to get details of the relevant bank or branch."
     input_str = event.pattern_match.group(1)
     url = "https://ifsc.razorpay.com/{}".format(input_str)
-    r = requests.get(url)
+    r = await aget(url)
     if r.status_code != 200:
         return await edit_or_reply(event, "`{}`: {}".format(input_str, r.text))
 
@@ -452,15 +452,15 @@ async def _(event):
             xkcd_id = input_str
         else:
             xkcd_search_url = "https://relevantxkcd.appspot.com/process?"
-            queryresult = requests.get(
+            queryresult = (await aget(
                 xkcd_search_url, params={"action": "xkcd", "query": quote(input_str)}
-            ).text
+            )).text
             xkcd_id = queryresult.split(" ")[2].lstrip("\n")
     if xkcd_id is None:
         xkcd_url = "https://xkcd.com/info.0.json"
     else:
         xkcd_url = "https://xkcd.com/{}/info.0.json".format(xkcd_id)
-    r = requests.get(xkcd_url)
+    r = await aget(xkcd_url)
     if not r.ok:
         return await zedevent.edit("xkcd n.{} not found!".format(xkcd_id))
     data = r.json()

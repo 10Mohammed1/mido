@@ -64,7 +64,7 @@ def rem_user_from_bl(chat_id: int):
 def get_all_bl_users():
     try:
         return SESSION.query(Bot_BlackList).all()
-    except BaseException:
+    except Exception:
         return None
     finally:
         SESSION.close()

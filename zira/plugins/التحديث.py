@@ -200,7 +200,7 @@ async def upstream(event):
         repo.create_head("lite", origin.refs.lite)
         repo.heads.lite.set_tracking_branch(origin.refs.lite)
         repo.heads.lite.checkout(True)
-    with contextlib.suppress(BaseException):
+    with contextlib.suppress(Exception):
         repo.create_remote("upstream", off_repo)
     zzz1 = await event.edit(f"ᯓ 𝗦𝗢𝗨𝗥𝗖𝗘 Mido - تحـديثـات السـورس\n**•─────────────────•**\n\n**⇜ يتـم تحـديث بـوت Mido .. انتظـر . . .🌐**")
     await asyncio.sleep(1)

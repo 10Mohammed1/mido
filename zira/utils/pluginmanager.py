@@ -77,7 +77,7 @@ def remove_plugin(shortname):
         return True
     except Exception as e:
         LOGS.error(e)
-    with contextlib.suppress(BaseException):
+    with contextlib.suppress(Exception):
         for i in LOAD_PLUG[shortname]:
             zedub.remove_event_handler(i)
         del LOAD_PLUG[shortname]
@@ -87,7 +87,7 @@ def remove_plugin(shortname):
             ev, cb = zedub._event_builders[i]
             if cb.__module__ == name:
                 del zedub._event_builders[i]
-    except BaseException as exc:
+    except Exception as exc:
         raise ValueError from exc
 
 

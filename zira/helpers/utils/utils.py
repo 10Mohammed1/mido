@@ -6,6 +6,7 @@ from typing import Tuple
 from telethon import functions, types
 
 from ...core.logger import logging
+from ...core.loop import get_loop
 
 LOGS = logging.getLogger(__name__)
 
@@ -25,7 +26,7 @@ async def runcmd(cmd: str) -> Tuple[str, str, int, int]:
 
 
 def run_sync(func, *args, **kwargs):
-    return asyncio.get_event_loop().run_in_executor(
+    return asyncio.get_running_loop().run_in_executor(
         None, functools.partial(func, *args, **kwargs)
     )
 
@@ -36,8 +37,7 @@ def run_async(loop, coro):
 
 def runasync(func: callable):
     """Run async functions with the right event loop."""
-    loop = asyncio.get_event_loop()
-    return loop.run_until_complete(func)
+    return get_loop().run_until_complete(func)
 
 
 async def unsavegif(event, sandy):

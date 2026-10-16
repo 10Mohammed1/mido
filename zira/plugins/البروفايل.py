@@ -119,15 +119,15 @@ async def _(event):
 
 
 @zedub.zed_cmd(pattern="(ضع معرف|ضع يوزر)(?: |$)(.*)")
-async def update_username(username):
-    newusername = username.pattern_match.group(1)
+async def update_username(event):
+    newusername = event.pattern_match.group(1)
     reply = await event.get_reply_message()
     if not newusername and reply:
         newusername = reply.text
     if not newusername:
         return await edit_delete(event, "**- ارسـل (.ضع يوزر) + اليـوزر او بالـرد ع اليـوزر**", 10)
     try:
-        await username.client(UpdateUsernameRequest(newusername))
+        await event.client(UpdateUsernameRequest(newusername))
         await edit_delete(event, USERNAME_OK)
     except UsernameOccupiedError:
         await edit_or_reply(event, USERNAME_TAKEN)

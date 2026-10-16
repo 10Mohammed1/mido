@@ -332,7 +332,7 @@ async def _(event):
         )
 
     event = await edit_or_reply(event, f"**- تم وضـع البـوت في وضـع النـوم لمـدة {counter} ثـانيـه✓**")
-    sleep(counter)
+    await asyncio.sleep(counter)
     await event.edit("**✾╎لقـد عـدت 🏃...**\n**✾╎انا الان في وضـع التشغيـل ☑️**")
 
 @zedub.zed_cmd(

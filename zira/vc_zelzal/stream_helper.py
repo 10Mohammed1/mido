@@ -1,10 +1,6 @@
 import re
 import os
-try:
-    import enum
-except ModuleNotFoundError:
-    os.system("pip3 install enum")
-    import enum
+import enum
 from enum import Enum
 
 from requests.exceptions import MissingSchema

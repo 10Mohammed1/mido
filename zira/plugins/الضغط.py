@@ -183,7 +183,7 @@ async def ffmpeg_compress(event):
             await event.client.fast_download_file(
                 location=reply_message.document,
                 out=dl,
-                progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+                progress_callback=lambda d, t: asyncio.get_running_loop().create_task(
                     progress(d, t, zedevent, c_time, "**- جـاِ التنـزيـل . . .**")
                 ),
             )
@@ -223,7 +223,7 @@ async def ffmpeg_compress(event):
                     supports_streaming=True,
                     allow_cache=False,
                     reply_to=reply_to_id,
-                    progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+                    progress_callback=lambda d, t: asyncio.get_running_loop().create_task(
                         progress(d, t, zedevent, c_time, "**- جـارِ الرفـع . . .**")
                     ),
                 )
@@ -243,7 +243,7 @@ async def ffmpeg_compress(event):
                     supports_streaming=True,
                     allow_cache=False,
                     reply_to=reply_to_id,
-                    progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+                    progress_callback=lambda d, t: asyncio.get_running_loop().create_task(
                         progress(d, t, zedevent, c_time, "Trying to upload")
                     ),
                 )
@@ -293,7 +293,7 @@ async def ff_mpeg_trim_cmd(event):
                 await event.client.fast_download_file(
                     location=reply_message.document,
                     out=dl,
-                    progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+                    progress_callback=lambda d, t: asyncio.get_running_loop().create_task(
                         progress(d, t, zedevent, c_time, "trying to download")
                     ),
                 )
@@ -362,7 +362,7 @@ async def ff_mpeg_trim_cmd(event):
                 supports_streaming=True,
                 allow_cache=False,
                 reply_to=reply_to_id,
-                progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+                progress_callback=lambda d, t: asyncio.get_running_loop().create_task(
                     progress(d, t, zedevent, c_time, "trying to upload")
                 ),
             )
@@ -387,7 +387,7 @@ async def ff_mpeg_trim_cmd(event):
                 supports_streaming=True,
                 allow_cache=False,
                 reply_to=event.message.id,
-                progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+                progress_callback=lambda d, t: asyncio.get_running_loop().create_task(
                     progress(d, t, zedevent, c_time, "trying to upload")
                 ),
             )
@@ -455,7 +455,7 @@ async def ff_mpeg_trim_cmd(event):
             supports_streaming=True,
             allow_cache=False,
             reply_to=reply_to_id,
-            progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+            progress_callback=lambda d, t: asyncio.get_running_loop().create_task(
                 progress(d, t, zedevent, c_time, "trying to upload")
             ),
         )

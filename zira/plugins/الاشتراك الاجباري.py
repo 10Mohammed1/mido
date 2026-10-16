@@ -53,7 +53,7 @@ async def is_admin(event, user):
             is_mod = True
         else:
             is_mod = False
-    except:
+    except Exception:
         is_mod = False
     return is_mod
 
@@ -172,7 +172,7 @@ async def f(event):
             ch = gvarstatus("Custom_Pm_Channel")
             try:
                 ch = int(ch)
-            except BaseException:
+            except Exception:
                 return
             rip = await check_him(ch, event.sender_id)
             if rip is False:
@@ -189,7 +189,7 @@ async def f(event):
                     await event.reply(f"ᯓ 𝗦𝗢𝗨𝗥𝗖𝗘 Mido - **الاشتࢪاك الإجباࢪي**\n⋆┄─┄─┄─┄┄─┄─┄─┄─┄┄⋆\n\n⌔╎**مࢪحبـاً عـزيـزي 🫂** [{user.first_name}](tg://user?id={user.id}) \n⌔╎**لـ الغـاء كتمـك 🔊**\n⌔╎**يُࢪجـى الإشتـࢪاك بالقنـاة @{chn} **", link_preview=False
                     )
                     return await event.delete()
-        except BaseException:
+        except Exception:
             return
 
 @zedub.zed_cmd(pattern="(ضع اشتراك الكروب|وضع اشتراك الكروب) ?(.*)")
@@ -263,7 +263,7 @@ async def f(event):
                     event.chat_id, f"ᯓ 𝗦𝗢𝗨𝗥𝗖𝗘 Mido - الاشتࢪاك الإجباࢪي\n⋆┄─┄─┄─┄┄─┄─┄─┄─┄┄⋆\n\n⌔╎**مࢪحبـاً عـزيـزي 🫂** [{user.first_name}](tg://user?id={user.id}) \n⌔╎**لـ الغـاء كتمـك 🔊**\n⌔╎**يُࢪجـى الإشتـࢪاك بالقنـاة @{channel} **", link_preview=False
                 )
                 await event.delete()
-        except:
+        except Exception:
             if not await rights(event):
                 await bot.send_message(
                     event.chat_id,

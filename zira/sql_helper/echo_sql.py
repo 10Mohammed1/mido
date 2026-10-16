@@ -36,7 +36,7 @@ Echos.__table__.create(bind=SESSION.get_bind(), checkfirst=True)
 def is_echo(chat_id, user_id):
     try:
         return SESSION.query(Echos).get((str(chat_id), str(user_id)))
-    except BaseException:
+    except Exception:
         return None
     finally:
         SESSION.close()
@@ -52,7 +52,7 @@ def get_echos(chat_id):
 def get_all_echos():
     try:
         return SESSION.query(Echos).all()
-    except BaseException:
+    except Exception:
         return None
     finally:
         SESSION.close()

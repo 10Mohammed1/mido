@@ -5,7 +5,6 @@ from random import choice
 from textwrap import wrap
 from uuid import uuid4
 
-import requests
 from googletrans import Translator
 from PIL import Image, ImageOps
 from telethon import functions, types
@@ -27,6 +26,7 @@ from ...Config import Config
 from ...core.logger import logging
 from ...sql_helper.globals import gvarstatus
 from ..resources.states import states
+from zira.helpers.utils.http import aget, apost
 
 LOGS = logging.getLogger(__name__)
 imdb = IMDb()
@@ -91,7 +91,7 @@ async def sanga_seperator(sanga_list):
 # covid india data
 async def covidindia(state):
     url = "https://www.mohfw.gov.in/data/datanew.json"
-    req = requests.get(url).json()
+    req = (await aget(url)).json()
     return next((req[states.index(i)] for i in states if i == state), None)
 
 
@@ -146,6 +146,8 @@ async def unsavegif(event, sandy):
 
 async def animator(media, mainevent, textevent=None):
     # //Hope u dunt kang :/ @Jisan7509
+    from ..tools import fileinfo
+    from ..utils.utils import runcmd
     if not os.path.isdir(Config.TEMP_DIR):
         os.makedirs(Config.TEMP_DIR)
     OldZed = await mainevent.client.download_media(media, Config.TEMP_DIR)

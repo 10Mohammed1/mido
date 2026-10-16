@@ -1,12 +1,12 @@
 import random
 
-import requests
 from bs4 import BeautifulSoup
+from zira.helpers.utils.http import aget, apost
 
 
 async def extract_quote(url):
     results = []
-    request = requests.get(url).text
+    request = (await aget(url)).text
     soup = BeautifulSoup(request, "html.parser")
     for quote in soup.find_all("div", class_="quote"):
         response = quote.find("div", {"class": "quoteText"}).text

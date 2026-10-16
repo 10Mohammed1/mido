@@ -17,8 +17,13 @@ import random
 import string
 try:
     import arabic_reshaper
-except ModuleNotFoundError:
-    os.system("pip3 install arabic_reshaper")
+except ModuleNotFoundError:  # pragma: no cover
+    import subprocess
+    import sys
+
+    subprocess.call(
+        [sys.executable, "-m", "pip", "install", "-q", "arabic_reshaper"]
+    )
     import arabic_reshaper
 from PIL import Image, ImageDraw, ImageFont
 from telethon.tl.types import InputMessagesFilterDocument, InputMessagesFilterPhotos
@@ -114,7 +119,7 @@ async def lg1(userevent):
         os.remove(file_name)
         os.remove(zed_font)
         os.remove(logo_)
-    except BaseException:
+    except Exception:
         pass
 
 @zedub.zed_cmd(pattern=r"لوقو ?(.*)")
@@ -186,5 +191,5 @@ async def lg1(userevent):
         os.remove(file_name)
         os.remove(zed_font)
         os.remove(logo_)
-    except BaseException:
+    except Exception:
         pass

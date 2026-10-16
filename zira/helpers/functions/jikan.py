@@ -8,7 +8,6 @@ from io import BytesIO, StringIO
 
 import bs4
 import jikanpy
-import requests
 from aiohttp import ClientSession
 from jikanpy import Jikan
 from telethon.tl.types import DocumentAttributeAnimated
@@ -16,6 +15,7 @@ from telethon.utils import is_video
 
 from ..progress import readable_time
 from .functions import post_to_telegraph
+from zira.helpers.utils.http import aget, apost
 
 jikan = Jikan()
 
@@ -312,14 +312,14 @@ async def get_anime_schedule(weekid):
 async def callAPI(search_str, manga=False):
     variables = {"search": search_str}
     query = manga_query if manga else anime_query
-    response = requests.post(anilisturl, json={"query": query, "variables": variables})
+    response = await apost(anilisturl, json={"query": query, "variables": variables})
     return response.text
 
 
 async def searchanilist(search_str, manga=False):
     typea = "MANGA" if manga else "ANIME"
     variables = {"search": search_str, "type": typea, "page": 1, "perPage": 10}
-    response = requests.post(
+    response = await apost(
         anilisturl, json={"query": anilist_query, "variables": variables}
     )
     msg = ""
@@ -386,9 +386,9 @@ def shorten(description, info="anilist.co"):
 async def anilist_user(input_str):
     "Fetch user details from anilist"
     username = {"search": input_str}
-    result = requests.post(
+    result = (await apost(
         anilisturl, json={"query": user_query, "variables": username}
-    ).json()
+    )).json()
     if error := result.get("errors"):
         error_sts = error[0].get("message")
         return [f"{error_sts}"]
@@ -426,27 +426,27 @@ async def anime_json_synomsis(query, vars_):
     return json_data
 
 
-def getPosterLink(mal):
+async def getPosterLink(mal):
     # grab poster from kitsu
-    kitsu = getKitsu(mal)
-    image = requests.get(f"https://kitsu.io/api/edge/anime/{kitsu}").json()
+    kitsu = await getKitsu(mal)
+    image = (await aget(f"https://kitsu.io/api/edge/anime/{kitsu}")).json()
     return image["data"]["attributes"]["posterImage"]["original"]
 
 
-def getKitsu(mal):
+async def getKitsu(mal):
     # get kitsu id from mal id
     link = f"https://kitsu.io/api/edge/mappings?filter[external_site]=myanimelist/anime&filter[external_id]={mal}"
-    result = requests.get(link).json()["data"][0]["id"]
+    result = (await aget(link)).json()["data"][0]["id"]
     link = f"https://kitsu.io/api/edge/mappings/{result}/item?fields[anime]=slug"
-    return requests.get(link).json()["data"]["id"]
+    return (await aget(link)).json()["data"]["id"]
 
 
-def getBannerLink(mal, kitsu_search=True, anilistid=0):
+async def getBannerLink(mal, kitsu_search=True, anilistid=0):
     # try getting kitsu backdrop
     if kitsu_search:
-        kitsu = getKitsu(mal)
+        kitsu = await getKitsu(mal)
         image = f"http://media.kitsu.io/anime/cover_images/{kitsu}/original.jpg"
-        response = requests.get(image)
+        response = await aget(image)
         if response.status_code == 200:
             return image
     if anilistid != 0:
@@ -460,11 +460,11 @@ def getBannerLink(mal, kitsu_search=True, anilistid=0):
     }
     """
     data = {"query": query, "variables": {"idMal": int(mal)}}
-    if image := requests.post("https://graphql.anilist.co", json=data).json()["data"][
+    if image := (await apost("https://graphql.anilist.co", json=data)).json()["data"][
         "Media"
     ]["bannerImage"]:
         return image
-    return getPosterLink(mal)
+    return await getPosterLink(mal)
 
 
 async def get_anime_manga(search_str, search_type, _user_id):  # sourcery no-metrics
@@ -474,7 +474,7 @@ async def get_anime_manga(search_str, search_type, _user_id):  # sourcery no-met
         query = anime_query
         result = json.loads(
             (
-                requests.post(anilisturl, json={"query": query, "variables": variables})
+                (await apost(anilisturl, json={"query": query, "variables": variables}))
             ).text
         )
         res = list(result.keys())
@@ -492,7 +492,7 @@ async def get_anime_manga(search_str, search_type, _user_id):  # sourcery no-met
         query = manga_query
         result = json.loads(
             (
-                requests.post(anilisturl, json={"query": query, "variables": variables})
+                (await apost(anilisturl, json={"query": query, "variables": variables}))
             ).text
         )
         res = list(result.keys())
@@ -547,7 +547,7 @@ async def get_anime_manga(search_str, search_type, _user_id):  # sourcery no-met
         romaji = anime_data["title"]["romaji"]
         native = anime_data["title"]["native"]
         english = anime_data["title"]["english"]
-        image = getBannerLink(result["idMal"], False, anime_data.get("id"))
+        image = await getBannerLink(result["idMal"], False, anime_data.get("id"))
         # Telegraph Post mejik
         html_pc = ""
         html_pc += f"<h1>{native}</h1>"
@@ -587,7 +587,7 @@ async def get_anime_manga(search_str, search_type, _user_id):  # sourcery no-met
         romaji = anime_data["title"]["romaji"]
         native = anime_data["title"]["native"]
         english = anime_data["title"]["english"]
-        image = getBannerLink(result["idMal"], False, anime_data.get("id"))
+        image = await getBannerLink(result["idMal"], False, anime_data.get("id"))
         # Telegraph Post mejik
         html_pc = ""
         html_pc += f"<h1>{native}</h1>"
@@ -671,17 +671,17 @@ async def get_anime_manga(search_str, search_type, _user_id):  # sourcery no-met
     return caption, image
 
 
-def get_poster(query):
+async def get_poster(query):
     url_enc_name = query.replace(" ", "+")
     # Searching for query list in imdb
-    page = requests.get(
+    page = await aget(
         f"https://www.imdb.com/find?ref_=nv_sr_fn&q={url_enc_name}&s=all"
     )
     soup = bs4.BeautifulSoup(page.content, "lxml")
     odds = soup.findAll("tr", "odd")
     # Fetching the first post from search
     page_link = "http://www.imdb.com/" + odds[0].findNext("td").findNext("td").a["href"]
-    page1 = requests.get(page_link)
+    page1 = await aget(page_link)
     soup = bs4.BeautifulSoup(page1.content, "lxml")
     # Poster Link
     image = soup.find("link", attrs={"rel": "image_src"}).get("href", None)
@@ -718,7 +718,7 @@ def is_gif(file):
 
 async def search_in_animefiller(query):
     "To search anime name and get its id"
-    html = requests.get(animnefillerurl).text
+    html = (await aget(animnefillerurl)).text
     soup = bs4.BeautifulSoup(html, "html.parser")
     div = soup.findAll("div", attrs={"class": "Group"})
     index = {}
@@ -738,7 +738,7 @@ async def search_in_animefiller(query):
 
 async def get_filler_episodes(filler_id):  # sourcery no-metrics
     "to get eppisode numbers"
-    html = requests.get(animnefillerurl + filler_id).text
+    html = (await aget(animnefillerurl + filler_id)).text
     soup = bs4.BeautifulSoup(html, "html.parser")
     div = soup.find("div", attrs={"id": "Condensed"})
     complete_anime = div.find_all("span", attrs={"class": "Episodes"})

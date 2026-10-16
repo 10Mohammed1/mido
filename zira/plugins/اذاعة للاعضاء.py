@@ -6,12 +6,11 @@
 # <https://www.github.com/Mido/Mido/blob/master/LICENSE/>.
 
 import asyncio
-import requests
 import logging
 from asyncio import sleep
 
 from telethon.tl import functions, types
-from telethon.errors import UserAdminInvalidError
+from telethon.errors import UserAdminInvalidError, UserNotParticipantError
 from telethon import events
 from telethon.tl.functions.channels import GetParticipantRequest
 
@@ -78,7 +77,7 @@ async def malath(event):
             try:
                 await borg.send_message(magtxt, zilzal, link_preview=False)
                 success += 1
-            except BaseException:
+            except Exception:
                 return
         else:
             try:
@@ -89,13 +88,13 @@ async def malath(event):
                     link_preview=False,
                 )
                 success += 1
-            except BaseException:
+            except Exception:
                 return
     ZELZAL_BEST_DEV = f"ᯓ Mido 𝗨𝘀𝗲𝗿𝗯𝗼𝘁 - اذاعـة خـاص 🚹 .\n\n**⎉╎تمت الاذاعـه لـ اعضـاء الكـروب .. بنجـاح  ✅**\n**⎉╎عـدد {success} عضـو**"
     await zzz.edit(ZELZAL_BEST_DEV, link_preview=False)
     try:
         spam_chats.remove(chat_id)
-    except:
+    except Exception:
         pass
 
 
@@ -106,7 +105,7 @@ async def unmalath(event):
     else:
         try:
             spam_chats.remove(event.chat_id)
-        except:
+        except Exception:
             pass
         return await event.edit("**⎉╎تم إيقـاف عمليـة الاذاعـه للاعضـاء هنـا .. بنجـاح✓**")
 

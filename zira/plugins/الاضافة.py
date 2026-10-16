@@ -26,7 +26,7 @@ async def get_chatinfo(event):
             chat = event.chat_id
     try:
         chat_info = await event.client(GetFullChatRequest(chat))
-    except:
+    except Exception:
         try:
             chat_info = await event.client(GetFullChannelRequest(chat))
         except ChannelInvalidError:

@@ -17,7 +17,7 @@ NOLogPMs.__table__.create(bind=SESSION.get_bind(), checkfirst=True)
 def is_approved(chat_id):
     try:
         return SESSION.query(NOLogPMs).filter(NOLogPMs.chat_id == chat_id).one()
-    except BaseException:
+    except Exception:
         return None
     finally:
         SESSION.close()

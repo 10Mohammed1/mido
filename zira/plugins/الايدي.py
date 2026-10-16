@@ -310,7 +310,7 @@ async def potocmd(event):
                     event, "**- رقـم خـاطـئ . . .**"
                 )
                 return
-        except BaseException:
+        except Exception:
             await edit_or_reply(event, "**- رقـم خـاطـئ . . .**")
             return
         if int(uid) > (len(photos)):

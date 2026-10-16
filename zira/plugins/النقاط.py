@@ -1,4 +1,3 @@
-import requests
 import asyncio
 import time
 import re
@@ -106,14 +105,14 @@ async def _(event):
         try:
             try:
                 await zedub(JoinChannelRequest(url))
-            except:
+            except Exception:
                 bott = url.split('/')[-1]
                 await zedub(ImportChatInviteRequest(bott))
             msg2 = await zedub.get_messages('@EEOBot', limit=1)
             await msg2[0].click(text='تحقق')
             chs += 1
             await event.edit(f"**⎉╎تم الاشتـراك في القنـاة  {chs} ...✓**")
-        except:
+        except Exception:
             msg2 = await zedub.get_messages('@EEOBot', limit=1)
             await msg2[0].click(text='التالي')
             chs += 1
@@ -151,14 +150,14 @@ async def _(event):
         try:
             try:
                 await zedub(JoinChannelRequest(url))
-            except:
+            except Exception:
                 bott = url.split('/')[-1]
                 await zedub(ImportChatInviteRequest(bott))
             msg2 = await zedub.get_messages('@xnsex21bot', limit=1)
             await msg2[0].click(text='تحقق')
             chs += 1
             await event.edit(f"**⎉╎تم الاشتـراك في القنـاة  {chs} ...✓**")
-        except:
+        except Exception:
             msg2 = await zedub.get_messages('@xnsex21bot', limit=1)
             await msg2[0].click(text='التالي')
             chs += 1
@@ -206,14 +205,14 @@ async def _(event):
         try:
             try:
                 await zedub(JoinChannelRequest(url))
-            except:
+            except Exception:
                 bott = url.split('/')[-1]
                 await zedub(ImportChatInviteRequest(bott))
             msg2 = await zedub.get_messages(zpoint, limit=1)
             await msg2[0].click(text='تحقق')
             chs += 1
             await event.edit(f"**⎉╎تم الاشتـراك في القنـاة  {chs} ...✓**")
-        except:
+        except Exception:
             msg2 = await zedub.get_messages(zpoint, limit=1)
             await msg2[0].click(text='التالي')
             chs += 1
@@ -252,14 +251,14 @@ async def _(event):
         try:
             try:
                 await zedub(JoinChannelRequest(url))
-            except:
+            except Exception:
                 bott = url.split('/')[-1]
                 await zedub(ImportChatInviteRequest(bott))
             msg2 = await zedub.get_messages('@A_MAN9300BOT', limit=1)
             await msg2[0].click(text='تحقق')
             chs += 1
             await event.edit(f"**⎉╎تم الاشتـراك في القنـاة  {chs} ...✓**")
-        except:
+        except Exception:
             msg2 = await zedub.get_messages('@A_MAN9300BOT', limit=1)
             await msg2[0].click(text='التالي')
             chs += 1
@@ -298,14 +297,14 @@ async def _(event):
         try:
             try:
                 await zedub(JoinChannelRequest(url))
-            except:
+            except Exception:
                 bott = url.split('/')[-1]
                 await zedub(ImportChatInviteRequest(bott))
             msg2 = await zedub.get_messages('@MARKTEBOT', limit=1)
             await msg2[0].click(text='تحقق')
             chs += 1
             await event.edit(f"**⎉╎تم الاشتـراك في القنـاة  {chs} ...✓**")
-        except:
+        except Exception:
             msg2 = await zedub.get_messages('@MARKTEBOT', limit=1)
             await msg2[0].click(text='التالي')
             chs += 1
@@ -344,14 +343,14 @@ async def _(event):
         try:
             try:
                 await zedub(JoinChannelRequest(url))
-            except:
+            except Exception:
                 bott = url.split('/')[-1]
                 await zedub(ImportChatInviteRequest(bott))
             msg2 = await zedub.get_messages('@MARKTEBOT', limit=1)
             await msg2[0].click(text='تحقق')
             chs += 1
             await event.edit(f"**⎉╎تم الاشتـراك في القنـاة  {chs} ...✓**")
-        except:
+        except Exception:
             msg2 = await zedub.get_messages('@MARKTEBOT', limit=1)
             await msg2[0].click(text='التالي')
             chs += 1
@@ -390,14 +389,14 @@ async def _(event):
         try:
             try:
                 await zedub(JoinChannelRequest(url))
-            except:
+            except Exception:
                 bott = url.split('/')[-1]
                 await zedub(ImportChatInviteRequest(bott))
             msg2 = await zedub.get_messages('@qweqwe1919bot', limit=1)
             await msg2[0].click(text='تحقق')
             chs += 1
             await event.edit(f"**⎉╎تم الاشتـراك في القنـاة  {chs} ...✓**")
-        except:
+        except Exception:
             msg2 = await zedub.get_messages('@qweqwe1919bot', limit=1)
             await msg2[0].click(text='التالي')
             chs += 1
@@ -439,14 +438,14 @@ async def _(event):
         try:
             try:
                 await zedub(JoinChannelRequest(url))
-            except:
+            except Exception:
                 bott = url.split('/')[-1]
                 await zedub(ImportChatInviteRequest(bott))
             msg2 = await zedub.get_messages('@SMSMWAbot', limit=1)
             await msg2[0].click(text='تحقق')
             chs += 1
             await event.edit(f"**⎉╎تم الاشتـراك في القنـاة  {chs} ...✓**")
-        except:
+        except Exception:
             msg2 = await zedub.get_messages('@SMSMWAbot', limit=1)
             await msg2[0].click(text='التالي')
             chs += 1
@@ -485,14 +484,14 @@ async def _(event):
         try:
             try:
                 await zedub(JoinChannelRequest(url))
-            except:
+            except Exception:
                 bott = url.split('/')[-1]
                 await zedub(ImportChatInviteRequest(bott))
             msg2 = await zedub.get_messages('@Ncoe_bot', limit=1)
             await msg2[0].click(text='تحقق')
             chs += 1
             await event.edit(f"**⎉╎تم الاشتـراك في القنـاة  {chs} ...✓**")
-        except:
+        except Exception:
             msg2 = await zedub.get_messages('@Ncoe_bot', limit=1)
             await msg2[0].click(text='التالي')
             chs += 1
@@ -539,7 +538,7 @@ async def _(event):
                     await msg2[0].click(text='اشتركت ✅')
                     chs += 1
                     await event.edit(f"**⎉╎تم الاشتـراك في القنـاة  {chs} ...✓**")
-            except:
+            except Exception:
                 await zedub.send_message(event.chat_id, f"**⎉╎خطـأ , يمكـن تبنـدت ؟!**")
                 break
     await zedub.send_message(event.chat_id, "**⎉╎تم الانتهـاء مـن تجميـع النقـاط .. حاول من جديد في وقت آخر ✓**")

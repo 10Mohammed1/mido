@@ -99,7 +99,29 @@ def Build_Poll(options):
 
 def deEmojify(inputString: str) -> str:
     """Remove emojis and other non-safe characters from string"""
-    return re.sub("[^a-zA-Z0-9 \\`~!@#$%^&*(){}[\]_+=.:;\n'\",><?/-]", "", inputString)
+    return re.sub("[^a-zA-Z0-9 \\`~!@#$%^&*(){}[\\]_+=.:;\n'\",><?/-]", "", inputString)
+
+
+_EMOJI_RANGES = (
+    "\U0001F1E6-\U0001F1FF"  # regional flags
+    "\U0001F300-\U0001F5FF"  # symbols & pictographs
+    "\U0001F600-\U0001F64F"  # emoticons
+    "\U0001F680-\U0001F6FF"  # transport & map symbols
+    "\U0001F700-\U0001FAFF"  # extended pictographs
+    "\U00002600-\U000027BF"  # misc symbols & dingbats
+    "\U0000FE00-\U0000FE0F"  # variation selectors
+    "\U0000200D"              # zero-width joiner
+    "\U000020E3"              # combining enclosing keycap
+)
+
+
+def get_emoji_regexp():
+    """Compiled regex matching emoji characters.
+
+    ``emoji`` dropped ``get_emoji_regexp`` in 2.0, this keeps
+    ``soft_deEmojify`` working on every version.
+    """
+    return re.compile(f"[{_EMOJI_RANGES}]")
 
 
 def soft_deEmojify(inputString: str) -> str:

@@ -17,7 +17,7 @@ forceSubscribe.__table__.create(bind=SESSION.get_bind(), checkfirst=True)
 def is_fsub(chat_id):
     try:
         return SESSION.query(forceSubscribe).filter(forceSubscribe.chat_id == chat_id).one()
-    except:
+    except Exception:
         return None
     finally:
         SESSION.close()

@@ -20,7 +20,7 @@ GMute.__table__.create(bind=SESSION.get_bind(), checkfirst=True)
 def is_gmuted(sender_id):
     try:
         return SESSION.query(GMute).all()
-    except BaseException:
+    except Exception:
         return None
     finally:
         SESSION.close()

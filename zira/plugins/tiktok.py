@@ -5,7 +5,6 @@
 # PLease read the GNU Affero General Public License in
 # <https://www.github.com/Mido/Mido/blob/zira/LICENSE/>.
 
-import requests
 import asyncio
 import os
 import sys

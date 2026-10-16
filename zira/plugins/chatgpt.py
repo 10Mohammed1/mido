@@ -12,7 +12,6 @@ Write file by Mido
 ههههههههههههههههههههههههههههههههههههههههههههههههههههههه
 """
 
-import requests
 import asyncio
 import os
 import sys

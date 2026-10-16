@@ -99,7 +99,7 @@ def pyro_session():
         from pyrogram import Client
 
         x = "\bFound an existing installation of Pyrogram...\nSuccessfully Imported.\n\n"
-    except BaseException:
+    except Exception:
         print("Installing Pyrogram...")
         os.system("pip install pyrogram tgcrypto")
         x = "\bDone. Installed and imported Pyrogram."

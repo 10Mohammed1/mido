@@ -63,7 +63,7 @@ async def _(event):
             while r.media.value != required_number:
                 await r.delete()
                 r = await reply_message.reply(file=InputMediaDice(emoticon=emoticon))
-        except BaseException:
+        except Exception:
             pass
     else:
         if event.sender_id == event.client.uid:
@@ -91,7 +91,7 @@ async def _(event):
             while r.media.value != required_number:
                 await r.delete()
                 r = await reply_message.reply(file=InputMediaDice(emoticon=emoticon))
-        except BaseException:
+        except Exception:
             pass
     else:
         if event.sender_id == event.client.uid:
@@ -119,7 +119,7 @@ async def _(event):
             while r.media.value != required_number:
                 await r.delete()
                 r = await reply_message.reply(file=InputMediaDice(emoticon=emoticon))
-        except BaseException:
+        except Exception:
             pass
     else:
         if event.sender_id == event.client.uid:
@@ -147,7 +147,7 @@ async def _(event):
             while r.media.value != required_number:
                 await r.delete()
                 r = await reply_message.reply(file=InputMediaDice(emoticon=emoticon))
-        except BaseException:
+        except Exception:
             pass
     else:
         if event.sender_id == event.client.uid:
@@ -175,7 +175,7 @@ async def _(event):
             while r.media.value != required_number:
                 await r.delete()
                 r = await reply_message.reply(file=InputMediaDice(emoticon=emoticon))
-        except BaseException:
+        except Exception:
             pass
     else:
         if event.sender_id == event.client.uid:

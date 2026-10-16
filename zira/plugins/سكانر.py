@@ -10,7 +10,6 @@
 import json
 import os
 from PIL import Image
-import requests
 from googletrans import LANGUAGES
 
 from ..Config import Config
@@ -18,6 +17,7 @@ from ..core.managers import edit_delete, edit_or_reply
 from ..helpers.functions import getTranslate
 from ..sql_helper.globals import gvarstatus
 from . import Convert, zedub, soft_deEmojify
+from ..helpers.utils.http import apost
 
 plugin_category = "الادوات"
 
@@ -57,7 +57,7 @@ def conv_image(image):
     return new_file_name
 
 
-def ocr_space_file(filename, overlay=False, api_key=Config.OCR_SPACE_API_KEY, language='eng'):
+async def ocr_space_file(filename, overlay=False, api_key=Config.OCR_SPACE_API_KEY, language='eng'):
     """ OCR.space API request with local file.
         Python3.5 - not tested on 2.7
     :param filename: Your file path & name.
@@ -76,14 +76,14 @@ def ocr_space_file(filename, overlay=False, api_key=Config.OCR_SPACE_API_KEY, la
                'language': language,
                }
     with open(filename, 'rb') as f:
-        r = requests.post('https://api.ocr.space/parse/image',
-                          files={filename: f},
-                          data=payload,
-                          )
+        r = await apost('https://api.ocr.space/parse/image',
+                        files={filename: f},
+                        data=payload,
+                        )
     return r.json()
 
 
-def ocr_space_url(url, overlay=False, api_key=Config.OCR_SPACE_API_KEY, language='eng'):
+async def ocr_space_url(url, overlay=False, api_key=Config.OCR_SPACE_API_KEY, language='eng'):
     """ OCR.space API request with remote file.
         Python3.5 - not tested on 2.7
     :param url: Image url.
@@ -102,9 +102,9 @@ def ocr_space_url(url, overlay=False, api_key=Config.OCR_SPACE_API_KEY, language
                'apikey': api_key,
                'language': language,
                }
-    r = requests.post('https://api.ocr.space/parse/image',
-                      data=payload,
-                      )
+    r = await apost('https://api.ocr.space/parse/image',
+                    data=payload,
+                    )
     return r.json()
 
 
@@ -164,7 +164,7 @@ async def parse_ocr_space_api(event):
     )
     if downloaded_file_name.endswith((".webp")):
         downloaded_file_name = conv_image(downloaded_file_name)
-    test_file = ocr_space_file(filename=downloaded_file_name, language=langcode)
+    test_file = await ocr_space_file(filename=downloaded_file_name, language=langcode)
     ParsedText = "hmm"
     try:
         ParsedText = test_file["ParsedResults"][0]["ParsedText"]
@@ -211,7 +211,7 @@ async def ocr(event):
     test_file = await ocr_space_file(filename=output_file[1], language=langcode)
     try:
         ParsedText = test_file["ParsedResults"][0]["ParsedText"]
-    except BaseException:
+    except Exception:
         await edit_delete(
             zevent, "**- لا يمكنني قراءة النص**\n**- يبدو ان النص غير واضحـاً ؟!**"
         )

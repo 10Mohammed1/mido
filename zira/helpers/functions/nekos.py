@@ -1,12 +1,12 @@
-import requests
 from PIL import Image, ImageDraw, ImageFont
 from validators.url import url
+from zira.helpers.utils.http import aget, apost
 
 
 async def fakegs(search, result):
     imgurl = "https://i.imgur.com/wNFr5X2.jpg"
     with open("./temp/temp.jpg", "wb") as f:
-        f.write(requests.get(imgurl).content)
+        f.write((await aget(imgurl)).content)
     img = Image.open("./temp/temp.jpg")
     drawing = ImageDraw.Draw(img)
     blue = (0, 0, 255)
@@ -20,116 +20,116 @@ async def fakegs(search, result):
 
 
 async def trumptweet(text):
-    r = requests.get(
+    r = (await aget(
         f"https://nekobot.xyz/api/imagegen?type=trumptweet&text={text}"
-    ).json()
+    )).json()
     sandy = r.get("message")
     zedurl = url(sandy)
     if not zedurl:
         return "check syntax once more"
     with open("temp.png", "wb") as f:
-        f.write(requests.get(sandy).content)
+        f.write((await aget(sandy)).content)
     img = Image.open("temp.png").convert("RGB")
     img.save("temp.webp", "webp")
     return "temp.webp"
 
 
 async def changemymind(text):
-    r = requests.get(
+    r = (await aget(
         f"https://nekobot.xyz/api/imagegen?type=changemymind&text={text}"
-    ).json()
+    )).json()
     sandy = r.get("message")
     zedurl = url(sandy)
     if not zedurl:
         return "check syntax once more"
     with open("temp.png", "wb") as f:
-        f.write(requests.get(sandy).content)
+        f.write((await aget(sandy)).content)
     img = Image.open("temp.png").convert("RGB")
     img.save("temp.jpg", "jpeg")
     return "temp.jpg"
 
 
 async def kannagen(text):
-    r = requests.get(
+    r = (await aget(
         f"https://nekobot.xyz/api/imagegen?type=kannagen&text={text}"
-    ).json()
+    )).json()
     sandy = r.get("message")
     zedurl = url(sandy)
     if not zedurl:
         return "check syntax once more"
     with open("temp.png", "wb") as f:
-        f.write(requests.get(sandy).content)
+        f.write((await aget(sandy)).content)
     img = Image.open("temp.png").convert("RGB")
     img.save("temp.webp", "webp")
     return "temp.webp"
 
 
 async def moditweet(text):
-    r = requests.get(
+    r = (await aget(
         f"https://nekobot.xyz/api/imagegen?type=tweet&text={text}&username=narendramodi"
-    ).json()
+    )).json()
     sandy = r.get("message")
     zedurl = url(sandy)
     if not zedurl:
         return "check syntax once more"
     with open("temp.png", "wb") as f:
-        f.write(requests.get(sandy).content)
+        f.write((await aget(sandy)).content)
     img = Image.open("temp.png").convert("RGB")
     img.save("temp.webp", "webp")
     return "temp.webp"
 
 
 async def tweets(text1, text2):
-    r = requests.get(
+    r = (await aget(
         f"https://nekobot.xyz/api/imagegen?type=tweet&text={text1}&username={text2}"
-    ).json()
+    )).json()
     sandy = r.get("message")
     zedurl = url(sandy)
     if not zedurl:
         return "check syntax once more"
     with open("temp.png", "wb") as f:
-        f.write(requests.get(sandy).content)
+        f.write((await aget(sandy)).content)
     img = Image.open("temp.png").convert("RGB")
     img.save("temp.webp", "webp")
     return "temp.webp"
 
 
 async def iphonex(text):
-    r = requests.get(f"https://nekobot.xyz/api/imagegen?type=iphonex&url={text}").json()
+    r = (await aget(f"https://nekobot.xyz/api/imagegen?type=iphonex&url={text}")).json()
     sandy = r.get("message")
     zedurl = url(sandy)
     if not zedurl:
         return "check syntax once more"
     with open("temp.png", "wb") as f:
-        f.write(requests.get(sandy).content)
+        f.write((await aget(sandy)).content)
     img = Image.open("temp.png").convert("RGB")
     img.save("temp.jpg", "jpeg")
     return "temp.jpg"
 
 
 async def baguette(text):
-    r = requests.get(
+    r = (await aget(
         f"https://nekobot.xyz/api/imagegen?type=baguette&url={text}"
-    ).json()
+    )).json()
     sandy = r.get("message")
     zedurl = url(sandy)
     if not zedurl:
         return "check syntax once more"
     with open("temp.png", "wb") as f:
-        f.write(requests.get(sandy).content)
+        f.write((await aget(sandy)).content)
     img = Image.open("temp.png").convert("RGB")
     img.save("temp.jpg", "jpeg")
     return "temp.jpg"
 
 
 async def threats(text):
-    r = requests.get(f"https://nekobot.xyz/api/imagegen?type=threats&url={text}").json()
+    r = (await aget(f"https://nekobot.xyz/api/imagegen?type=threats&url={text}")).json()
     sandy = r.get("message")
     zedurl = url(sandy)
     if not zedurl:
         return "check syntax once more"
     with open("temp.png", "wb") as f:
-        f.write(requests.get(sandy).content)
+        f.write((await aget(sandy)).content)
     img = Image.open("temp.png")
     if img.mode != "RGB":
         img = img.convert("RGB")
@@ -138,13 +138,13 @@ async def threats(text):
 
 
 async def lolice(text):
-    r = requests.get(f"https://nekobot.xyz/api/imagegen?type=lolice&url={text}").json()
+    r = (await aget(f"https://nekobot.xyz/api/imagegen?type=lolice&url={text}")).json()
     sandy = r.get("message")
     zedurl = url(sandy)
     if not zedurl:
         return "check syntax once more"
     with open("temp.png", "wb") as f:
-        f.write(requests.get(sandy).content)
+        f.write((await aget(sandy)).content)
     img = Image.open("temp.png")
     if img.mode != "RGB":
         img = img.convert("RGB")
@@ -153,13 +153,13 @@ async def lolice(text):
 
 
 async def trash(text):
-    r = requests.get(f"https://nekobot.xyz/api/imagegen?type=trash&url={text}").json()
+    r = (await aget(f"https://nekobot.xyz/api/imagegen?type=trash&url={text}")).json()
     sandy = r.get("message")
     zedurl = url(sandy)
     if not zedurl:
         return "check syntax once more"
     with open("temp.png", "wb") as f:
-        f.write(requests.get(sandy).content)
+        f.write((await aget(sandy)).content)
     img = Image.open("temp.png")
     if img.mode != "RGB":
         img = img.convert("RGB")
@@ -168,13 +168,13 @@ async def trash(text):
 
 
 async def awooify(text):
-    r = requests.get(f"https://nekobot.xyz/api/imagegen?type=awooify&url={text}").json()
+    r = (await aget(f"https://nekobot.xyz/api/imagegen?type=awooify&url={text}")).json()
     sandy = r.get("message")
     zedurl = url(sandy)
     if not zedurl:
         return "check syntax once more"
     with open("temp.png", "wb") as f:
-        f.write(requests.get(sandy).content)
+        f.write((await aget(sandy)).content)
     img = Image.open("temp.png")
     if img.mode != "RGB":
         img = img.convert("RGB")
@@ -183,15 +183,15 @@ async def awooify(text):
 
 
 async def trap(text1, text2, text3):
-    r = requests.get(
+    r = (await aget(
         f"https://nekobot.xyz/api/imagegen?type=trap&name={text1}&author={text2}&image={text3}"
-    ).json()
+    )).json()
     sandy = r.get("message")
     zedurl = url(sandy)
     if not zedurl:
         return "check syntax once more"
     with open("temp.png", "wb") as f:
-        f.write(requests.get(sandy).content)
+        f.write((await aget(sandy)).content)
     img = Image.open("temp.png")
     if img.mode != "RGB":
         img = img.convert("RGB")
@@ -200,15 +200,15 @@ async def trap(text1, text2, text3):
 
 
 async def phcomment(text1, text2, text3):
-    r = requests.get(
+    r = (await aget(
         f"https://nekobot.xyz/api/imagegen?type=phcomment&image={text1}&text={text2}&username={text3}"
-    ).json()
+    )).json()
     sandy = r.get("message")
     zedurl = url(sandy)
     if not zedurl:
         return "check syntax once more"
     with open("temp.png", "wb") as f:
-        f.write(requests.get(sandy).content)
+        f.write((await aget(sandy)).content)
     img = Image.open("temp.png")
     if img.mode != "RGB":
         img = img.convert("RGB")

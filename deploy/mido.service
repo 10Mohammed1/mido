@@ -1,0 +1,53 @@
+# ══════════════════════════════════════════════════════════════════════════════
+#  Mido · systemd unit (system-wide)
+#
+#  Install:
+#      sudo cp deploy/mido.service /etc/systemd/system/mido.service
+#      sudo systemctl daemon-reload
+#      sudo systemctl enable --now mido
+#
+#  Control:
+#      systemctl status mido        # is it running?
+#      systemctl restart mido       # restart
+#      systemctl stop mido          # stop
+#      journalctl -u mido -f        # live logs
+# ══════════════════════════════════════════════════════════════════════════════
+
+[Unit]
+Description=Mido Telegram userbot
+Documentation=https://github.com/Zilzalll/ZThon
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=medo
+Group=medo
+WorkingDirectory=/home/medo/Downloads/zz/ZThon
+
+# ── environment ──────────────────────────────────────────────────────────────
+Environment=PYTHONUNBUFFERED=1
+Environment=TZ=Africa/Cairo
+# Optional: load extra secrets from a file
+# EnvironmentFile=-/home/medo/Downloads/zz/ZThon/.env
+
+# ── process ──────────────────────────────────────────────────────────────────
+ExecStart=/usr/bin/python3 -u -m zira
+Restart=always
+RestartSec=15
+
+# give the bot time to flush its session / database on shutdown
+KillSignal=SIGINT
+TimeoutStopSec=30
+KillMode=mixed
+
+# ── logging ──────────────────────────────────────────────────────────────────
+StandardOutput=append:/home/medo/Downloads/zz/ZThon/logs/mido.log
+StandardError=append:/home/medo/Downloads/zz/ZThon/logs/mido.log
+
+# ── hardening (optional, commented out: can break file access) ───────────────
+# NoNewPrivileges=true
+# PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

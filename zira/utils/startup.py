@@ -18,7 +18,6 @@ from pathlib import Path
 from random import randint
 from datetime import datetime as dt
 from pytz import timezone
-import requests
 import heroku3
 
 from telethon import Button, functions, types, utils
@@ -214,7 +213,7 @@ async def add_bot_to_logger_group(chat_id):
                 fwd_limit=1000000,
             )
         )
-    except BaseException:
+    except Exception:
         try:
             await zedub(
                 functions.channels.InviteToChannelRequest(

@@ -33,7 +33,7 @@ def admin_cmd(pattern=None, command=None, **args):  # sourcery no-metrics
             cmd = pattern.replace("$", "").replace("^", "").replace("\\", "")
             try:
                 CMD_LIST[file_test].append(cmd)
-            except BaseException:
+            except Exception:
                 CMD_LIST.update({file_test: [cmd]})
         else:
             if len(Config.COMMAND_HAND_LER) == 2:
@@ -51,7 +51,7 @@ def admin_cmd(pattern=None, command=None, **args):  # sourcery no-metrics
                 )
             try:
                 CMD_LIST[file_test].append(cmd)
-            except BaseException:
+            except Exception:
                 CMD_LIST.update({file_test: [cmd]})
     args["outgoing"] = True
     if allow_sudo:
@@ -85,7 +85,7 @@ def sudo_cmd(pattern=None, command=None, **args):  # sourcery no-metrics
             cmd = pattern.replace("$", "").replace("^", "").replace("\\", "")
             try:
                 SUDO_LIST[file_test].append(cmd)
-            except BaseException:
+            except Exception:
                 SUDO_LIST.update({file_test: [cmd]})
         else:
             if len(Config.SUDO_COMMAND_HAND_LER) == 2:
@@ -103,7 +103,7 @@ def sudo_cmd(pattern=None, command=None, **args):  # sourcery no-metrics
                 )
             try:
                 SUDO_LIST[file_test].append(cmd)
-            except BaseException:
+            except Exception:
                 SUDO_LIST.update({file_test: [cmd]})
     args["outgoing"] = True
     # should this command be available for other users?
@@ -131,7 +131,7 @@ def errors_handler(func):
     async def wrapper(errors):
         try:
             await func(errors)
-        except BaseException:
+        except Exception:
             if Config.PRIVATE_GROUP_BOT_API_ID != 0:
                 return
             date = (datetime.datetime.now()).strftime("%m/%d/%Y, %H:%M:%S")
@@ -139,9 +139,9 @@ def errors_handler(func):
                                   \n\nنسجل فقـط تقريـر الخطـأ وتـاريخـه ،\
                                   \n\nفقـط قـم بإعـادة توجيـه هـذه الرسـالة إلى مطـور السـورس @M_O_EG\
                                   \n\n-------- معلومات عن الخطـأ--------\
-                                  \nالتاريخ: {date}\nايدي المجموعه: {str(check.chat_id)}\
-                                  \nايدي المرسل: {str(check.sender_id)}\
-                                  \n\nمشغل الحدث:\n{str(check.text)}\
+                                  \nالتاريخ: {date}\nايدي المجموعه: {str(errors.chat_id)}\
+                                  \nايدي المرسل: {str(errors.sender_id)}\
+                                  \n\nمشغل الحدث:\n{str(errors.text)}\
                                   \n\nمعلومات المشكله:\n{str(traceback.format_exc())}\
                                   \n\nنص الخطأ:\n{str(sys.exc_info()[1])}"
             new = {
@@ -161,7 +161,7 @@ def errors_handler(func):
             text += "اذا اردت يمكنك التبليغ عن المشكله"
             text += f"- فقط قم بتوجيه الرسالة الى  {link}.\n"
             text += f"**التقرير عن الخطأ : ** [{new['error']}]({pastelink})"
-            await check.client.send_message(
+            await errors.client.send_message(
                 Config.PRIVATE_GROUP_BOT_API_ID, text, link_preview=False
             )
 
@@ -190,14 +190,14 @@ def register(**args):
             cmd = re.search(reg, pattern)
             try:
                 cmd = cmd.group(1).replace("$", "").replace("\\", "").replace("^", "")
-            except BaseException:
+            except Exception:
                 pass
 
             try:
                 CMD_LIST[file_test].append(cmd)
-            except BaseException:
+            except Exception:
                 CMD_LIST.update({file_test: [cmd]})
-        except BaseException:
+        except Exception:
             pass
 
     if allow_sudo:
@@ -244,7 +244,7 @@ def command(**args):
     try:
         if pattern is not None and not pattern.startswith("(?i)"):
             args["pattern"] = "(?i)" + pattern
-    except BaseException:
+    except Exception:
         pass
     reg = re.compile("(.*)")
     if pattern is not None:
@@ -252,13 +252,13 @@ def command(**args):
             cmd = re.search(reg, pattern)
             try:
                 cmd = cmd.group(1).replace("$", "").replace("\\", "").replace("^", "")
-            except BaseException:
+            except Exception:
                 pass
             try:
                 CMD_LIST[file_test].append(cmd)
-            except BaseException:
+            except Exception:
                 CMD_LIST.update({file_test: [cmd]})
-        except BaseException:
+        except Exception:
             pass
     if allow_sudo:
         args["from_users"] = list(Config.SUDO_USERS)
@@ -266,7 +266,7 @@ def command(**args):
     del allow_sudo
     try:
         del args["allow_sudo"]
-    except BaseException:
+    except Exception:
         pass
     if gvarstatus("blacklist_chats") is not None:
         args["blacklist_chats"] = True
@@ -278,7 +278,7 @@ def command(**args):
         zedub.add_event_handler(func, NewMessage(**args))
         try:
             LOAD_PLUG[file_test].append(func)
-        except BaseException:
+        except Exception:
             LOAD_PLUG.update({file_test: [func]})
         return func
 

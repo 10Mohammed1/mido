@@ -1,3 +1,4 @@
+import asyncio
 from datetime import datetime
 
 from telethon.utils import get_display_name
@@ -459,7 +460,7 @@ async def _(event):  # sourcery no-metrics
     await edit_or_reply(event, finalstr, aslink=True, linktext=text)
 
 
-zedub.loop.create_task(_init())
+asyncio.get_running_loop().create_task(_init())
 
 
 

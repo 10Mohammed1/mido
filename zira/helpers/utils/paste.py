@@ -1,9 +1,8 @@
 import json
 
-import requests
-
 from ...Config import Config
 from ...core.logger import logging
+from zira.helpers.utils.http import aget, apost
 
 LOGS = logging.getLogger("Mido")
 
@@ -20,7 +19,7 @@ async def p_paste(message, extension=None):
     siteurl = "https://pasty.lus.pm/api/v1/pastes"
     data = {"content": message}
     try:
-        response = requests.post(url=siteurl, data=json.dumps(data), headers=headers)
+        response = await apost(url=siteurl, data=json.dumps(data), headers=headers)
     except Exception as e:
         return {"error": str(e)}
     if response.ok:
@@ -53,7 +52,7 @@ async def s_paste(message, extension="txt"):
     """
     siteurl = "https://spaceb.in/api/v1/documents/"
     try:
-        response = requests.post(
+        response = await apost(
             siteurl, data={"content": message, "extension": extension}
         )
     except Exception as e:
@@ -70,13 +69,13 @@ async def s_paste(message, extension="txt"):
     return {"error": "Unable to reach spacebin."}
 
 
-def spaste(message, extension="txt"):
+async def spaste(message, extension="txt"):
     """
     To Paste the given message/text/code to spaceb.in
     """
     siteurl = "https://spaceb.in/api/v1/documents/"
     try:
-        response = requests.post(
+        response = await apost(
             siteurl, data={"content": message, "extension": extension}
         )
     except Exception as e:
@@ -100,7 +99,7 @@ async def n_paste(message, extension=None):
     siteurl = "https://nekobin.com/api/documents"
     data = {"content": message}
     try:
-        response = requests.post(url=siteurl, data=json.dumps(data), headers=headers)
+        response = await apost(url=siteurl, data=json.dumps(data), headers=headers)
     except Exception as e:
         return {"error": str(e)}
     if response.ok:
@@ -125,7 +124,7 @@ async def d_paste(message, extension=None):
     siteurl = "http://catbin.up.railway.app/documents"
     data = {"content": message}
     try:
-        response = requests.post(url=siteurl, data=json.dumps(data), headers=headers)
+        response = await apost(url=siteurl, data=json.dumps(data), headers=headers)
     except Exception as e:
         return {"error": str(e)}
     if response.ok:

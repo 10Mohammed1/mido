@@ -501,7 +501,7 @@ async def pack_kang(event):
         zedevent = await edit_or_reply(
             event, "**⪼ جـارِ .. جـلب تفاصيـل حزمـة الملصقـات ، الرجـاء الانتظار . . .**"
         )
-    except BaseException:
+    except Exception:
         return await edit_delete(
             event, "**- هـذا ليس ملصقًـا .. قـم بالـرد على ملصـق**", 5
         )
@@ -772,7 +772,7 @@ async def pic2packcmd(event):
         for _ in range(16)
     )
     image = await Convert.to_image(
-        catevent, reply, dirct="./temp", file="stickers.png", noedits=True
+        zedevent, reply, dirct="./temp", file="stickers.png", noedits=True
     )
     if image[1] is None:
         return await edit_delete(
@@ -855,7 +855,7 @@ async def get_pack_info(event):
         zedevent = await edit_or_reply(
             event, "**جارٍ إحضار تفاصيل حزمة الملصقات ، يُرجى الانتظار ..**"
         )
-    except BaseException:
+    except Exception:
         return await edit_delete(
             event, "**هذا ليس ملصقًا. الرد على ملصق.**", 5
         )

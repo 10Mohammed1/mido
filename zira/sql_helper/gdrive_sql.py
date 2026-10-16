@@ -31,7 +31,7 @@ Gdrive.__table__.create(bind=SESSION.get_bind(), checkfirst=True)
 def is_folder(folder_id):
     try:
         return SESSION.query(Gdrive).filter(Gdrive.cat == str(folder_id))
-    except BaseException:
+    except Exception:
         return None
     finally:
         SESSION.close()
@@ -48,7 +48,7 @@ def gparent_id(folder_id):
 def get_parent_id():
     try:
         return SESSION.query(Gdrive).all()
-    except BaseException:
+    except Exception:
         return None
     finally:
         SESSION.close()

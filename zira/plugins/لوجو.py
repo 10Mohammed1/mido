@@ -9,7 +9,6 @@ import re
 import urllib
 
 import PIL
-import requests
 from bs4 import BeautifulSoup
 from PIL import Image, ImageDraw, ImageFont
 
@@ -19,6 +18,7 @@ from ..core.managers import edit_delete, edit_or_reply
 from ..helpers.functions import clippy
 from ..sql_helper.globals import addgvar, delgvar, gvarstatus
 from . import convert_toimage, reply_id
+from zira.helpers.utils.http import aget, apost
 
 # ======================================================================================================================================================================================
 
@@ -158,7 +158,7 @@ async def bad(event):
     "To change background of logo"
     cmd = event.pattern_match.group(1).lower()
     input_str = event.pattern_match.group(2)
-    source = requests.get("https://github.com/Jisan09/Files/tree/main/backgroud")
+    source = await aget("https://github.com/Jisan09/Files/tree/main/backgroud")
     soup = BeautifulSoup(source.text, features="html.parser")
     links = soup.find_all("a", class_="js-navigation-open Link--primary")
     bg_name = []
@@ -174,7 +174,7 @@ async def bad(event):
         if not input_str and event.reply_to_msg_id and reply_message.media:
             if not os.path.isdir("./temp"):
                 os.mkdir("./temp")
-            output = await _cattools.media_to_pic(event, reply_message)
+            output = await _zedtools.media_to_pic(event, reply_message)
             convert_toimage(output[1], filename="./temp/bg_img.jpg")
             return await edit_delete(
                 event, "This media is successfully set as background."
@@ -240,7 +240,7 @@ async def pussy(event):  # sourcery no-metrics
     cmd = event.pattern_match.group(1).lower()
     input_str = event.pattern_match.group(2)
     if cmd == "":
-        source = requests.get("https://github.com/Jisan09/Files/tree/main/fonts")
+        source = await aget("https://github.com/Jisan09/Files/tree/main/fonts")
         soup = BeautifulSoup(source.text, features="html.parser")
         links = soup.find_all("a", class_="js-navigation-open Link--primary")
         logo_font = []

@@ -130,7 +130,7 @@ class UploadSender:
             self.request = SaveFilePartRequest(file_id, index, b"")
         self.stride = stride
         self.previous = None
-        self.loop = loop
+        self.loop = loop or asyncio.get_running_loop()
 
     async def next(self, data: bytes) -> None:
         if self.previous:
@@ -162,7 +162,7 @@ class ParallelTransferrer:
 
     def __init__(self, client: TelegramClient, dc_id: Optional[int] = None) -> None:
         self.client = client
-        self.loop = self.client.loop
+        self.loop = asyncio.get_running_loop()
         self.dc_id = dc_id or self.client.session.dc_id
         self.auth_key = (
             None

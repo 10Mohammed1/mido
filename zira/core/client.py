@@ -8,11 +8,7 @@ import traceback
 from pathlib import Path
 from typing import Dict, List, Union
 
-try:
-    import marshal
-except ModuleNotFoundError:
-    os.system("pip3 install marshal")
-    import marshal
+import marshal
 
 from telethon import TelegramClient, events
 from telethon.errors import (
@@ -86,12 +82,12 @@ class ZedUserBotClient(TelegramClient):
             try:
                 if file_test not in GRP_INFO[command[1]]:
                     GRP_INFO[command[1]].append(file_test)
-            except BaseException:
+            except Exception:
                 GRP_INFO.update({command[1]: [file_test]})
             try:
                 if command[0] not in PLG_INFO[file_test]:
                     PLG_INFO[file_test].append(command[0])
-            except BaseException:
+            except Exception:
                 PLG_INFO.update({file_test: [command[0]]})
             if not command[0] in CMD_INFO:
                 CMD_INFO[command[0]] = [_format_about(info)]
@@ -156,7 +152,7 @@ class ZedUserBotClient(TelegramClient):
                     )
                     await check.delete()
                     await asyncio.sleep(e.seconds + 5)
-                except BaseException as e:
+                except Exception as e:
                     LOGS.exception(e)
                     if not disable_errors:
                         if check.sender_id not in ZDEV:
@@ -212,7 +208,7 @@ class ZedUserBotClient(TelegramClient):
                         return None
                     try:
                         LOADED_CMDS[command[0]].append(wrapper)
-                    except BaseException:
+                    except Exception:
                         LOADED_CMDS.update({command[0]: [wrapper]})
                 if edited:
                     zedub.add_event_handler(
@@ -247,7 +243,7 @@ class ZedUserBotClient(TelegramClient):
                     return None
                 try:
                     LOADED_CMDS[file_test].append(func)
-                except BaseException:
+                except Exception:
                     LOADED_CMDS.update({file_test: [func]})
                 if edited:
                     zedub.add_event_handler(func, events.MessageEdited(**kwargs))
@@ -278,7 +274,7 @@ class ZedUserBotClient(TelegramClient):
                     LOGS.error("Message was same as previous message")
                 except MessageIdInvalidError:
                     LOGS.error("Message was deleted or cant be found")
-                except BaseException as e:
+                except Exception as e:
                     # Check if we have to disable error logging.
                     LOGS.exception(e)  # Log the error in console
                     if not disable_errors:

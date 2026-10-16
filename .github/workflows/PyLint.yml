@@ -1,35 +1,30 @@
-name: PyLint
+name: Lint
 
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
 
 jobs:
-  PEP8:
+  ruff:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup Python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-      - name: Install Python lint libraries
-        run: |
-          pip install autoflake isort black
-      - name: Remove unused imports and variables
-        run: |
-          autoflake --in-place --recursive --remove-all-unused-imports --remove-unused-variables --ignore-init-module-imports .
-      - name: lint with isort
-        run: |
-          isort .
-      - name: lint with black
-        run: |
-          black --exclude "exampleconfig\.py" .
-      # commit changes
-      - uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: 'إعداد تلقائي'
-          commit_options: '--no-verify'
-          repository: .
-          commit_user_name: zilzalll
-          commit_user_email: asamasif77@gmail.com
-          commit_author: zilzalll<zelzalyas@gmail.com>
+          python-version: '3.12'
+
+      - name: Install ruff
+        run: pip install ruff
+
+      # Read-only check on purpose: CI reports problems, it never rewrites
+      # the repository behind your back.
+      - name: Check syntax / imports / obvious bugs
+        run: ruff check . --statistics
+        continue-on-error: true
+
+      - name: Check formatting
+        run: ruff format --check .
+        continue-on-error: true

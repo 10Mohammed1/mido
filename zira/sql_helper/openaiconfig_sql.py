@@ -96,7 +96,7 @@ def getOpenaiConfig():
         try:
             SESSION.add(data)
             SESSION.commit()
-        except:
+        except Exception:
             return None
     res_list = [
         str(data.model),

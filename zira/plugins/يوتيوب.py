@@ -6,7 +6,6 @@ import os
 import re
 import pathlib
 from time import time
-import requests
 from pathlib import Path
 
 from ShazamAPI import Shazam
@@ -160,7 +159,7 @@ async def zelzal_song(event):
         try:
             purgeflag = await conv.send_message("/start")
         except YouBlockedUserError:
-            await catub(unblock("ROOTMusic_bot"))
+            await zedub(unblock("ROOTMusic_bot"))
             await conv.send_message("/start")
         await conv.send_message(song)
         hmm = await conv.get_response()
@@ -302,7 +301,7 @@ async def fix_attributes(
 
 """
 @zedub.zed_cmd(
-    pattern="تحميل صوت(?:\s|$)([\s\S]*)",
+    pattern="تحميل صوت(?:\\s|$)([\\s\\S]*)",
     command=("تحميل صوت", plugin_category),
     info={
         "header": "تحميـل الاغـاني مـن يوتيوب .. فيسبوك .. انستا .. الـخ عـبر الرابـط",
@@ -353,7 +352,7 @@ async def download_audio(event):
             )
         uploaded = await event.client.fast_upload_file(
             file=ul,
-            progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+            progress_callback=lambda d, t: asyncio.get_running_loop().create_task(
                 progress(
                     d,
                     t,
@@ -385,7 +384,7 @@ async def download_audio(event):
     await zedevent.delete()
 
 @zedub.zed_cmd(
-    pattern="تحميل فيديو(?:\s|$)([\s\S]*)",
+    pattern="تحميل فيديو(?:\\s|$)([\\s\\S]*)",
     command=("تحميل فيديو", plugin_category),
     info={
         "header": "تحميـل مقـاطـع الفيـديــو مـن يوتيوب .. فيسبوك .. انستا .. الـخ عـبر الرابـط",
@@ -428,7 +427,7 @@ async def download_video(event):
             )
             uploaded = await event.client.fast_upload_file(
                 file=ul,
-                progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+                progress_callback=lambda d, t: asyncio.get_running_loop().create_task(
                     progress(
                         d, t, zedevent, c_time, "Upload :", file_name=ytdl_data["title"]
                     )

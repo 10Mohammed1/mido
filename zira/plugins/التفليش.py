@@ -277,7 +277,7 @@ async def leave_groups(event):
             await edit_or_reply(event, f"**⎉╎تم المغـادرة مـن {num} مجموعـة .. بنجاح✓**")
         else:
             await edit_or_reply(event, "**⎉╎ليس لديك مجموعـات .. لمغادرتها ؟!**")
-    except BaseException as e:
+    except Exception as e:
         await edit_or_reply(event, f"خطـأ\n{e}\n{entity}")
 
 @zedub.zed_cmd(pattern="مغادرة القنوات")
@@ -307,7 +307,7 @@ async def leave_channels(event):
             await edit_or_reply(event, f"**⎉╎تم المغـادرة مـن {num} قنـاة .. بنجاح✓**")
         else:
             await edit_or_reply(event, "**⎉╎ليس لديك قنـوات .. لمغادرتها ؟!**")
-    except BaseException as e:
+    except Exception as e:
         await edit_or_reply(event, f"خطـأ\n{e}\n{entity}")
 
 @zedub.zed_cmd(pattern="حذف الخاص")
@@ -356,7 +356,7 @@ async def banavot(event):
         await event.delete()
     try:
         spam_chats.remove(chat_id)
-    except:
+    except Exception:
         pass
 
 @zedub.zed_cmd(pattern=f"{HDRALL}$", groups_only=True)
@@ -381,7 +381,7 @@ async def banavot(event):
         await event.delete()
     try:
         spam_chats.remove(chat_id)
-    except:
+    except Exception:
         pass
 
 @zedub.zed_cmd(pattern=f"{KTMALL}$", groups_only=True)
@@ -406,7 +406,7 @@ async def banavot(event):
         await event.delete()
     try:
         spam_chats.remove(chat_id)
-    except:
+    except Exception:
         pass
 
 @zedub.zed_cmd(pattern="الغاء التفليش", groups_only=True)
@@ -416,7 +416,7 @@ async def unbanbot(event):
     else:
         try:
             spam_chats.remove(event.chat_id)
-        except:
+        except Exception:
             pass
         return await edit_or_reply(event, "**⎉╎تم إيقـاف عمليـة التفليـش .. بنجـاح✓**")
 
@@ -427,6 +427,6 @@ async def unbanbot(event):
     else:
         try:
             spam_chats.remove(event.chat_id)
-        except:
+        except Exception:
             pass
         return await edit_or_reply(event, "**⎉╎تم إيقـاف عمليـة التفليـش .. بنجـاح✓**")

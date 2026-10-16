@@ -6,17 +6,18 @@
 # All rights reserved.
 
 import asyncio
+import json
 import math
 import os
 
 import heroku3
-import requests
 import urllib3
 
 from . import zedub
 
 from ..Config import Config
 from ..core.managers import edit_delete, edit_or_reply
+from zira.helpers.utils.http import aget, apost
 
 plugin_category = "الادوات"
 
@@ -234,7 +235,7 @@ async def dyno_usage(dyno):
         "Accept": "application/vnd.heroku+json; version=3.account-quotas",
     }
     path = f"/accounts/{user_id}/actions/get-quota"
-    r = requests.get(heroku_api + path, headers=headers)
+    r = await aget(heroku_api + path, headers=headers)
     if r.status_code != 200:
         return await dyno.edit(
             "⌔∮ خطا:** شي سيء قد حدث **\n" f" ⌔∮ `{r.reason}`\n"
@@ -295,7 +296,7 @@ async def _(dyno):
     try:
         Heroku = heroku3.from_key(HEROKU_API_KEY)
         app = Heroku.app(HEROKU_APP_NAME)
-    except BaseException:
+    except Exception:
         return await dyno.reply(
             " Please make sure your Heroku API Key, Your App name are configured correctly in the heroku"
         )
@@ -306,13 +307,14 @@ async def _(dyno):
 
 
 def prettyjson(obj, indent=2, maxlinelength=80):
-    """Renders JSON content with indentation and line splits/concatenations to fit maxlinelength.
-    Only dicts, lists and basic types are supported"""
-    items, _ = getsubitems(
-        obj,
-        itemkey="",
-        islast=True,
-        maxlinelength=maxlinelength - indent,
-        indent=indent,
-    )
-    return indentitems(items, indent, level=0)
+    """Render JSON content with indentation.
+
+    The previous implementation called two helpers (``getsubitems`` /
+    ``indentitems``) that were never defined in this project, so every use of
+    ``.هيروكو`` crashed with a NameError.  ``json.dumps`` does the job without
+    the missing helpers.
+    """
+    try:
+        return json.dumps(obj, indent=indent, ensure_ascii=False, default=str)
+    except (TypeError, ValueError):
+        return str(obj)

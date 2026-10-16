@@ -60,7 +60,7 @@ def is_approved(user_id):
 def get_all_approved():
     try:
         return SESSION.query(PmPermit_Sql).all()
-    except BaseException:
+    except Exception:
         return None
     finally:
         SESSION.close()
@@ -71,7 +71,7 @@ def disapprove_all():
         SESSION.query(PmPermit_Sql).delete()
         SESSION.commit()
         return True
-    except BaseException:
+    except Exception:
         return False
     finally:
         SESSION.close()

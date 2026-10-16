@@ -10,8 +10,6 @@ from .logger import logging
 LOGS = logging.getLogger("Mido")
 __version__ = "2.10.6"
 
-loop = None
-
 if Config.STRING_SESSION:
     session = bothseesion(Config.STRING_SESSION, LOGS)
 else:
@@ -22,7 +20,6 @@ try:
         session=session,
         api_id=Config.APP_ID,
         api_hash=Config.API_HASH,
-        loop=loop,
         app_version=__version__,
         connection=ConnectionTcpAbridged,
         auto_reconnect=True,
@@ -40,7 +37,6 @@ try:
         session="ZedTgbot",
         api_id=Config.APP_ID,
         api_hash=Config.API_HASH,
-        loop=loop,
         app_version=__version__,
         connection=ConnectionTcpAbridged,
         auto_reconnect=True,

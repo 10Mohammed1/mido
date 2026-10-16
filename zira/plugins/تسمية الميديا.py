@@ -37,7 +37,7 @@ async def _(event):
         downloaded_file_name = await event.client.download_media(
             reply_message,
             downloaded_file_name,
-            progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+            progress_callback=lambda d, t: asyncio.get_running_loop().create_task(
                 progress(d, t, zedevent, c_time, "جـارِ التنزيـل...", file_name)
             ),
         )
@@ -80,7 +80,7 @@ async def _(event):
         downloaded_file_name = await event.client.download_media(
             reply_message,
             downloaded_file_name,
-            progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+            progress_callback=lambda d, t: asyncio.get_running_loop().create_task(
                 progress(d, t, zedevent, c_time, "جـارِ التنزيـل...", file_name)
             ),
         )
@@ -100,7 +100,7 @@ async def _(event):
                 allow_cache=False,
                 reply_to=reply_to_id,
                 thumb=thumb,
-                progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+                progress_callback=lambda d, t: asyncio.get_running_loop().create_task(
                     progress(
                         d, t, event, c_time, "جـارِ الـرفـع...", downloaded_file_name
                     )
@@ -145,7 +145,7 @@ async def _(event):
         downloaded_file_name = await event.client.download_media(
             reply_message,
             downloaded_file_name,
-            progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+            progress_callback=lambda d, t: asyncio.get_running_loop().create_task(
                 progress(d, t, zedevent, c_time, "جـارِ التنزيـل...", file_name)
             ),
         )
@@ -165,7 +165,7 @@ async def _(event):
                 allow_cache=False,
                 reply_to=reply_to_id,
                 thumb=thumb,
-                progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+                progress_callback=lambda d, t: asyncio.get_running_loop().create_task(
                     progress(
                         d, t, event, c_time, "جـارِ الـرفـع...", downloaded_file_name
                     )

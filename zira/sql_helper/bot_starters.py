@@ -63,7 +63,7 @@ def get_starter_details(user_id):
 def get_all_starters():
     try:
         return SESSION.query(Bot_Starters).all()
-    except BaseException:
+    except Exception:
         return None
     finally:
         SESSION.close()

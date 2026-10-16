@@ -9,7 +9,11 @@ import textwrap
 from urllib.parse import quote_plus
 from collections import deque
 from PIL import Image, ImageDraw, ImageFont
-from telethon.tl.types import InputMessagesFilterDocument
+from telethon import errors
+from telethon.tl.types import (
+    ChannelParticipantsAdmins,
+    InputMessagesFilterDocument,
+)
 from telethon.tl.functions.users import GetFullUserRequest
 from . import zedub
 from ..Config import Config
@@ -996,7 +1000,7 @@ async def _(event):
 
 @zedub.zed_cmd(pattern="كليم$")
 async def _(event):
-    mentions = "`😏/\n/▌ \n/ \\n████\n╬╬\n╬╬\n╬╬\n╬╬\n╬╬\n╬╬\n╬╬\😦\n╬╬/▌\n╬╬/\`"
+    mentions = "`😏/\n/▌ \n/ \\n████\n╬╬\n╬╬\n╬╬\n╬╬\n╬╬\n╬╬\n╬╬\\😦\n╬╬/▌\n╬╬/\\`"
     chat = await event.get_input_chat()
     async for _ in event.client.iter_participants(
         chat, filter=ChannelParticipantsAdmins
@@ -1013,7 +1017,7 @@ async def _(event):
 
 @zedub.zed_cmd(pattern="نار$")
 async def _(event):
-    mentions = "`😲💨  🔥\n/|\     🔥🔥\n/ \   🔥🔥🔥`"
+    mentions = "`😲💨  🔥\n/|\\     🔥🔥\n/ \\   🔥🔥🔥`"
     chat = await event.get_input_chat()
     async for _ in event.client.iter_participants(
         chat, filter=ChannelParticipantsAdmins
@@ -1030,7 +1034,7 @@ async def _(event):
 
 @zedub.zed_cmd(pattern="انتحر$")
 async def _(event):
-    mentions = "`.      😎\n          |\👐\n         / \\\n━━━━━┓ ＼＼ \n┓┓┓┓┓┃\n┓┓┓┓┓┃ ヽ😩ノ\n┓┓┓┓┓┃ 　 /　\n┓┓┓┓┓┃  ノ)　 \n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃`"
+    mentions = "`.      😎\n          |\\👐\n         / \\\n━━━━━┓ ＼＼ \n┓┓┓┓┓┃\n┓┓┓┓┓┃ ヽ😩ノ\n┓┓┓┓┓┃ 　 /　\n┓┓┓┓┓┃  ノ)　 \n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃`"
     chat = await event.get_input_chat()
     async for _ in event.client.iter_participants(
         chat, filter=ChannelParticipantsAdmins
@@ -1254,13 +1258,13 @@ async def _(event):
     event = await edit_or_reply(event, f"**Ready Commando **__{DEFAULTUSER}....")
     animation_chars = [
         "Ｆｉｉｉｉｉｒｅ",
-        f"__**Commando **__{DEFAULTUSER}          \n\n_/﹋\_\n (҂`_´)\n <,︻╦╤─ ҉ - \n _/﹋\_\n",
-        f"__**Commando **__{DEFAULTUSER}          \n\n_/﹋\_\n (҂`_´)\n  <,︻╦╤─ ҉ - -\n _/﹋\_\n",
-        f"__**Commando **__{DEFAULTUSER}          \n\n_/﹋\_\n (҂`_´)\n <,︻╦╤─ ҉ - - -\n _/﹋\_\n",
-        f"__**Commando **__{DEFAULTUSER}          \n\n_/﹋\_\n (҂`_´)\n<,︻╦╤─ ҉ - -\n _/﹋\_\n",
-        f"__**Commando **__{DEFAULTUSER}          \n\n_/﹋\_\n (҂`_´)\n <,︻╦╤─ ҉ - \n _/﹋\_\n",
-        f"__**Commando **__{DEFAULTUSER}         \n\n_/﹋\_\n (҂`_´)\n  <,︻╦╤─ ҉ - -\n _/﹋\_\n",
-        f"__**Commando **__{DEFAULTUSER}          \n\n_/﹋\_\n (҂`_´)\n <,︻╦╤─ ҉ - - - {name}\n _/﹋\_\n",
+        f"__**Commando **__{DEFAULTUSER}          \n\n_/﹋\\_\n (҂`_´)\n <,︻╦╤─ ҉ - \n _/﹋\\_\n",
+        f"__**Commando **__{DEFAULTUSER}          \n\n_/﹋\\_\n (҂`_´)\n  <,︻╦╤─ ҉ - -\n _/﹋\\_\n",
+        f"__**Commando **__{DEFAULTUSER}          \n\n_/﹋\\_\n (҂`_´)\n <,︻╦╤─ ҉ - - -\n _/﹋\\_\n",
+        f"__**Commando **__{DEFAULTUSER}          \n\n_/﹋\\_\n (҂`_´)\n<,︻╦╤─ ҉ - -\n _/﹋\\_\n",
+        f"__**Commando **__{DEFAULTUSER}          \n\n_/﹋\\_\n (҂`_´)\n <,︻╦╤─ ҉ - \n _/﹋\\_\n",
+        f"__**Commando **__{DEFAULTUSER}         \n\n_/﹋\\_\n (҂`_´)\n  <,︻╦╤─ ҉ - -\n _/﹋\\_\n",
+        f"__**Commando **__{DEFAULTUSER}          \n\n_/﹋\\_\n (҂`_´)\n <,︻╦╤─ ҉ - - - {name}\n _/﹋\\_\n",
     ]
     for i in animation_ttl:
         await asyncio.sleep(animation_interval)
@@ -1741,10 +1745,10 @@ async def kakashi(killer):
     await edit_or_reply(
         killer,
         f"__**Commando **__{DEFAULTUSER}          \n\n"
-        "_/﹋\_\n"
+        "_/﹋\\_\n"
         "(҂`_´)\n"
         f"<,︻╦╤─ ҉ - - - {name}\n"
-        "_/﹋\_\n",
+        "_/﹋\\_\n",
     )
 
 
@@ -2350,14 +2354,14 @@ love = [
 ░███████░
 """,
     '''
-                /'    `\./'    `\
+                /'    `\\./'    `\
                (  o  o  |  u  u  )
-               ;`.  V  /"\  V  .';
-       """"\."     __ ) ( __     "./""""/
-        \   ;     aP""Y,_,P""Ya     ;   /
+               ;`.  V  /"\\  V  .';
+       """"\\."     __ ) ( __     "./""""/
+        \\   ;     aP""Y,_,P""Ya     ;   /
          `,; ._  d'    `"'    `b  _. ;,'
       ,,,,aaaaaa.8,  I  Love  ,8.aaaaaa,,,,
-      I8\\\\\\\\\`Y,   You   ,P'/////////8I
+      I8\\\\\\\\\\`Y,   You   ,P'/////////8I
        "Ya\\\\\\\\\"Y,     ,P"/////////aY"
          "Ya\\\\\\\\\"Y,_,P"/////////aP"
            `"Ya\\\\\\\\`Y'////////aP"'
@@ -2397,10 +2401,10 @@ love = [
       //+=-=+=-=+=-=+=-=+=-=+=-=+=-=+\\//=-=+=-=+=-=+=-=+=-=+=-=+=-=+\\
     //-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-\\
    ++=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=++
-   ||~~\    /~~~\/~~~\   /~~~\/~~~\   /~~~\/~~~\   /~~~\/~~~\   /~~~\/~~||
-   ||  /    \        /   \        /   \        /   \        /   \       ||
-   ||/        \    /       \    /       \    /       \    /       \    /||
-   ||           \/           \/           \/           \/           \/  ||
+   ||~~\\    /~~~\\/~~~\\   /~~~\\/~~~\\   /~~~\\/~~~\\   /~~~\\/~~~\\   /~~~\\/~~||
+   ||  /    \\        /   \\        /   \\        /   \\        /   \\       ||
+   ||/        \\    /       \\    /       \\    /       \\    /       \\    /||
+   ||           \\/           \\/           \\/           \\/           \\/  ||
    ++=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=++
     \\-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=//
       `\\=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+//'
@@ -2653,7 +2657,7 @@ async def sticklet(event):
     )
     try:
         os.remove(FONT_FILE)
-    except BaseException:
+    except Exception:
         pass
 
 

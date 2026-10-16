@@ -5,6 +5,7 @@ from telethon import functions
 from .Config import Config
 from .core.logger import logging
 from .core.session import zedub
+from .core.loop import get_loop
 from .utils import mybot, autoname, autovars, saves
 from .utils import add_bot_to_logger_group, load_plugins, setup_bot, startupmessage, verifyLoggerGroup
 
@@ -13,7 +14,7 @@ cmdhr = Config.COMMAND_HAND_LER
 
 try:
     LOGS.info("⌭ جـارِ تحميـل الملحقـات ⌭")
-    zedub.loop.run_until_complete(autovars())
+    get_loop().run_until_complete(autovars())
     LOGS.info("✓ تـم تحميـل الملحقـات .. بنجـاح ✓")
 except Exception as e:
     LOGS.error(f"- {e}")
@@ -21,14 +22,14 @@ except Exception as e:
 if not Config.ALIVE_NAME:
     try:
         LOGS.info("⌭ بـدء إضافة الاسـم التلقـائـي ⌭")
-        zedub.loop.run_until_complete(autoname())
+        get_loop().run_until_complete(autoname())
         LOGS.info("✓ تـم إضافة فار الاسـم .. بـنجـاح ✓")
     except Exception as e:
         LOGS.error(f"- {e}")
 
 try:
     LOGS.info("⌭ بـدء تنزيـل Mido ⌭")
-    zedub.loop.run_until_complete(setup_bot())
+    get_loop().run_until_complete(setup_bot())
     LOGS.info("✓ تـم تنزيـل Mido .. بـنجـاح ✓")
 except Exception as e:
     LOGS.error(f"{str(e)}")
@@ -41,14 +42,14 @@ Catcheck = CatCheck()
 
 try:
     LOGS.info("⌭ بـدء إنشـاء البـوت التلقـائـي ⌭")
-    zedub.loop.run_until_complete(mybot())
+    get_loop().run_until_complete(mybot())
     LOGS.info("✓ تـم إنشـاء البـوت .. بـنجـاح ✓")
 except Exception as e:
     LOGS.error(f"- {e}")
 
 try:
     LOGS.info("⌭ الاشتـراك الاجبـاري معطّـل .. تمـام ⌭")
-    zedub.loop.create_task(saves())
+    get_loop().create_task(saves())
     LOGS.info("✓ لا يـوجـد أي اشـتـراك اجـبـاري .. بـنجـاح ✓")
 except Exception as e:
     LOGS.error(f"- {e}")
@@ -68,7 +69,7 @@ async def startup_process():
     return
 
 
-zedub.loop.run_until_complete(startup_process())
+get_loop().run_until_complete(startup_process())
 
 if len(sys.argv) not in (1, 3, 4):
     zedub.disconnect()

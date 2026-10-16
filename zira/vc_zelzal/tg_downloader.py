@@ -64,14 +64,14 @@ async def tg_dl(event):
         ):
             await reply.download_media(
                 file=file_name.absolute(),
-                progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+                progress_callback=lambda d, t: asyncio.get_running_loop().create_task(
                     progress(d, t, mone, c_time, "**- جـارِ التحميـل 📥...**")
                 ),
             )
         elif not reply.document:
             file_name = await reply.download_media(
                 file=downloads,
-                progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+                progress_callback=lambda d, t: asyncio.get_running_loop().create_task(
                     progress(d, t, mone, c_time, "**- جـارِ التحميـل 📥...**")
                 ),
             )
@@ -80,7 +80,7 @@ async def tg_dl(event):
             await event.client.fast_download_file(
                 location=reply.document,
                 out=dl,
-                progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+                progress_callback=lambda d, t: asyncio.get_running_loop().create_task(
                     progress(d, t, mone, c_time, "**- جـارِ التحميـل 📥...**")
                 ),
             )
