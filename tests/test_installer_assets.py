@@ -213,7 +213,11 @@ def test_docs_cover_the_official_commands():
     for needle in ("Mido-RDP-Install.ps1 -Mode Install", "-Mode Update", "-Mode Repair", "Mido-Start.cmd"):
         assert needle in text, needle
     assert "Mido-OneClick.ps1" in text
-    assert "Mido-OneClick.ps1" in (ROOT / "README.md").read_text(encoding="utf-8")
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    assert "Mido-OneClick.ps1" in readme
+    # the paste-able one-liner is documented for both audiences
+    assert "$env:MIDO_GITHUB_TOKEN=$t" in text
+    assert "$env:MIDO_GITHUB_TOKEN=$t" in readme
 
 
 # ── real PowerShell execution ────────────────────────────────────────────────
@@ -273,12 +277,14 @@ ConvertTo-Json -InputObject @{{
 """
 
 
-def _run_pwsh(tmp_path: Path, name: str, script: str) -> dict:
+def _run_pwsh(tmp_path: Path, name: str, script: str, **extra) -> dict:
+    fields = {
+        "ps1": str(PS1).replace("'", "''"),
+        "oneclick": str(ONECLICK).replace("'", "''"),
+    }
+    fields.update({key: str(value).replace("'", "''") for key, value in extra.items()})
     path = tmp_path / name
-    path.write_text(
-        script.format(ps1=str(PS1).replace("'", "''"), oneclick=str(ONECLICK).replace("'", "''")),
-        encoding="utf-8",
-    )
+    path.write_text(script.format(**fields), encoding="utf-8")
     proc = subprocess.run(
         [PWSH, "-NoProfile", "-NonInteractive", "-File", str(path)],
         capture_output=True,
@@ -296,6 +302,36 @@ def test_both_scripts_parse_with_real_powershell(tmp_path):
     assert set(report) == {"Mido-RDP-Install.ps1", "Mido-OneClick.ps1"}
     for name, errors in report.items():
         assert errors == [], f"{name}: {errors}"
+
+
+ONE_LINER_PROBE = r"""
+$ErrorActionPreference = 'Stop'
+$errors = $null
+[void][System.Management.Automation.Language.Parser]::ParseFile('{target}', [ref]$null, [ref]$errors)
+ConvertTo-Json -InputObject @{{ errors = @($errors | ForEach-Object {{ $_.Message }}) }} -Compress
+"""
+
+
+@pytest.mark.skipif(PWSH is None, reason="PowerShell is not installed (CI runners have it)")
+def test_documented_one_liner_is_valid_powershell(tmp_path):
+    """The paste-able one-liner is the primary entry point on a fresh RDP box:
+    a single typo there stops the operator before anything else can help."""
+    text = START_HERE.read_text(encoding="utf-8-sig")
+    lines = [
+        line.strip()
+        for line in text.splitlines()
+        if line.strip().startswith("$ErrorActionPreference='Stop'")
+    ]
+    assert lines, "the one-liner is missing from START-HERE-WINDOWS.txt"
+    target = tmp_path / "one-liner.ps1"
+    target.write_text(lines[0], encoding="utf-8")
+    payload = _run_pwsh(tmp_path, "probe.ps1", ONE_LINER_PROBE, target=target)
+    assert payload["errors"] == [], payload["errors"]
+    # the token must never be written to disk by the one-liner, only exported
+    # to the installer process through the environment
+    assert "$env:MIDO_GITHUB_TOKEN=$t" in lines[0]
+    assert "Remove-Item Env:\\MIDO_GITHUB_TOKEN" in lines[0]
+    assert "-OutFile" in lines[0] and "$env:TEMP" in lines[0]
 
 
 @pytest.mark.skipif(PWSH is None, reason="PowerShell is not installed (CI runners have it)")

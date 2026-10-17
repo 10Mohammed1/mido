@@ -2,39 +2,64 @@
   Mido · ابدأ من هنا  (ويندوز / RDP)
 ================================================================================
 
-  أمامك طريقتان — اختر واحدة فقط:
+  اختر طريقة واحدة فقط — مرتبة من الأسهل:
 
-    الطريقة أ) ملف واحد  →  Mido-OneClick.ps1
-       (ينزّل بقية المشروع من GitHub — يحتاج توكن GitHub مرة واحدة)
-
-    الطريقة ب) المجلد كامل  →  Mido-RDP-Install.ps1
-       (يعمل بدون GitHub تمامًا — لا يطلب أي توكن)
-
-
---------------------------------------------------------------------------------
-الطريقة أ) ملف واحد فقط: ارفع Mido-OneClick.ps1 على السيرفر ثم شغّل:
---------------------------------------------------------------------------------
-
-    powershell -ExecutionPolicy Bypass -File .\Mido-OneClick.ps1
-
-  سيسألك عن توكن GitHub (إن لم يكن gh مسجّلًا للدخول):
-    أنشئه من: https://github.com/settings/tokens   (صلاحية قراءة المستودع)
-  ثم ينزّل أحدث نسخة من المشروع ويتابع التثبيت تلقائيًا.
-
-
---------------------------------------------------------------------------------
-الطريقة ب) المجلد كامل: انسخ المجلد كما هو على السيرفر ثم شغّل داخل المجلد:
---------------------------------------------------------------------------------
-
-    powershell -ExecutionPolicy Bypass -File .\Mido-RDP-Install.ps1 -Mode Install
-
-  هذه الطريقة لا تحتاج توكن GitHub ولا تتصل بالمستودع إطلاقًا.
-  (تحتاج إنترنت فقط لتنزيل Python/Git والمكتبات، ولو السيرفر بلا إنترنت
-   ثبّت Python 3.12+ و Git يدويًا من python.org و git-scm.com ثم أعد الأمر.)
+    الطريقة 0) سطر واحد يُلصق في PowerShell (لا تنزيل ملفات ولا مسارات)
+    الطريقة أ) ملف واحد            →  Mido-OneClick.ps1
+    الطريقة ب) المجلد كامل         →  Mido-RDP-Install.ps1  (بدون GitHub إطلاقًا)
 
 
 ================================================================================
-  ما سيحدث في كلتا الطريقتين
+  الطريقة 0) الأسهل: انسخ السطر التالي والصقه في PowerShell واضغط Enter
+             (استبدل التوكن بتوكن GitHub بصلاحية قراءة المستودع)
+================================================================================
+
+  سطر واحد جاهز للصق:
+
+  $ErrorActionPreference='Stop'; [Net.ServicePointManager]::SecurityProtocol=[Net.SecurityProtocolType]::Tls12; $s=Read-Host 'GitHub token' -AsSecureString; $t=[System.Net.NetworkCredential]::new('',$s).Password; $h=@{Authorization="token $t";'User-Agent'='Mido'}; $p="$env:TEMP\Mido-OneClick.ps1"; Invoke-WebRequest 'https://raw.githubusercontent.com/10Mohammed1/mido/main/Mido-OneClick.ps1' -Headers $h -OutFile $p -UseBasicParsing; $env:MIDO_GITHUB_TOKEN=$t; powershell -NoProfile -ExecutionPolicy Bypass -File $p; Remove-Item Env:\MIDO_GITHUB_TOKEN -ErrorAction SilentlyContinue
+
+  أو نفس الشيء مكتوبًا على أسطر (يمكن لصق الأسطر معًا):
+
+  $ErrorActionPreference='Stop'
+  [Net.ServicePointManager]::SecurityProtocol=[Net.SecurityProtocolType]::Tls12
+  $s=Read-Host 'GitHub token (لن يظهر)' -AsSecureString
+  $t=[System.Net.NetworkCredential]::new('',$s).Password
+  $h=@{Authorization="token $t"; 'User-Agent'='Mido'}
+  $p="$env:TEMP\Mido-OneClick.ps1"
+  Invoke-WebRequest 'https://raw.githubusercontent.com/10Mohammed1/mido/main/Mido-OneClick.ps1' -Headers $h -OutFile $p -UseBasicParsing
+  $env:MIDO_GITHUB_TOKEN=$t
+  powershell -NoProfile -ExecutionPolicy Bypass -File $p
+  Remove-Item Env:\MIDO_GITHUB_TOKEN -ErrorAction SilentlyContinue
+
+  هذا السطر: يسألك عن التوكن مرة واحدة → ينزّل المثبّت → يثبّت كل شيء → يسألك
+  بيانات تيليجرام → يفحص المشروع. (لأن المستودع خاص، التوكن ضروري للتنزيل.)
+
+
+================================================================================
+  الطريقة أ) ملف واحد: نزّل Mido-OneClick.ps1 إلى السيرفر ثم شغّله
+================================================================================
+
+    powershell -ExecutionPolicy Bypass -File .\Mido-OneClick.ps1
+
+  ملاحظة مهمة: التنزيل من المتصفح يذهب عادةً إلى مجلد Downloads، لذلك إما:
+
+    cd $env:USERPROFILE\Downloads
+    powershell -ExecutionPolicy Bypass -File .\Mido-OneClick.ps1
+
+  أو اعرف مكان الملف أولًا:
+
+    Get-ChildItem $env:USERPROFILE -Recurse -Filter 'Mido-*.ps1' -ErrorAction SilentlyContinue | Select-Object -First 5 FullName
+
+
+================================================================================
+  الطريقة ب) المجلد كامل (بدون أي توكن أو اتصال بـ GitHub)
+================================================================================
+
+    powershell -ExecutionPolicy Bypass -File .\Mido-RDP-Install.ps1 -Mode Install
+
+
+================================================================================
+  ما سيحدث في كل الطرق
 ================================================================================
 
   المثبّت يتكفّل بـ: Python + Git ← المكتبات ← إنشاء .env ← تسجيل دخول تيليجرام
@@ -57,7 +82,7 @@
 --------------------------------------------------------------------------------
 التشغيل في أي وقت لاحق
 --------------------------------------------------------------------------------
-    اضغط مرتين على:   Mido-Start.cmd
+    اضغط مرتين على:   Mido-Start.cmd     (داخل مجلد المشروع %USERPROFILE%\Mido)
     أو:
     .\.venv\Scripts\python.exe -m zira
 

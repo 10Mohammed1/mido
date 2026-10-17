@@ -9,6 +9,17 @@ Windows 10/11) بحيث يعمل البوت بالكامل: المكتبات →
 
 ## 1) التثبيت السريع
 
+### الطريقة صفر) سطر واحد يُلصق في PowerShell (الأسرع — بلا تنزيل ملفات)
+
+انسخ السطر التالي والصقه في PowerShell على السيرفر (سيطلب منك توكن GitHub مرة واحدة):
+
+```powershell
+$ErrorActionPreference='Stop'; [Net.ServicePointManager]::SecurityProtocol=[Net.SecurityProtocolType]::Tls12; $s=Read-Host 'GitHub token' -AsSecureString; $t=[System.Net.NetworkCredential]::new('',$s).Password; $h=@{Authorization="token $t";'User-Agent'='Mido'}; $p="$env:TEMP\Mido-OneClick.ps1"; Invoke-WebRequest 'https://raw.githubusercontent.com/10Mohammed1/mido/main/Mido-OneClick.ps1' -Headers $h -OutFile $p -UseBasicParsing; $env:MIDO_GITHUB_TOKEN=$t; powershell -NoProfile -ExecutionPolicy Bypass -File $p; Remove-Item Env:\MIDO_GITHUB_TOKEN -ErrorAction SilentlyContinue
+```
+
+> المستودع خاص، لذلك التوكن (صلاحية `repo`) ضروري لتنزيل الملف. السطر لا يطبع التوكن
+> ولا يكتبه على القرص، ويمرّره للمثبّت عبر متغيّر بيئة فقط (لا في الأمر نفسه).
+
 ### الطريقة أ) ملف واحد فقط — `Mido-OneClick.ps1` (الأسهل)
 
 1. نزّل **`Mido-OneClick.ps1`** (من المستودع أو من صفحة Releases) وانسخه إلى السيرفر.
