@@ -33,6 +33,7 @@ python mido_setup.py setup              # الإعداد التفاعلي
 python mido_setup.py import-session X.session   # استيراد جلسة والتحقق منها
 ```
 
-* الاختبارات: `python -m pytest tests -q` (تعمل على Linux وWindows) — سيتم تشغيلها تلقائيًا
-  في GitHub Actions على `ubuntu-latest` و`windows-latest`.
+* الاختبارات: `python -m pytest tests -q` (تعمل على Linux وWindows) — ملف سير العمل جاهز في
+  `.github/workflows/Tests.yml` لتشغيلها تلقائيًا على `ubuntu-latest` و`windows-latest`
+  (يتطلّب تفعيل GitHub Actions للحساب)، ويمكن تشغيلها محليًا على أي نظام.
 

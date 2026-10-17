@@ -54,6 +54,12 @@
     Log file: %TEMP%\mido-install.log (secrets are masked before they reach it).
     Exit codes: 0 = success, 1 = failure, 2 = wrong environment / usage.
 #>
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '', Justification = 'read by the helper functions through the script scope')]
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingWriteHost', '', Justification = 'interactive installer: the console is the user interface')]
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseApprovedVerbs', '', Justification = 'the private helpers follow the project wording (Ensure/Protect), not the cmdlet convention')]
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseSingularNouns', '', Justification = 'private helpers, not public cmdlets')]
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '', Justification = 'a one-shot installer: every action is already announced to the user')]
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidOverwritingBuiltInCmdlets', '', Justification = 'Write-Log is a private helper; the installer never loads the module that ships it')]
 [CmdletBinding()]
 param(
     [ValidateSet("Install", "Update", "Setup", "Check", "Start", "Repair")]
@@ -90,7 +96,9 @@ function Write-Log {
     try {
         $stamp = (Get-Date).ToString("yyyy-MM-dd HH:mm:ss")
         Add-Content -LiteralPath $script:LogFile -Value "[$stamp] $Text" -Encoding UTF8 -ErrorAction SilentlyContinue
-    } catch { }
+    } catch {
+        Write-Verbose "mido: log file not writable: $($_.Exception.Message)"
+    }
 }
 
 function Write-Head {
@@ -337,7 +345,9 @@ function Install-PythonFromWeb {
         try {
             $head = Invoke-WebRequest -Uri $url -Method Head -UseBasicParsing -TimeoutSec 45
             if ($head.StatusCode -eq 200) { $installer = $url; break }
-        } catch { }
+        } catch {
+            Write-Verbose "mido: no installer at $url"
+        }
     }
     if (-not $installer) {
         throw "تعذّر العثور على مثبّت Python مناسب — ثبّت Python 3.12+ يدويًا من python.org ثم أعد التشغيل."
@@ -385,7 +395,9 @@ function Install-GitFromWeb {
     if (-not $url) {
         $url = "https://github.com/git-for-windows/git/releases/download/v2.56.0.windows.2/Git-2.56.0.2-64-bit.exe"
         $head = $null
-        try { $head = Invoke-WebRequest -Uri $url -Method Head -UseBasicParsing -TimeoutSec 45 } catch { }
+        try { $head = Invoke-WebRequest -Uri $url -Method Head -UseBasicParsing -TimeoutSec 45 } catch {
+            Write-Verbose "mido: fallback Git URL did not respond: $($_.Exception.Message)"
+        }
         if (-not $head -or $head.StatusCode -ne 200) {
             throw "تعذّر تحديد رابط Git for Windows — ثبّت Git يدويًا من git-scm.com ثم أعد التشغيل."
         }
@@ -521,7 +533,6 @@ function Invoke-MidoGit {
 }
 
 function Ensure-Repository {
-    param([hashtable]$Launcher)
     Write-Head "المستودع"
     $gitDir = Join-Path $RepoDir ".git"
     if ((Test-Path -LiteralPath $gitDir) -and (Test-Path -LiteralPath (Join-Path $RepoDir "mido_setup.py"))) {
@@ -579,7 +590,6 @@ function Ensure-Repository {
 }
 
 function Update-Repository {
-    param([hashtable]$Launcher)
     Write-Head "تحديث المستودع"
     if (-not (Test-Path -LiteralPath (Join-Path $RepoDir ".git"))) {
         throw "$RepoDir ليس مستودع git — شغّل -Mode Install أولًا."
@@ -793,7 +803,9 @@ function Test-IsWindows {
 
 function Invoke-MidoMain {
     $exitCode = 0
-    try { [Console]::OutputEncoding = [System.Text.Encoding]::UTF8 } catch { }
+    try { [Console]::OutputEncoding = [System.Text.Encoding]::UTF8 } catch {
+        Write-Verbose "mido: console encoding left untouched: $($_.Exception.Message)"
+    }
     Write-Host ""
     Write-Host "  Mido - Windows/RDP installer - mode: $Mode (installer $($script:MidoInstallerVersion))" -ForegroundColor Magenta
     Write-Host "  Log: $($script:LogFile)" -ForegroundColor DarkGray
@@ -838,7 +850,7 @@ function Invoke-MidoMain {
                 $launcher = Ensure-Prerequisites
                 if (-not (Test-Path -LiteralPath (Join-Path $RepoDir "mido_setup.py"))) {
                     Write-Warn2 "المشروع غير موجود — سيتم تثبيته بالكامل."
-                    Ensure-Repository -Launcher $launcher | Out-Null
+                    Ensure-Repository | Out-Null
                 }
                 $venvPython = Ensure-Venv -Launcher $launcher
                 if (-not $SkipDeps) { Install-Dependencies -VenvPython $venvPython | Out-Null }
@@ -878,12 +890,12 @@ function Invoke-MidoMain {
                 $repoExisted = Test-Path -LiteralPath (Join-Path $RepoDir "mido_setup.py")
                 if ($repoExisted) {
                     if ($Mode -eq "Update") {
-                        Update-Repository -Launcher $launcher | Out-Null
+                        Update-Repository | Out-Null
                     } else {
-                        try { Update-Repository -Launcher $launcher | Out-Null } catch { Write-Warn2 "تعذّر التحديث: $(Protect-Secrets $_.Exception.Message)" }
+                        try { Update-Repository | Out-Null } catch { Write-Warn2 "تعذّر التحديث: $(Protect-Secrets $_.Exception.Message)" }
                     }
                 } else {
-                    Ensure-Repository -Launcher $launcher | Out-Null
+                    Ensure-Repository | Out-Null
                 }
                 $venvPython = Ensure-Venv -Launcher $launcher
                 Install-Dependencies -VenvPython $venvPython | Out-Null

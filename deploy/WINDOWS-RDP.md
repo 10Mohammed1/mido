@@ -197,10 +197,27 @@ pip install --no-deps -r requirements-nodeps.txt
 
 ## 8) قيود معروفة (بصراحة)
 
-* سكربت `Mido-RDP-Install.ps1` كُتب لـ PowerShell 5.1+ على ويندوز. منطق التثبيت
-  (تنزيل، venv، إعداد، فحص) مغطّى باختبارات آلية على `windows-latest` في GitHub Actions
-  لمسار Python/المكتبات/الإعداد، لكن **تشغيل المثبّت نفسه على سيرفر RDP حقيقي لم يُنفَّذ
-  من داخل بيئة التطوير** — أول تشغيل حقيقي هو اختبارك، والسجل `%TEMP%\mido-install.log`
-  سيحدّد أي مشكلة بدقة.
+* سكربت `Mido-RDP-Install.ps1` كُتب لـ PowerShell 5.1+ على ويندوز. ما تحقّقنا منه فعليًا:
+  * فحص ثابت بـ **PSScriptAnalyzer 1.25** (كل القواعد Error/Warning): **لا ملاحظات**،
+    وقاعدة التوافق `PSUseCompatibleSyntax` مع **PowerShell 5.1**: **لا ملاحظات**.
+  * دوال السكربت النقية (تحديد روابط Python من python.org، اختيار حزمة Git، تقنيع الأسرار)
+    **تُنفَّذ فعليًا** في `tests/test_installer_assets.py` عبر PowerShell حقيقي.
+  * مسار Python/المكتبات/الإعداد مغطّى بنفس الاختبارات على Linux.
+  * **ما لم يتحقّق بعد:** تشغيل المثبّت كاملًا على سيرفر ويندوز حقيقي. ملف
+    `.github/workflows/Tests.yml` جاهز لتشغيل الاختبارات على `windows-latest`، لكن
+    **GitHub Actions معطّل حاليًا على مستوى الحساب** (`Actions has been disabled for this user`)،
+    لذلك لم تظهر نتائج ويندوز من CI بعد. أول تشغيل حقيقي على RDP هو اختبارك، والسجل
+    `%TEMP%\mido-install.log` سيحدّد أي مشكلة بدقة.
+
+  للتحقق على أي جهاز ويندوز بعد التثبيت:
+
+  ```powershell
+  .\.venv\Scripts\python.exe -m pip install pytest
+  .\.venv\Scripts\python.exe -m pytest tests -q          # المتوقع: 127 اختبارًا ناجحًا
+  .\Mido-RDP-Install.ps1 -Mode Check                     # فحص شامل بدون أي تعديل
+  ```
+
 * مشغّل المجموعات الصوتية (`vcplayer`) غير مدعوم على ويندوز (مكتباته Linux-only) ويُستثنى تلقائيًا.
 * `selenium` مثبّت لكنه يحتاج Chrome/Chromedriver على السيرفر (اختياري لأوامر الفحص).
+* ملفان للمكتبات: `requirements.txt` ثم `requirements-nodeps.txt` (بـ `--no-deps`) — التفصيل في
+  قسم "المكتبات: لماذا ملفان؟" أعلاه.
