@@ -22,12 +22,16 @@ $ErrorActionPreference='Stop'; [Net.ServicePointManager]::SecurityProtocol=[Net.
 
 ### الطريقة أ) ملف واحد فقط — `Mido-OneClick.ps1` (الأسهل)
 
-1. نزّل **`Mido-OneClick.ps1`** (من المستودع أو من صفحة Releases) وانسخه إلى السيرفر.
-2. شغّله:
+1. نزّل **`Mido-OneClick.ps1`** (من المستودع أو من صفحة Releases).
+2. شغّل سطرًا واحدًا يتعامل مع مكان الملف أيًّا كان (تنزيلات المتصفح تذهب عادةً إلى
+   `Downloads`، وقد يتغير اسم الملف):
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\Mido-OneClick.ps1
+cd $env:USERPROFILE\Downloads; $f=(Get-ChildItem -Filter 'Mido-OneClick*.ps1' -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName; if (-not $f) { Write-Host 'Mido-OneClick.ps1 غير موجود في Downloads — استخدم الطريقة صفر أو انسخ الملف إلى هذا المجلد' } else { Unblock-File $f -ErrorAction SilentlyContinue; powershell -NoProfile -ExecutionPolicy Bypass -File $f }
 ```
+
+> إن كان الملف في نفس المجلد الذي أنت فيه الآن: `powershell -ExecutionPolicy Bypass -File .\Mido-OneClick.ps1`
+> (علامة `.\` تعني «في المجلد الحالي» — لهذا يفشل الأمر من مجلد آخر).
 
 يسألك عن توكن GitHub (أو يستخدم `gh` إن كان مسجّلًا للدخول)، ثم **ينزّل أحدث نسخة من
 المشروع** إلى `%USERPROFILE%\Mido` ويشغّل التثبيت الكامل تلقائيًا. ملف واحد يكفي.

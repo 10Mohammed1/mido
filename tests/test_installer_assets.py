@@ -314,7 +314,7 @@ ConvertTo-Json -InputObject @{{ errors = @($errors | ForEach-Object {{ $_.Messag
 
 @pytest.mark.skipif(PWSH is None, reason="PowerShell is not installed (CI runners have it)")
 def test_documented_one_liner_is_valid_powershell(tmp_path):
-    """The paste-able one-liner is the primary entry point on a fresh RDP box:
+    """The paste-able one-liners are the primary entry point on a fresh RDP box:
     a single typo there stops the operator before anything else can help."""
     text = START_HERE.read_text(encoding="utf-8-sig")
     lines = [
@@ -332,6 +332,25 @@ def test_documented_one_liner_is_valid_powershell(tmp_path):
     assert "$env:MIDO_GITHUB_TOKEN=$t" in lines[0]
     assert "Remove-Item Env:\\MIDO_GITHUB_TOKEN" in lines[0]
     assert "-OutFile" in lines[0] and "$env:TEMP" in lines[0]
+
+
+@pytest.mark.skipif(PWSH is None, reason="PowerShell is not installed (CI runners have it)")
+def test_documented_downloads_folder_one_liner_is_valid_powershell(tmp_path):
+    """Second paste-able one-liner: finds the file in Downloads whatever the
+    browser named it, unblocks it, and launches it (or explains what to do)."""
+    text = START_HERE.read_text(encoding="utf-8-sig")
+    lines = [
+        line.strip()
+        for line in text.splitlines()
+        if line.strip().startswith("cd $env:USERPROFILE\\Downloads;")
+    ]
+    assert lines, "the Downloads one-liner is missing from START-HERE-WINDOWS.txt"
+    line = lines[0]
+    assert "Unblock-File" in line and "-File $f" in line
+    target = tmp_path / "downloads-one-liner.ps1"
+    target.write_text(line, encoding="utf-8")
+    payload = _run_pwsh(tmp_path, "probe2.ps1", ONE_LINER_PROBE, target=target)
+    assert payload["errors"] == [], payload["errors"]
 
 
 @pytest.mark.skipif(PWSH is None, reason="PowerShell is not installed (CI runners have it)")

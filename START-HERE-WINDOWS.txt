@@ -39,14 +39,16 @@
   الطريقة أ) ملف واحد: نزّل Mido-OneClick.ps1 إلى السيرفر ثم شغّله
 ================================================================================
 
+  لو نزّلته بالمتصفح فهو عادةً في Downloads — وسطر واحد يتعامل مع الأمر كله
+  (يجد الملف مهما كان اسمه، يفتح حظره، ويشغّله):
+
+    cd $env:USERPROFILE\Downloads; $f=(Get-ChildItem -Filter 'Mido-OneClick*.ps1' -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName; if (-not $f) { Write-Host 'Mido-OneClick.ps1 غير موجود في Downloads — استخدم الطريقة 0 أو انسخ الملف إلى هذا المجلد' } else { Unblock-File $f -ErrorAction SilentlyContinue; powershell -NoProfile -ExecutionPolicy Bypass -File $f }
+
+  أو إن كان الملف في نفس المجلد الذي أنت فيه الآن:
+
     powershell -ExecutionPolicy Bypass -File .\Mido-OneClick.ps1
 
-  ملاحظة مهمة: التنزيل من المتصفح يذهب عادةً إلى مجلد Downloads، لذلك إما:
-
-    cd $env:USERPROFILE\Downloads
-    powershell -ExecutionPolicy Bypass -File .\Mido-OneClick.ps1
-
-  أو اعرف مكان الملف أولًا:
+  ولو احتجت تعرف مكان الملف:
 
     Get-ChildItem $env:USERPROFILE -Recurse -Filter 'Mido-*.ps1' -ErrorAction SilentlyContinue | Select-Object -First 5 FullName
 

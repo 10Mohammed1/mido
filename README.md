@@ -17,11 +17,10 @@
 $ErrorActionPreference='Stop'; [Net.ServicePointManager]::SecurityProtocol=[Net.SecurityProtocolType]::Tls12; $s=Read-Host 'GitHub token' -AsSecureString; $t=[System.Net.NetworkCredential]::new('',$s).Password; $h=@{Authorization="token $t";'User-Agent'='Mido'}; $p="$env:TEMP\Mido-OneClick.ps1"; Invoke-WebRequest 'https://raw.githubusercontent.com/10Mohammed1/mido/main/Mido-OneClick.ps1' -Headers $h -OutFile $p -UseBasicParsing; $env:MIDO_GITHUB_TOKEN=$t; powershell -NoProfile -ExecutionPolicy Bypass -File $p; Remove-Item Env:\MIDO_GITHUB_TOKEN -ErrorAction SilentlyContinue
 ```
 
-**الطريقة الأسهل — ملف واحد فقط:**
+**الطريقة الأسهل — ملف واحد فقط:** نزّله من صفحة Releases (أو من المستودع) ثم شغّل **سطرًا واحدًا** يتعامل مع مكان الملف أيًّا كان:
 
 ```powershell
-# ارفع Mido-OneClick.ps1 إلى السيرفر ثم:
-powershell -ExecutionPolicy Bypass -File .\Mido-OneClick.ps1
+cd $env:USERPROFILE\Downloads; $f=(Get-ChildItem -Filter 'Mido-OneClick*.ps1' -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName; if (-not $f) { Write-Host 'Mido-OneClick.ps1 missing in Downloads' } else { Unblock-File $f -ErrorAction SilentlyContinue; powershell -NoProfile -ExecutionPolicy Bypass -File $f }
 ```
 
 ينزّل أحدث نسخة من المشروع (توكن GitHub مرة واحدة) ويكمل التثبيت والإعداد تلقائيًا.
