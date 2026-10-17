@@ -888,12 +888,17 @@ function Invoke-MidoMain {
                 # Install / Update
                 $launcher = Ensure-Prerequisites
                 $repoExisted = Test-Path -LiteralPath (Join-Path $RepoDir "mido_setup.py")
-                if ($repoExisted) {
+                $isGitCheckout = Test-Path -LiteralPath (Join-Path $RepoDir ".git")
+                if ($repoExisted -and $isGitCheckout) {
                     if ($Mode -eq "Update") {
                         Update-Repository | Out-Null
                     } else {
                         try { Update-Repository | Out-Null } catch { Write-Warn2 "تعذّر التحديث: $(Protect-Secrets $_.Exception.Message)" }
                     }
+                } elseif ($repoExisted) {
+                    # a folder copied by hand (RDP upload / ZIP): no git, no
+                    # credentials needed - use it exactly as it is
+                    Write-Info2 "المشروع موجود في $RepoDir بدون .git (نسخة منقولة) — سيُستخدم كما هو، وتُخطّى مصادقة GitHub تمامًا."
                 } else {
                     Ensure-Repository | Out-Null
                 }

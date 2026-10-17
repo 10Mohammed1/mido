@@ -42,6 +42,20 @@ def test_installer_modes_are_complete():
         assert f'"{mode}"' in text
 
 
+def test_hand_copied_folder_needs_no_github_credentials():
+    """A project folder uploaded to the RDP box (no .git) must install without
+    GitHub: no clone, no token prompt — it is used exactly as it is."""
+    text = PS1.read_text(encoding="utf-8")
+    assert "$isGitCheckout" in text
+    assert "بدون .git" in text
+    # the only code that can ask for a GitHub token is Ensure-Repository, and it
+    # is reachable *only* from the "not a git checkout" branch
+    branch = text.split("$isGitCheckout = ")[1].split("$venvPython = Ensure-Venv")[0]
+    assert "Update-Repository" in branch
+    assert "Ensure-Repository | Out-Null" in branch
+    assert "else {" in branch
+
+
 class TestSecretHandling:
     def test_token_never_reaches_the_command_line(self):
         text = PS1.read_text(encoding="utf-8")
