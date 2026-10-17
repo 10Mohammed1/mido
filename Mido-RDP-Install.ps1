@@ -513,7 +513,7 @@ function Enable-GitAuth {
     if ($NonInteractive) { return $false }
 
     Write-Host ""
-    Write-Info2 "المستودع خاص (private) — نحتاج صلاحية GitHub لتنزيله."
+    Write-Info2 "فشلت المحاولة بدون مصادقة (مستودع خاص أو اتصال محجوب) — نحتاج صلاحية GitHub."
     Write-Info2 "أنشئ توكنًا من: https://github.com/settings/tokens (صلاحية repo)"
     Write-Info2 "أو سجّل الدخول بـ: gh auth login"
     $secure = Read-Host "  الصق توكن GitHub (لن يظهر على الشاشة)" -AsSecureString
@@ -530,6 +530,39 @@ function Invoke-MidoGit {
     $env:GIT_TERMINAL_PROMPT = "0"
     $env:MIDO_GIT_USER = "x-access-token"
     return Invoke-Native -FilePath "git" -Arguments $Arguments
+}
+
+function Invoke-RepositoryClone {
+    <#
+        One clone attempt into a staging folder next to $RepoDir.  Returns $true
+        when the project ended up in $RepoDir.  User data is never touched: only
+        an empty target folder may be replaced, and only our own staging folder
+        is cleaned up.
+    #>
+    param([Parameter(Mandatory = $true)][string]$Staging)
+    try {
+        Invoke-MidoGit -Arguments @("clone", "--branch", $Branch, "--origin", "origin", $RepoUrl, $Staging) | Out-Null
+        if (-not (Test-Path -LiteralPath (Join-Path $Staging "mido_setup.py"))) {
+            throw "المستودع المُنزَّل لا يحتوي على mido_setup.py — تحقّق من الرابط والفرع ($Branch)."
+        }
+        if (Test-Path -LiteralPath $RepoDir) {
+            $items = @(Get-ChildItem -LiteralPath $RepoDir -Force)
+            if ($items.Count -gt 0) {
+                throw "$RepoDir ليس فارغًا - لن يتم حذف أي شيء. انقل محتواه أو استخدم -RepoDir آخر."
+            }
+            Remove-Item -LiteralPath $RepoDir -Force
+        }
+        Move-Item -LiteralPath $Staging -Destination $RepoDir
+        return $true
+    } catch {
+        Write-Warn2 "تعذّر الاستنساخ: $(Protect-Secrets $_.Exception.Message)"
+        return $false
+    } finally {
+        if (Test-Path -LiteralPath $Staging) {
+            # only our own, never-completed clone is removed - user data is never touched
+            Remove-Item -LiteralPath $Staging -Recurse -Force -ErrorAction SilentlyContinue
+        }
+    }
 }
 
 function Ensure-Repository {
@@ -551,36 +584,26 @@ function Ensure-Repository {
     if (-not (Test-Path -LiteralPath $RepoDir)) {
         New-Item -ItemType Directory -Path $RepoDir -Force | Out-Null
     }
-
-    if (-not (Enable-GitAuth)) {
-        throw 'لا توجد مصادقة GitHub.  صدّر $env:MIDO_GITHUB_TOKEN أو استخدم gh auth login أو شغّل بدون -NonInteractive.'
+    # never delete anything: a non-empty target aborts before any clone attempt
+    $existing = @(Get-ChildItem -LiteralPath $RepoDir -Force)
+    if ($existing.Count -gt 0) {
+        throw "$RepoDir ليس فارغًا - لن يتم حذف أي شيء. انقل محتواه أو استخدم -RepoDir آخر."
     }
 
-    Write-Step "git clone ($Branch)…"
     $stamp = Get-Date -Format "yyyyMMdd-HHmmss"
     $staging = Join-Path (Split-Path -Parent $RepoDir) ("Mido.clone-" + $stamp)
-    $cloneOk = $false
-    try {
-        Invoke-MidoGit -Arguments @("clone", "--branch", $Branch, "--origin", "origin", $RepoUrl, $staging) | Out-Null
-        if (-not (Test-Path -LiteralPath (Join-Path $staging "mido_setup.py"))) {
-            throw "المستودع المُنزَّل لا يحتوي على mido_setup.py — تحقّق من الرابط والفرع ($Branch)."
+
+    # 1) try without any credentials: a public repository needs nothing at all
+    Write-Step "git clone ($Branch)…"
+    Write-Info2 "المحاولة الأولى بدون مصادقة (تكفي للمستودعات العامة)."
+    $cloneOk = Invoke-RepositoryClone -Staging $staging
+    if (-not $cloneOk) {
+        # 2) private repository (or a blocked connection): authenticate and retry once
+        if (-not (Enable-GitAuth)) {
+            throw 'لا توجد مصادقة GitHub.  صدّر $env:MIDO_GITHUB_TOKEN أو استخدم gh auth login أو شغّل بدون -NonInteractive.'
         }
-        if (Test-Path -LiteralPath $RepoDir) {
-            $items = @(Get-ChildItem -LiteralPath $RepoDir -Force)
-            if ($items.Count -gt 0) {
-                throw "$RepoDir ليس فارغًا - لن يتم حذف أي شيء. انقل محتواه أو استخدم -RepoDir آخر."
-            }
-            Remove-Item -LiteralPath $RepoDir -Force
-        }
-        Move-Item -LiteralPath $staging -Destination $RepoDir
-        $cloneOk = $true
-    } catch {
-        Write-Warn2 "تعذّر الاستنساخ: $(Protect-Secrets $_.Exception.Message)"
-    } finally {
-        if (Test-Path -LiteralPath $staging) {
-            # only our own, never-completed clone is removed - user data is never touched
-            Remove-Item -LiteralPath $staging -Recurse -Force -ErrorAction SilentlyContinue
-        }
+        Write-Info2 "إعادة المحاولة مع مصادقة GitHub…"
+        $cloneOk = Invoke-RepositoryClone -Staging $staging
     }
     if (-not $cloneOk) {
         throw "فشل git clone من $RepoUrl — تحقّق من التوكن والاتصال بالإنترنت."
@@ -594,11 +617,31 @@ function Update-Repository {
     if (-not (Test-Path -LiteralPath (Join-Path $RepoDir ".git"))) {
         throw "$RepoDir ليس مستودع git — شغّل -Mode Install أولًا."
     }
-    if (-not (Enable-GitAuth)) {
-        Write-Warn2 "بدون مصادقة GitHub — سيُجرّب التحديث كما هو."
-    }
-    Invoke-MidoGit -Arguments @("-C", $RepoDir, "fetch", "origin", $Branch) | Out-Null
     $before = (& git -C $RepoDir rev-parse --short HEAD 2>$null) -join ""
+    # 1) try without credentials: a public repository needs nothing
+    $fetchOk = $true
+    try {
+        Invoke-MidoGit -Arguments @("-C", $RepoDir, "fetch", "origin", $Branch) | Out-Null
+    } catch {
+        $fetchOk = $false
+    }
+    if (-not $fetchOk) {
+        # 2) private repository: authenticate the documented way and retry once
+        if (Enable-GitAuth) {
+            try {
+                Invoke-MidoGit -Arguments @("-C", $RepoDir, "fetch", "origin", $Branch) | Out-Null
+                $fetchOk = $true
+            } catch {
+                $fetchOk = $false
+            }
+        } else {
+            Write-Warn2 "تعذّر الاتصال بـ GitHub (المستودع يبدو خاصًا ولا توجد مصادقة)."
+        }
+    }
+    if (-not $fetchOk) {
+        Write-Warn2 "سيُستخدم الكود الحالي بدون تحديث."
+        return $false
+    }
     Invoke-MidoGit -Arguments @("-C", $RepoDir, "pull", "--ff-only", "origin", $Branch) | Out-Null
     $after = (& git -C $RepoDir rev-parse --short HEAD 2>$null) -join ""
     if ($before -eq $after) {

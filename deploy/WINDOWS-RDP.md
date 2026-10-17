@@ -17,8 +17,9 @@ Windows 10/11) بحيث يعمل البوت بالكامل: المكتبات →
 $ErrorActionPreference='Stop'; [Net.ServicePointManager]::SecurityProtocol=[Net.SecurityProtocolType]::Tls12; $s=Read-Host 'GitHub token' -AsSecureString; $t=[System.Net.NetworkCredential]::new('',$s).Password; $h=@{Authorization="token $t";'User-Agent'='Mido'}; $p="$env:TEMP\Mido-OneClick.ps1"; Invoke-WebRequest 'https://raw.githubusercontent.com/10Mohammed1/mido/main/Mido-OneClick.ps1' -Headers $h -OutFile $p -UseBasicParsing; $env:MIDO_GITHUB_TOKEN=$t; powershell -NoProfile -ExecutionPolicy Bypass -File $p; Remove-Item Env:\MIDO_GITHUB_TOKEN -ErrorAction SilentlyContinue
 ```
 
-> المستودع خاص، لذلك التوكن (صلاحية `repo`) ضروري لتنزيل الملف. السطر لا يطبع التوكن
-> ولا يكتبه على القرص، ويمرّره للمثبّت عبر متغيّر بيئة فقط (لا في الأمر نفسه).
+> يعمل السطر **بدون أي توكن** إذا كان المستودع عامًا (public). إن كان خاصًا فسيسألك عن
+> توكن (صلاحية `repo`) — ويلزم مرة واحدة فقط. في الحالتين لا يُطبع التوكن ولا يُكتب على
+> القرص، ويُمرَّر للمثبّت عبر متغيّر بيئة لا في الأمر نفسه.
 
 ### الطريقة أ) ملف واحد فقط — `Mido-OneClick.ps1` (الأسهل)
 

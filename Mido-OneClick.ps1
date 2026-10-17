@@ -3,9 +3,10 @@
 .SYNOPSIS
     Mido One-Click bootstrap for Windows/RDP.
 .DESCRIPTION
-    One entry point: obtains GitHub authentication, downloads the latest official
-    Mido-RDP-Install.ps1 from the private repository, and runs its full Install
-    workflow. Secrets are not written to disk by this bootstrap.
+    One entry point: downloads the latest official Mido-RDP-Install.ps1 and runs
+    its full Install workflow.  A public repository is fetched anonymously; only
+    when that fails (private repository / blocked connection) is a GitHub token
+    requested.  Secrets are never written to disk by this bootstrap.
 #>
 [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingWriteHost', '', Justification = 'interactive one-click bootstrap: the console is the user interface')]
 [CmdletBinding()]
@@ -32,43 +33,58 @@ try {
     Write-Host "سيتم تجهيز Python/Git والمكتبات وإعداد تيليجرام وفحص المشروع."
     Write-Host "لن يتم رفع ملف الجلسة أو بيانات الدخول إلى GitHub."
 
-    if ([string]::IsNullOrWhiteSpace($token) -and (Get-Command gh -ErrorAction SilentlyContinue)) {
-        try {
-            $candidate = (& gh auth token --hostname github.com 2>$null | Select-Object -First 1)
-            if ($LASTEXITCODE -eq 0 -and -not [string]::IsNullOrWhiteSpace([string]$candidate)) {
-                $token = ([string]$candidate).Trim()
-                Write-Host "تم العثور على تسجيل دخول GitHub CLI." -ForegroundColor Green
-            }
-        } catch {
-            $token = $null
-        }
-    }
-
-    if ([string]::IsNullOrWhiteSpace($token)) {
-        Write-Host ""
-        Write-Host "المستودع خاص؛ أدخل GitHub Personal Access Token بصلاحية قراءة محتويات المستودع (Contents: Read)." -ForegroundColor Yellow
-        Write-Host "لن تظهر الأحرف أثناء الكتابة. لا ترسل هذا التوكن لأي شخص."
-        $secureToken = Read-Host "GitHub token" -AsSecureString
-        if ($null -eq $secureToken -or $secureToken.Length -eq 0) {
-            throw "لم يتم إدخال توكن GitHub."
-        }
-        $ptr = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureToken)
-        try {
-            $token = [Runtime.InteropServices.Marshal]::PtrToStringBSTR($ptr)
-        } finally {
-            [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($ptr)
-            $secureToken.Dispose()
-        }
-    }
-
-    if ([string]::IsNullOrWhiteSpace($token)) {
-        throw "تعذّر الحصول على توكن GitHub."
-    }
-
-    $env:MIDO_GITHUB_TOKEN = $token
     Write-Title "تنزيل أحدث مثبّت رسمي"
-    $headers = @{ Authorization = "token $token"; "User-Agent" = "Mido-OneClick" }
-    Invoke-WebRequest -Uri $installerUrl -Headers $headers -OutFile $tempInstaller -UseBasicParsing
+    $downloaded = $false
+    try {
+        # a public repository needs no credentials at all
+        Invoke-WebRequest -Uri $installerUrl -OutFile $tempInstaller -UseBasicParsing
+        if ((Test-Path -LiteralPath $tempInstaller -PathType Leaf) -and (Get-Item -LiteralPath $tempInstaller).Length -ge 1000) {
+            Write-Host "تم التنزيل مباشرة بدون مصادقة." -ForegroundColor Green
+            $downloaded = $true
+        }
+    } catch {
+        $downloaded = $false
+    }
+
+    if (-not $downloaded) {
+        Write-Host "المستودع يبدو خاصًا (أو الاتصال محجوب) — سنستخدم توكن GitHub." -ForegroundColor Yellow
+        if ([string]::IsNullOrWhiteSpace($token) -and (Get-Command gh -ErrorAction SilentlyContinue)) {
+            try {
+                $candidate = (& gh auth token --hostname github.com 2>$null | Select-Object -First 1)
+                if ($LASTEXITCODE -eq 0 -and -not [string]::IsNullOrWhiteSpace([string]$candidate)) {
+                    $token = ([string]$candidate).Trim()
+                    Write-Host "تم العثور على تسجيل دخول GitHub CLI." -ForegroundColor Green
+                }
+            } catch {
+                $token = $null
+            }
+        }
+
+        if ([string]::IsNullOrWhiteSpace($token)) {
+            Write-Host ""
+            Write-Host "أدخل GitHub Personal Access Token بصلاحية قراءة محتويات المستودع (Contents: Read)." -ForegroundColor Yellow
+            Write-Host "لن تظهر الأحرف أثناء الكتابة. لا ترسل هذا التوكن لأي شخص."
+            $secureToken = Read-Host "GitHub token" -AsSecureString
+            if ($null -eq $secureToken -or $secureToken.Length -eq 0) {
+                throw "لم يتم إدخال توكن GitHub."
+            }
+            $ptr = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureToken)
+            try {
+                $token = [Runtime.InteropServices.Marshal]::PtrToStringBSTR($ptr)
+            } finally {
+                [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($ptr)
+                $secureToken.Dispose()
+            }
+        }
+
+        if ([string]::IsNullOrWhiteSpace($token)) {
+            throw "تعذّر الحصول على توكن GitHub."
+        }
+
+        $env:MIDO_GITHUB_TOKEN = $token
+        $headers = @{ Authorization = "token $token"; "User-Agent" = "Mido-OneClick" }
+        Invoke-WebRequest -Uri $installerUrl -Headers $headers -OutFile $tempInstaller -UseBasicParsing
+    }
 
     if (-not (Test-Path -LiteralPath $tempInstaller -PathType Leaf) -or (Get-Item -LiteralPath $tempInstaller).Length -lt 1000) {
         throw "ملف المثبّت الذي تم تنزيله غير مكتمل."

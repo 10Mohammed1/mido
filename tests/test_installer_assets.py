@@ -90,6 +90,31 @@ def test_installer_modes_are_complete():
         assert f'"{mode}"' in text
 
 
+def test_repository_access_is_anonymous_first():
+    """A public repository must install without ever asking for a GitHub token:
+    both the clone and the update try credentials-free first and only fall back
+    to authentication (gh -> env token -> secure prompt) when that fails."""
+    text = PS1.read_text(encoding="utf-8")
+    ensure = text.split("function Ensure-Repository")[1].split("function Update-Repository")[0]
+    attempt = "Invoke-RepositoryClone -Staging $staging"
+    assert attempt in ensure
+    assert ensure.index(attempt) < ensure.index("Enable-GitAuth")
+    update = text.split("function Update-Repository")[1].split("\nfunction ")[0]
+    assert update.index('"fetch"') < update.index("Enable-GitAuth")
+    # a non-empty target still aborts before any network access
+    assert "ليس فارغًا - لن يتم حذف أي شيء" in ensure
+
+
+def test_oneclick_bootstrap_downloads_anonymously_first():
+    text = ONECLICK.read_text(encoding="utf-8")
+    anonymous = "Invoke-WebRequest -Uri $installerUrl -OutFile $tempInstaller -UseBasicParsing"
+    assert anonymous in text
+    # the token prompt and the token environment variable only appear in the
+    # fallback branch, i.e. after the anonymous attempt
+    assert text.index(anonymous) < text.index('Read-Host "GitHub token"')
+    assert text.index(anonymous) < text.index("$env:MIDO_GITHUB_TOKEN = $token")
+
+
 def test_hand_copied_folder_needs_no_github_credentials():
     """A project folder uploaded to the RDP box (no .git) must install without
     GitHub: no clone, no token prompt — it is used exactly as it is."""
@@ -269,10 +294,38 @@ $gitUrl = Select-GitForWindowsAssetUrl -Json $json
 Register-Secret 'SENTINEL-TOKEN-123456'
 $masked = Protect-Secrets 'before SENTINEL-TOKEN-123456 after'
 
+# ── repository clone: anonymous-first, user data never touched ──
+function Invoke-MidoGit {{ param([string[]]$Arguments) return 0 }}
+function Write-Warn2 {{ param([string]$Text) }}      # keep the test output clean
+
+$sandbox = Join-Path ([IO.Path]::GetTempPath()) ("mido-test-" + [guid]::NewGuid().ToString("N"))
+$stage1 = Join-Path $sandbox "stage1"
+New-Item -ItemType Directory -Path $stage1 -Force | Out-Null
+Set-Content -LiteralPath (Join-Path $stage1 "mido_setup.py") -Value "x"
+$RepoDir = Join-Path $sandbox "repo"
+$cloneOk = Invoke-RepositoryClone -Staging $stage1
+
+$busy = Join-Path $sandbox "busy"
+New-Item -ItemType Directory -Path $busy -Force | Out-Null
+Set-Content -LiteralPath (Join-Path $busy "keep.txt") -Value "keep"
+$stage2 = Join-Path $sandbox "stage2"
+New-Item -ItemType Directory -Path $stage2 -Force | Out-Null
+Set-Content -LiteralPath (Join-Path $stage2 "mido_setup.py") -Value "x"
+$RepoDir = $busy
+$refused = Invoke-RepositoryClone -Staging $stage2
+
 ConvertTo-Json -InputObject @{{
   pythonUrls = $pythonUrls
   gitUrl     = $gitUrl
   masked     = $masked
+  clone      = @{{
+    ok           = $cloneOk
+    landed       = (Test-Path -LiteralPath (Join-Path $sandbox "repo/mido_setup.py"))
+    stagingGone  = -not (Test-Path -LiteralPath $stage1)
+    refused      = -not $refused
+    userDataKept = (Test-Path -LiteralPath (Join-Path $busy "keep.txt"))
+    stage2Clean  = -not (Test-Path -LiteralPath $stage2)
+  }}
 }} -Compress -Depth 5
 """
 
@@ -369,3 +422,14 @@ def test_powershell_assets_behave_as_expected(tmp_path):
 
     # 3. registered secrets are masked
     assert payload["masked"] == "before *** after"
+
+    # 4. the clone helper: a successful clone lands in the target and its own
+    #    staging folder disappears afterwards
+    clone = payload["clone"]
+    assert clone["ok"] is True
+    assert clone["landed"] is True
+    assert clone["stagingGone"] is True
+    # ... and it refuses to touch a folder that already holds user data
+    assert clone["refused"] is True
+    assert clone["userDataKept"] is True
+    assert clone["stage2Clean"] is True
