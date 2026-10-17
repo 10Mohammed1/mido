@@ -28,6 +28,7 @@ from zira import BOTLOG, BOTLOG_CHATID, PM_LOGGER_GROUP_ID
 
 from ..Config import Config
 from ..core.logger import logging
+from ..core.restart import restart_process
 from ..core.session import zedub
 from ..helpers.utils import install_pip
 from ..helpers.utils.utils import runcmd
@@ -62,6 +63,11 @@ else:
 if ENV:
     VPS_NOLOAD = ["vps"]
 elif os.path.exists("config.py"):
+    VPS_NOLOAD = ["heroku"]
+else:
+    # fresh clone without a local config.py (Windows install, Docker, …):
+    # the plugin loader still needs a list, otherwise it dies with a
+    # confusing `name 'VPS_NOLOAD' is not defined` error.
     VPS_NOLOAD = ["heroku"]
 
 bot = zedub
@@ -245,7 +251,7 @@ async def load_plugins(folder, extfolder=None):
     success = 0
     failure = []
     for name in files:
-        with open(name) as f:
+        with open(name, encoding="utf-8") as f:
             path1 = Path(f.name)
             shortname = path1.stem
             pluginname = shortname.replace(".py", "")
@@ -366,9 +372,7 @@ async def verifyLoggerGroup():
         print("تم عمل الكروب التخزين بنجاح واضافة الفارات اليه.")
         flag = True
     if flag:
-        executable = sys.executable.replace(" ", "\\ ")
-        args = [executable, "-m", "zira"]
-        os.execle(executable, *args, os.environ)
+        restart_process()
         sys.exit(0)
 
 async def install_externalrepo(repo, branch, cfolder):

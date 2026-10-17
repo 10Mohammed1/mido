@@ -1,16 +1,56 @@
-import signal
+import os
 import sys
-import time
 
-import heroku3
+# ── setup / diagnostics routing ──────────────────────────────────────────────
+# `python -m zira <setup|check|…>` must run the setup CLI instead of the
+# userbot.  runpy imports this package *before* `zira/__main__.py`, so the
+# guard has to live here: importing `zira` starts the Telegram clients, which
+# is impossible (and unwanted) on a machine that has no session yet.
+_CLI_COMMANDS = {"setup", "check", "import-session", "sessions", "repair", "version"}
 
-from .Config import Config
-from .core.logger import logging
-from .core.session import zedub
-from .helpers.functions.converter import Convert
-from .helpers.functions.musictool import *
-from .helpers.utils.utils import runasync
-from .sql_helper.globals import addgvar, delgvar, gvarstatus
+
+def _is_cli_invocation() -> bool:
+    """True only for ``python -m zira <command>`` (and the direct script run).
+
+    ``import zira`` from an ordinary script must never be hijacked, so the
+    check requires both the command name and a runpy/module entry point that
+    really belongs to this package.
+    """
+    if len(sys.argv) < 2 or sys.argv[1] not in _CLI_COMMANDS:
+        return False
+    argv0 = str(sys.argv[0])
+    if argv0 != "-m":  # runpy keeps '-m' while locating the module
+        normalized = os.path.abspath(argv0).replace("\\", "/")
+        if not normalized.endswith("/zira/__main__.py"):
+            return False
+    frame = sys._getframe(1)
+    while frame is not None:
+        if frame.f_code.co_filename in ("<frozen runpy>", "runpy.py"):
+            return True
+        frame = frame.f_back
+    return False
+
+
+if _is_cli_invocation():
+    _ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    if _ROOT not in sys.path:
+        sys.path.insert(0, _ROOT)
+    from mido.setup_cli import main as _setup_main
+
+    raise SystemExit(_setup_main(sys.argv[1:]))
+
+import signal
+import time  # noqa: E402
+
+import heroku3  # noqa: E402
+
+from .Config import Config  # noqa: E402
+from .core.logger import logging  # noqa: E402
+from .core.session import zedub  # noqa: E402
+from .helpers.functions.converter import Convert  # noqa: E402
+from .helpers.functions.musictool import *  # noqa: E402,F403
+from .helpers.utils.utils import runasync  # noqa: E402
+from .sql_helper.globals import addgvar, delgvar, gvarstatus  # noqa: E402
 
 __version__ = "3.3.2"
 __license__ = "حقـوق سـورس Mido"

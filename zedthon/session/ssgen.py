@@ -1,5 +1,12 @@
 import os
+import subprocess
+import sys
 from time import sleep
+
+
+def _pip_install(*packages):
+    """Install packages with the interpreter that runs this script."""
+    subprocess.call([sys.executable, "-m", "pip", "install", *packages])
 
 
 def spinner(x):
@@ -18,7 +25,7 @@ def clear_screen():
     if os.name == "posix":
         os.system("clear")
     else:
-        # for windows platfrom
+        # for windows platform
         os.system("cls")
 
 
@@ -38,10 +45,12 @@ def get_api_id_and_hash():
 def telethon_session():
     try:
         spinner("tele")
+        import telethon  # noqa: F401
+
         x = "\bFound an existing installation of Telethon...\nSuccessfully Imported.\n\n"
     except ImportError:
         print("Installing Telethon...")
-        os.system("pip uninstall telethon -y && pip install -U telethon")
+        _pip_install("-U", "telethon")
 
         x = "\bDone. Installed and imported Telethon."
     clear_screen()
@@ -74,7 +83,7 @@ def telethon_session():
                 return
             except UserIsBotError:
                 print("You are trying to Generate Session for your Bot's Account?")
-                print("Here is That \n{Mido.session.save()}\n\n")
+                print(f"Here is That \n{zthon.session.save()}\n\n")
                 print("NOTE: You can't use that as User Session..")
     except ApiIdInvalidError:
         print(
@@ -101,7 +110,7 @@ def pyro_session():
         x = "\bFound an existing installation of Pyrogram...\nSuccessfully Imported.\n\n"
     except Exception:
         print("Installing Pyrogram...")
-        os.system("pip install pyrogram tgcrypto")
+        _pip_install("pyrogram", "tgcrypto")
         x = "\bDone. Installed and imported Pyrogram."
         from pyrogram import Client
 
@@ -135,7 +144,7 @@ def main():
         print(e)
         exit(0)
     if type_of_ss == 1:
-        pyro_session()
+        telethon_session()
     elif type_of_ss == 2:
         pyro_session()
     else:

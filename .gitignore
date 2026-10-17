@@ -108,6 +108,8 @@ config.py
 *.session-journal
 *.session-wal
 *.session-shm
+*.session.lock
+data/sessions/
 *.db
 temp/
 logs/

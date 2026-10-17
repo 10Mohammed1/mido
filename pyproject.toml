@@ -68,3 +68,9 @@ warn_unused_ignores = false
 [tool.black]
 line-length = 120
 target-version = ["py310"]
+
+# ── tests ─────────────────────────────────────────────────────────────────────
+#  The suite never imports `zira` (which would start the Telegram clients);
+#  it drives the side-effect-free `mido` helper package instead.
+[tool.pytest.ini_options]
+testpaths = ["tests"]

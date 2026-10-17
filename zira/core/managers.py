@@ -48,7 +48,7 @@ async def edit_or_reply(
         return event
     file_name = file_name or "output.txt"
     caption = caption or None
-    with open(file_name, "w+") as output:
+    with open(file_name, "w+", encoding="utf-8") as output:
         output.write(text)
     if reply_to:
         await reply_to.reply(caption, file=file_name)

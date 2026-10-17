@@ -1,0 +1,27 @@
+# ══════════════════════════════════════════════════════════════════════════════
+#  Mido · packages that must be installed with --no-deps
+#
+#  Install order (the installer and CI do exactly this):
+#
+#      pip install -r requirements.txt
+#      pip install --no-deps -r requirements-nodeps.txt
+#
+#  Why this file exists
+#  --------------------
+#  * googletrans 4.0.0rc1 is the last release with a **synchronous**
+#    `Translator.translate()`; 4.0.1/4.0.2 turned it into a coroutine, which
+#    would break `zira/helpers/functions/functions.py::getTranslate` and the
+#    scanner plugin (they call it synchronously and await the wrapper).
+#    It also declares a stale `httpx==0.13.3`, which conflicts with
+#    `youtube-search-python`'s `httpx>=0.14.2`.  Ignoring that single pin is
+#    safe: googletrans works against the modern httpx (>=0.27) that the rest of
+#    the stack installs — the exact combination running in production.
+#
+#  * search-engine-parser 0.6.8 declares `lxml<5`, while `cinemagoer` needs
+#    `lxml>=6.1.1`.  The `<5` bound is obsolete: the package parses through
+#    BeautifulSoup (the Google plugin uses the stdlib `html.parser`), and lxml
+#    is only an optional BeautifulSoup backend.  Verified against lxml 6.1.1
+#    (see tests/test_requirements.py) and running in production.
+# ══════════════════════════════════════════════════════════════════════════════
+googletrans==4.0.0rc1
+search-engine-parser==0.6.8

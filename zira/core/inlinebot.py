@@ -97,7 +97,8 @@ async def inline_handler(event):  # sourcery no-metrics
                 sandy = sandy[:-1]
             old_msg = os.path.join("./zira", f"{info_type[0]}.txt")
             try:
-                jsondata = json.load(open(old_msg))
+                with open(old_msg, encoding="utf-8") as old_file:
+                    jsondata = json.load(old_file)
             except Exception:
                 jsondata = False
             timestamp = int(time.time() * 2)
@@ -121,9 +122,11 @@ async def inline_handler(event):  # sourcery no-metrics
             await event.answer([result] if result else None)
             if jsondata:
                 jsondata.update(new_msg)
-                json.dump(jsondata, open(old_msg, "w"))
+                with open(old_msg, "w", encoding="utf-8") as old_file:
+                    json.dump(jsondata, old_file)
             else:
-                json.dump(new_msg, open(old_msg, "w"))
+                with open(old_msg, "w", encoding="utf-8") as old_file:
+                    json.dump(new_msg, old_file)
         elif str_y[0].lower() == "ytdl" and len(str_y) == 2:
             link = get_yt_video_id(str_y[1].strip())
             found_ = True

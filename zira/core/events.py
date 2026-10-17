@@ -336,7 +336,7 @@ async def send_file(
     msg = caption
     safecheck = await safe_check_text(msg)
     try:
-        with open(file) as f:
+        with open(file, encoding="utf-8") as f:
             filemsg = f.read()
     except Exception:
         filemsg = ""

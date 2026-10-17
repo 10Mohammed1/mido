@@ -1,13 +1,40 @@
-import sys, asyncio
-import zira
-from zira import BOTLOG_CHATID, HEROKU_APP, PM_LOGGER_GROUP_ID
-from telethon import functions
-from .Config import Config
-from .core.logger import logging
-from .core.session import zedub
-from .core.loop import get_loop
-from .utils import mybot, autoname, autovars, saves
-from .utils import add_bot_to_logger_group, load_plugins, setup_bot, startupmessage, verifyLoggerGroup
+import sys
+from pathlib import Path
+
+# ── console encoding ─────────────────────────────────────────────────────────
+# The bot prints a lot of Arabic text.  On Windows the console defaults to a
+# legacy code page (cp1252/…), which makes those prints raise
+# UnicodeEncodeError and kills the process.  Reconfigure - and replace
+# unprintable characters instead of crashing.
+for _name in ("stdout", "stderr"):
+    try:
+        getattr(sys, _name).reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+
+# ── setup / diagnostics commands ─────────────────────────────────────────────
+# These run *before* the userbot package is imported: importing `zira` starts
+# the Telegram clients and requires a working session, which is exactly what
+# a fresh machine does not have yet.
+CLI_COMMANDS = {"setup", "check", "import-session", "sessions", "repair", "version"}
+if len(sys.argv) > 1 and sys.argv[1] in CLI_COMMANDS:
+    _ROOT = Path(__file__).resolve().parent.parent
+    if str(_ROOT) not in sys.path:
+        sys.path.insert(0, str(_ROOT))
+    from mido.setup_cli import main as _setup_main
+
+    raise SystemExit(_setup_main(sys.argv[1:]))
+
+import asyncio  # noqa: E402
+import zira  # noqa: E402
+from zira import BOTLOG_CHATID, HEROKU_APP, PM_LOGGER_GROUP_ID  # noqa: E402
+from telethon import functions  # noqa: E402
+from .Config import Config  # noqa: E402
+from .core.logger import logging  # noqa: E402
+from .core.loop import close_loop, get_loop  # noqa: E402
+from .core.session import SESSION_LOCK, zedub  # noqa: E402
+from .utils import autoname, autovars, mybot, saves  # noqa: E402
+from .utils import add_bot_to_logger_group, load_plugins, setup_bot, startupmessage, verifyLoggerGroup  # noqa: E402
 
 LOGS = logging.getLogger("Mido")
 cmdhr = Config.COMMAND_HAND_LER
@@ -33,6 +60,7 @@ try:
     LOGS.info("✓ تـم تنزيـل Mido .. بـنجـاح ✓")
 except Exception as e:
     LOGS.error(f"{str(e)}")
+    SESSION_LOCK.release()
     sys.exit()
 
 class CatCheck:
@@ -71,13 +99,36 @@ async def startup_process():
 
 get_loop().run_until_complete(startup_process())
 
-if len(sys.argv) not in (1, 3, 4):
-    zedub.disconnect()
-elif not Catcheck.sucess:
-    if HEROKU_APP is not None:
-        HEROKU_APP.restart()
-else:
+
+def _shutdown() -> None:
+    """Close both clients, release the session lock, stop the loop."""
+    for client in (getattr(zedub, "tgbot", None), zedub):
+        if client is None:
+            continue
+        try:
+            get_loop().run_until_complete(client.disconnect())
+        except Exception:
+            pass
     try:
-        zedub.run_until_disconnected()
-    except ConnectionError:
+        SESSION_LOCK.release()
+    except Exception:
         pass
+    try:
+        close_loop()
+    except Exception:
+        pass
+
+
+try:
+    if len(sys.argv) not in (1, 3, 4):
+        zedub.disconnect()
+    elif not Catcheck.sucess:
+        if HEROKU_APP is not None:
+            HEROKU_APP.restart()
+    else:
+        try:
+            zedub.run_until_disconnected()
+        except ConnectionError:
+            pass
+finally:
+    _shutdown()

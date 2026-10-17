@@ -7,6 +7,7 @@ from telethon import TelegramClient
 
 from ..core.logger import logging
 from .loop import get_loop
+from .restart import restart_process
 from ..sql_helper.global_collection import (
     add_to_collectionlist,
     del_keyword_collectionlist,
@@ -30,7 +31,7 @@ async def get_pip_packages(requirements):
         packages = requirements
     else:
         cmd = await asyncio.create_subprocess_exec(
-            sys.executable.replace(" ", "\\ "),
+            sys.executable,
             "-m",
             "pip",
             "freeze",
@@ -47,7 +48,7 @@ async def install_pip_packages(packages):
     """Install pip packages."""
     args = ["-m", "pip", "install", "--upgrade", "--user"]
     cmd = await asyncio.create_subprocess_exec(
-        sys.executable.replace(" ", "\\ "),
+        sys.executable,
         *args,
         *packages,
         stdout=asyncio.subprocess.PIPE,
@@ -75,9 +76,7 @@ async def restart_script(client: TelegramClient, sandy):
         add_to_collectionlist("restart_update", [sandy.chat_id, sandy.id])
     except Exception as e:
         LOGS.error(e)
-    executable = sys.executable.replace(" ", "\\ ")
-    args = [executable, "-m", "zira"]
-    os.execle(executable, *args, os.environ)
+    restart_process()
     os._exit(143)
 
 

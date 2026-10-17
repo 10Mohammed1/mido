@@ -1,0 +1,55 @@
+name: Tests
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pytest:
+    name: pytest · ${{ matrix.os }} · Python ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ["3.12"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip wheel
+          python -m pip install --no-input -r requirements.txt
+          python -m pip install --no-input --no-deps -r requirements-nodeps.txt
+          python -m pip install --no-input pytest
+
+      - name: Show environment
+        run: |
+          python -V
+          python -c "import sys, telethon, dotenv; print('telethon', telethon.__version__); print('platform', sys.platform)"
+
+      - name: Run the test suite
+        env:
+          PYTHONUTF8: "1"
+          PYTHONIOENCODING: "utf-8"
+        run: python -m pytest tests -q
+
+      - name: Setup CLI smoke test (offline)
+        env:
+          PYTHONUTF8: "1"
+        run: |
+          python mido_setup.py version
+          python -m zira version

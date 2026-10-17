@@ -3,10 +3,28 @@
 # Create a new config.py file in same directory and import, then extend this class.
 
 import os
+from pathlib import Path
 from typing import Set
+
+# `.env` support for every entry point (the bot, the setup CLI, tests).
+# Real environment variables keep priority.
+try:
+    from dotenv import load_dotenv
+
+    load_dotenv(dotenv_path=str(Path(__file__).resolve().parent / ".env"), override=False)
+except Exception:
+    pass
 
 from telethon.tl.types import ChatBannedRights
 from validators.url import url
+
+
+def _int_env(key, default):
+    """Read an integer environment value without crashing on a typo."""
+    try:
+        return int(os.environ.get(key, default))
+    except (TypeError, ValueError):
+        return default
 
 
 class Config(object):
@@ -16,12 +34,22 @@ class Config(object):
     # set this value with your name
     ALIVE_NAME = os.environ.get("ALIVE_NAME", None)
     # Get the values for following 2 from my.telegram.org
-    APP_ID = int(os.environ.get("APP_ID", 6))
+    APP_ID = _int_env("APP_ID", 6)
     API_HASH = os.environ.get("API_HASH") or None
     # Datbase url heroku sets it automatically else get this from elephantsql
     DB_URI = os.environ.get("DATABASE_URL", None)
     # Get this value by running python3 stringsetup.py or https://repl.it/@zedthonn/stringsession
     STRING_SESSION = os.environ.get("STRING_SESSION", None)
+    # ── session storage (see mido/session.py) ────────────────────────────────
+    # managed folder for Telethon sessions; the bot keeps using a legacy file
+    # found next to the code so upgrading never logs the account out
+    SESSION_DIR = os.environ.get("SESSION_DIR", "data/sessions")
+    # user-account session file name (without .session)
+    SESSION_NAME = os.environ.get("SESSION_NAME", "Mido")
+    # assistant-bot session file name (without .session)
+    BOT_SESSION_NAME = os.environ.get("BOT_SESSION_NAME", "ZedTgbot")
+    # auto | file | string   (auto = file session when present, else STRING_SESSION)
+    SESSION_SOURCE = os.environ.get("SESSION_SOURCE", "auto")
     # Telegram BOT Token and bot username from @BotFather
     TG_BOT_TOKEN = os.environ.get("TG_BOT_TOKEN") or os.environ.get(
         "TG_BOT_TOKEN_BF_HER", None
@@ -95,7 +123,12 @@ class Config(object):
         "THUMB_IMAGE", "https://telegra.ph/file/c91c09fb188f0f281e628.jpg"
     )
     # specify NO_LOAD with plugin names for not loading in userbot
-    NO_LOAD = list(os.environ.get("NO_LOAD", "").split())
+    # (comma or space separated, e.g. NO_LOAD=vcplayer,heroku)
+    NO_LOAD = [
+        name.strip()
+        for name in str(os.environ.get("NO_LOAD", "")).replace(",", " ").split()
+        if name.strip()
+    ]
     # specify command handler that should be used for the plugins
     # this should be a valid "regex" pattern
     COMMAND_HAND_LER = os.environ.get("COMMAND_HAND_LER", r".")

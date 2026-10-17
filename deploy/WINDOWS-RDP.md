@@ -1,0 +1,206 @@
+# Mido على ويندوز / RDP — دليل التشغيل الكامل
+
+هذا الدليل مخصّص لتركيب **Mido** على سيرفر ويندوز جديد (Windows Server 2019/2022/2025 أو
+Windows 10/11) بحيث يعمل البوت بالكامل: المكتبات → جلسة تيليجرام → توكن البوت → التشغيل.
+
+> كل الأوامر أدناه تُنفَّذ في **PowerShell** داخل مجلد المشروع (مثال: `C:\Users\Administrator\Mido`).
+
+---
+
+## 1) التثبيت السريع (3 خطوات)
+
+```powershell
+# 1. تنزيل المثبّت (المستودع خاص — استخدم توكن GitHub بصلاحية repo)
+$env:MIDO_GITHUB_TOKEN = "github_pat_..."        # لا تكتبه في الأمر نفسه
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/10Mohammed1/mido/main/Mido-RDP-Install.ps1" -OutFile "Mido-RDP-Install.ps1"
+```
+
+> إن كان `raw.githubusercontent.com` غير متاح لحسابك، انسخ المشروع أولًا بأي طريقة
+> (`git clone` من جهازك الحالي ثم نسخ المجلد عبر RDP/شبكة) ثم تابع من الخطوة 2 من داخل المجلد.
+
+```powershell
+# 2. التثبيت الكامل (يتكفّل بكل شيء: Python، Git، المكتبات، الإعداد، الفحص)
+powershell -ExecutionPolicy Bypass -File .\Mido-RDP-Install.ps1 -Mode Install
+
+# 3. التشغيل
+.\Mido-Start.cmd
+```
+
+خلال الخطوة 2 سيسألك المثبّت (عبر Python) عن:
+
+| المطلوب | ماذا تفعل |
+| --- | --- |
+| `APP_ID` / `API_HASH` | من <https://my.telegram.org> → API development tools |
+| رقم الهاتف | بصيغة دولية مثل `+201234567890` (يُرسل عليه كود تيليجرام) |
+| الكود | يصلك في تطبيق تيليجرام → أدخله في نفس النافذة |
+| كلمة مرور التحقق بخطوتين | فقط إن كانت مفعّلة على حسابك (لن تظهر على الشاشة) |
+| توكن البوت | من [@BotFather](https://t.me/BotFather) → `/newbot` (يُتحقق منه فعليًا قبل حفظه) |
+
+بعد انتهاء الإعداد يُنشأ `.env` بصلاحيات مقيّدة، ويُحفظ ملف الجلسة في
+`data\sessions\Mido.session`، ثم يُشغَّل فحص نهائي `python mido_setup.py check`.
+
+---
+
+## 2) أوضاع المثبّت
+
+| الوضع | الأمر | ماذا يفعل بالضبط |
+| --- | --- | --- |
+| Install | `.\Mido-RDP-Install.ps1 -Mode Install` | تثبيت المتطلبات + نسخ المستودع + venv + المكتبات + الإعداد + الفحص. آمن للتكرار (يتحوّل تلقائيًا إلى تحديث إن كان المشروع موجودًا). |
+| Update | `.\Mido-RDP-Install.ps1 -Mode Update` | `git pull --ff-only` + تحديث المكتبات + فحص. **لا يلمس** `.env` ولا الجلسات ولا قواعد البيانات. |
+| Setup | `.\Mido-RDP-Install.ps1 -Mode Setup` | (إعادة) تشغيل تسجيل الدخول/التوكن فقط + تأمين الملفات + فحص. |
+| Check | `.\Mido-RDP-Install.ps1 -Mode Check` | فحص فقط بدون أي تعديل (كود الخروج 1 عند وجود مشكلة). |
+| Repair | `.\Mido-RDP-Install.ps1 -Mode Repair` | إعادة بناء venv التالف + إعادة تثبيت المكتبات + تأمين الملفات + فحص. لا يحذف أي جلسة أو قاعدة بيانات. |
+| Start | `.\Mido-RDP-Install.ps1 -Mode Start` | تشغيل البوت من داخل البيئة الافتراضية. |
+
+معاملات مفيدة:
+
+```powershell
+-RepositoryDir "D:\Mido"     # مكان المشروع (الافتراضي %USERPROFILE%\Mido)
+-RepoUrl "https://github.com/10Mohammed1/mido.git"
+-Branch "main"
+-SessionFile "C:\path\to\old_pc.session"   # استيراد جلسة من جهاز آخر قبل الدخول
+-PythonVersion "3.13"                      # لو احتجت نسخة محددة
+-SkipDeps                                  # تخطي pip (للتحديث السريع)
+-NoStart                                   # عدم السؤال عن التشغيل في النهاية
+-NonInteractive                            # بدون أي أسئلة (يحتاج MIDO_SETUP_* أو جلسة جاهزة)
+```
+
+---
+
+## 3) الجلسات: تسجيل دخول جديد أو استيراد جلسة قديمة
+
+**أ) تسجيل دخول جديد:** اترك الإعداد يسألك عن الرقم والكود (كما في الجدول أعلاه).
+
+**ب) استيراد جلسة من جهازك القديم** (بدون كود جديد):
+
+```powershell
+# انسخ الملف القديم إلى السيرفر أولًا، ثم:
+.\Mido-RDP-Install.ps1 -Mode Setup -SessionFile "C:\Upload\account.session"
+```
+
+سيتحقّق Mido من الملف **باتصال حقيقي بتيليجرام** قبل اعتماده:
+
+* جلسة سليمة → تُنسخ إلى `data\sessions\Mido.session` (الملف الأصلي يبقى كما هو).
+* جلسة ملغاة/منتهية/تالفة → يُخبرك بذلك صراحةً ولن يستبدل شيئًا، ويمكنك المتابعة بتسجيل دخول جديد.
+
+في الحالتين، إن كانت هناك جلسة سابقة في `data\sessions\Mido.session` يتم عمل نسخة احتياطية
+`Mido.session.bak-YYYYMMDD-HHMMSS` قبل أي استبدال. لا يُحذف أي ملف جلسة أبدًا.
+
+**ج) ترتيب مصادر الجلسة** (متغيّر `SESSION_SOURCE` في `.env`):
+
+1. `auto` (الافتراضي): ملف الجلسة في `data\sessions\` إن وُجد → وإلا `STRING_SESSION` → وإلا جلسة جديدة.
+2. ملف جلسة صالح **مهمّ** على النص، لأن الجلسة النصية أسهل في التسريب وأصعب في الإدارة.
+3. الجلسات القديمة في جذر المشروع (مثل `ZedTgbot.session`) تُستخدم تلقائيًا للحفاظ على
+   تشغيلاتك السابقة بدون إعادة تسجيل دخول.
+
+**د) لا تشغّل نسختين من البوت على نفس الجلسة.** Mido يحمي نفسه بقفل
+`data\sessions\<اسم الجلسة>.session.lock`؛ إن وُجدت نسخة تعمل سترى:
+`نسخة أخرى تعمل الآن على نفس الجلسة (pid …)`.
+(يمكن تجاوز القفل مؤقتًا بـ `MIDO_IGNORE_SESSION_LOCK=1` — لا تفعل ذلك إلا وأنت تعرف السبب.)
+
+---
+
+## 4) التشغيل الدائم
+
+تشغيل يدوي: `.\Mido-Start.cmd` أو:
+
+```powershell
+& "$env:USERPROFILE\Mido\.venv\Scripts\python.exe" -m zira
+```
+
+تشغيل تلقائي عند الدخول (Task Scheduler):
+
+```powershell
+$python  = "$env:USERPROFILE\Mido\.venv\Scripts\python.exe"
+$action  = New-ScheduledTaskAction -Execute $python -Argument "-m zira" -WorkingDirectory "$env:USERPROFILE\Mido"
+$trigger = New-ScheduledTaskTrigger -AtLogOn
+Register-ScheduledTask -TaskName "Mido" -Action $action -Trigger $trigger -RunLevel Highest -Force
+Start-ScheduledTask -TaskName "Mido"
+```
+
+إيقاف/حذف المهمة:
+
+```powershell
+Stop-ScheduledTask  -TaskName "Mido"
+Unregister-ScheduledTask -TaskName "Mido" -Confirm:$false
+```
+
+---
+
+## 5) الأمان (اقرأ هذا)
+
+| الملف | الحماية |
+| --- | --- |
+| `.env` | خارج git (`.gitignore`) + صلاحيات NTFS للمستخدم الحالي فقط (`icacls`) |
+| `*.session` | نفس الحماية + نسخ احتياطية قبل الاستبدال + لا تُحذف تلقائيًا |
+| `data\sessions\` | مجلد مُدار ومقيّد الصلاحيات |
+| توكن البوت | يُتحقق منه باتصال حقيقي، يُحفظ في `.env` فقط، ويُطبع دائمًا مقنّعًا (`1234…oken`) |
+| توكن GitHub | يُمرَّر عبر متغيّر بيئة + `GIT_ASKPASS` — لا يظهر في سطر الأوامر ولا داخل رابط `remote` |
+| السجل `%TEMP%\mido-install.log` | تُقنَّع فيه كل الأسرار قبل الكتابة |
+
+قواعد ذهبية: لا ترفع `.env` أو `*.session` إلى أي مستودع. لو تسرّبت جلسة، ألغِها من
+إعدادات تيليجرام (Devices) فورًا ثم `-Mode Setup` من جديد.
+
+---
+
+## 6) عند حدوث مشاكل
+
+| الأعراض | السبب المرجّح | الحل |
+| --- | --- | --- |
+| `git clone` يفشل بكود 128 | توكن GitHub ناقص/منتهي | `$env:MIDO_GITHUB_TOKEN` جديد بصلاحية `repo`، أو `gh auth login` ثم أعد المحاولة |
+| `لا توجد جلسة صالحة` | لم يكتمل تسجيل الدخول | `-Mode Setup` (أو `-SessionFile` لجلسة قديمة) |
+| `الجلسة ملغاة` | أُنهيت من تيليجرام → الأجهزة | `-Mode Setup` لتسجيل دخول جديد |
+| `توكن البوت غير صالح` | نسخ ناقص من BotFather | أعد `-Mode Setup` والصق التوكن كاملًا |
+| البوت يخرج فورًا ويذكّر بقفل | نسخة أخرى تعمل | أوقف النسخة القديمة (`Stop-ScheduledTask` أو Ctrl+C في نافذتها) |
+| `ModuleNotFoundError` بعد تحديث | مكتبات قديمة | `-Mode Repair` |
+| رسائل عربية مشوّشة في نافذة قديمة | ترميز الكونسول | شغّل من `Mido-Start.cmd` أو `chcp 65001` |
+| فشل تنزيل Python/Git | لا winget على السيرفر | المثبّت ينزّل الحِزم الرسمية تلقائيًا؛ لو فشل، ثبّتهما يدويًا من python.org و git-scm.com ثم أعد `-Mode Install` |
+
+فحص شامل بدون تعديل:
+
+```powershell
+.\Mido-RDP-Install.ps1 -Mode Check
+& "$env:USERPROFILE\Mido\.venv\Scripts\python.exe" mido_setup.py sessions   # الجلسات المكتشفة
+```
+
+### المكتبات: لماذا ملفان؟
+
+`requirements.txt` قابل للتثبيت مباشرة (`pip install -r requirements.txt`)، لكن حزمتين
+تُثبَّتان بعده بـ `--no-deps` من `requirements-nodeps.txt` لأن تثبيتهما العادي مستحيل:
+
+| الحزمة | سبب الاستثناء |
+| --- | --- |
+| `googletrans==4.0.0rc1` | آخر إصدار بواجهة `translate()` **المتزامنة** التي تستخدمها الملحقات (4.0.2 صارت async وتكسرها)، ويصرّح بحاجة قديمة `httpx==0.13.3` تتعارض مع `youtube-search-python` |
+| `search-engine-parser==0.6.8` | يصرّح بـ `lxml<5` بينما `cinemagoer` يحتاج `lxml>=6.1.1`؛ القيد قديم والحزمة تعمل طبيعيًا مع lxml 6 (تستخدم BeautifulSoup) |
+
+المثبّت و GitHub Actions ينفّذان الخطوتين تلقائيًا:
+
+```powershell
+pip install -r requirements.txt
+pip install --no-deps -r requirements-nodeps.txt
+```
+
+---
+
+## 7) ملفات مهمة
+
+| المسار | الوصف |
+| --- | --- |
+| `.env` | الإعدادات والأسرار (محمي، خارج git) |
+| `config.py` | الطريقة القديمة للإعداد — إن وُجد يأخذ الأولوية على `.env` عند قراءة القيم من البيئة |
+| `data\sessions\Mido.session` | جلسة المستخدم (telethon) |
+| `data\sessions\ZedTgbot.session` | جلسة البوت المساعدة |
+| `Mido.db`, `zthon.db` | قواعد بيانات البوت (لا تُحذف عند التحديث) |
+| `%TEMP%\mido-install.log` | سجل المثبّت (أسراره مقنّعة) |
+
+---
+
+## 8) قيود معروفة (بصراحة)
+
+* سكربت `Mido-RDP-Install.ps1` كُتب لـ PowerShell 5.1+ على ويندوز. منطق التثبيت
+  (تنزيل، venv، إعداد، فحص) مغطّى باختبارات آلية على `windows-latest` في GitHub Actions
+  لمسار Python/المكتبات/الإعداد، لكن **تشغيل المثبّت نفسه على سيرفر RDP حقيقي لم يُنفَّذ
+  من داخل بيئة التطوير** — أول تشغيل حقيقي هو اختبارك، والسجل `%TEMP%\mido-install.log`
+  سيحدّد أي مشكلة بدقة.
+* مشغّل المجموعات الصوتية (`vcplayer`) غير مدعوم على ويندوز (مكتباته Linux-only) ويُستثنى تلقائيًا.
+* `selenium` مثبّت لكنه يحتاج Chrome/Chromedriver على السيرفر (اختياري لأوامر الفحص).
