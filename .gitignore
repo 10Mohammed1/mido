@@ -105,6 +105,9 @@ config.py
 # mypy
 .mypy_cache/
 *.session
+*.session-journal
+*.session-wal
+*.session-shm
 *.db
 temp/
 logs/
