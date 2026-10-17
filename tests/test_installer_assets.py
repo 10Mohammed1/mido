@@ -21,6 +21,8 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 PS1 = ROOT / "Mido-RDP-Install.ps1"
+ONECLICK = ROOT / "Mido-OneClick.ps1"
+START_HERE = ROOT / "START-HERE-WINDOWS.txt"
 CMD = ROOT / "Mido-Start.cmd"
 DOCS = ROOT / "deploy" / "WINDOWS-RDP.md"
 WORKFLOW = ROOT / ".github" / "workflows" / "Tests.yml"
@@ -30,8 +32,54 @@ PWSH = shutil.which("pwsh") or shutil.which("powershell")
 
 
 def test_deliverables_exist():
-    for path in (PS1, CMD, DOCS, WORKFLOW, LOCK, ROOT / ".env.example", ROOT / "mido_setup.py"):
+    for path in (PS1, ONECLICK, START_HERE, CMD, DOCS, WORKFLOW, LOCK, ROOT / ".env.example", ROOT / "mido_setup.py"):
         assert path.is_file(), f"missing deliverable: {path.relative_to(ROOT)}"
+
+
+def test_start_here_document_is_notepad_safe():
+    """Notepad on a fresh Windows server must show the Arabic text correctly."""
+    raw = START_HERE.read_bytes()
+    assert raw[:3] == b"\xef\xbb\xbf", "START-HERE-WINDOWS.txt must be UTF-8 with BOM"
+    assert b"\r\n" in raw, "use CRLF line endings for Notepad"
+    text = START_HERE.read_text(encoding="utf-8-sig")
+    assert "Mido-RDP-Install.ps1 -Mode Install" in text
+    assert "Mido-Start.cmd" in text
+
+
+class TestOneClickBootstrap:
+    """Mido-OneClick.ps1: the single file an operator uploads to the RDP box."""
+
+    def test_is_utf8_with_bom(self):
+        assert ONECLICK.read_bytes().startswith(b"\xef\xbb\xbf")
+
+    def test_asks_for_the_token_securely_and_keeps_it_out_of_argv_and_disk(self):
+        text = ONECLICK.read_text(encoding="utf-8")
+        assert "-AsSecureString" in text
+        assert "$env:MIDO_GITHUB_TOKEN" in text
+        # the token must never be passed as a command line argument
+        assert "-Token $" not in text
+        assert "Authorization" in text  # HTTP header for the private download
+        assert "Start-Transcript" not in text
+        # and it must be removed / restored again
+        assert "finally" in text
+        assert "Remove-Item Env:\\MIDO_GITHUB_TOKEN" in text
+
+    def test_downloads_and_runs_the_official_installer(self):
+        text = ONECLICK.read_text(encoding="utf-8")
+        assert "Mido-RDP-Install.ps1" in text
+        assert '"raw.githubusercontent.com"' in text or "raw.githubusercontent.com" in text
+        assert "-Mode Install" in text
+        assert "MIDO_GITHUB_TOKEN" in text  # the installer authenticates the clone with it
+
+    def test_works_under_windows_powershell_and_powershell_7(self):
+        text = ONECLICK.read_text(encoding="utf-8")
+        # $PSHOME\powershell.exe does not exist under pwsh 7
+        assert "Get-Command powershell.exe" in text
+        assert "Get-Process -Id $PID" in text
+
+    def test_cleans_up_the_temporary_installer(self):
+        text = ONECLICK.read_text(encoding="utf-8")
+        assert "Remove-Item -LiteralPath $tempInstaller" in text
 
 
 def test_installer_modes_are_complete():
@@ -164,14 +212,24 @@ def test_docs_cover_the_official_commands():
     text = DOCS.read_text(encoding="utf-8")
     for needle in ("Mido-RDP-Install.ps1 -Mode Install", "-Mode Update", "-Mode Repair", "Mido-Start.cmd"):
         assert needle in text, needle
+    assert "Mido-OneClick.ps1" in text
+    assert "Mido-OneClick.ps1" in (ROOT / "README.md").read_text(encoding="utf-8")
 
 
 # ── real PowerShell execution ────────────────────────────────────────────────
 PARSE_SCRIPT = r"""
 $ErrorActionPreference = 'Stop'
-$errors = $null
-[void][System.Management.Automation.Language.Parser]::ParseFile('{ps1}', [ref]$null, [ref]$errors)
-ConvertTo-Json -InputObject @{{ parseErrors = @($errors | ForEach-Object {{ $_.Message }}) }} -Compress -Depth 5
+$files = @('{ps1}', '{oneclick}')
+$report = @()
+foreach ($file in $files) {{
+    $errors = $null
+    [void][System.Management.Automation.Language.Parser]::ParseFile($file, [ref]$null, [ref]$errors)
+    $report += [pscustomobject]@{{
+        file   = (Split-Path -Leaf $file)
+        errors = @($errors | ForEach-Object {{ $_.Message }})
+    }}
+}}
+ConvertTo-Json -InputObject @{{ parsed = $report }} -Compress -Depth 5
 """
 
 BEHAVIOUR_SCRIPT = r"""
@@ -217,7 +275,10 @@ ConvertTo-Json -InputObject @{{
 
 def _run_pwsh(tmp_path: Path, name: str, script: str) -> dict:
     path = tmp_path / name
-    path.write_text(script.format(ps1=str(PS1).replace("'", "''")), encoding="utf-8")
+    path.write_text(
+        script.format(ps1=str(PS1).replace("'", "''"), oneclick=str(ONECLICK).replace("'", "''")),
+        encoding="utf-8",
+    )
     proc = subprocess.run(
         [PWSH, "-NoProfile", "-NonInteractive", "-File", str(path)],
         capture_output=True,
@@ -229,9 +290,12 @@ def _run_pwsh(tmp_path: Path, name: str, script: str) -> dict:
 
 
 @pytest.mark.skipif(PWSH is None, reason="PowerShell is not installed (CI runners have it)")
-def test_installer_parses_with_real_powershell(tmp_path):
+def test_both_scripts_parse_with_real_powershell(tmp_path):
     payload = _run_pwsh(tmp_path, "parse.ps1", PARSE_SCRIPT)
-    assert payload["parseErrors"] == []
+    report = {entry["file"]: entry["errors"] for entry in payload["parsed"]}
+    assert set(report) == {"Mido-RDP-Install.ps1", "Mido-OneClick.ps1"}
+    for name, errors in report.items():
+        assert errors == [], f"{name}: {errors}"
 
 
 @pytest.mark.skipif(PWSH is None, reason="PowerShell is not installed (CI runners have it)")

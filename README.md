@@ -11,8 +11,18 @@
 
 ## تشغيل سريع على ويندوز / RDP
 
+**الطريقة الأسهل — ملف واحد فقط:**
+
 ```powershell
-$env:MIDO_GITHUB_TOKEN = "github_pat_..."      # للمستودع الخاص (صلاحية repo)
+# ارفع Mido-OneClick.ps1 إلى السيرفر ثم:
+powershell -ExecutionPolicy Bypass -File .\Mido-OneClick.ps1
+```
+
+ينزّل أحدث نسخة من المشروع (توكن GitHub مرة واحدة) ويكمل التثبيت والإعداد تلقائيًا.
+
+**أو — المجلد كامل بدون GitHub (لا توكن):**
+
+```powershell
 powershell -ExecutionPolicy Bypass -File .\Mido-RDP-Install.ps1 -Mode Install
 .\Mido-Start.cmd
 ```
@@ -20,6 +30,8 @@ powershell -ExecutionPolicy Bypass -File .\Mido-RDP-Install.ps1 -Mode Install
 المثبّت يتكفّل بـ: Python + Git (عبر winget أو المثبّتات الرسمية) → نسخ المشروع → venv →
 `requirements.txt` → إنشاء `.env` → تسجيل دخول تيليجرام (أو استيراد جلسة قديمة
 `-SessionFile`) → التحقق من توكن البوت → تأمين الصلاحيات (ACLs) → فحص شامل.
+
+* نقطة البداية المكتوبة لأي مشغّل: [`START-HERE-WINDOWS.txt`](START-HERE-WINDOWS.txt)
 
 * الأوضاع: `Install` · `Update` · `Setup` · `Check` · `Repair` · `Start`
 * لم تُحذف أي جلسة أو قاعدة بيانات عند التحديث، و`.env` يُعمل له نسخة احتياطية قبل أي تعديل.

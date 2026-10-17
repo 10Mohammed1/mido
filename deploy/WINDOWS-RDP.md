@@ -7,26 +7,39 @@ Windows 10/11) بحيث يعمل البوت بالكامل: المكتبات →
 
 ---
 
-## 1) التثبيت السريع (3 خطوات)
+## 1) التثبيت السريع
+
+### الطريقة أ) ملف واحد فقط — `Mido-OneClick.ps1` (الأسهل)
+
+1. نزّل **`Mido-OneClick.ps1`** (من المستودع أو من صفحة Releases) وانسخه إلى السيرفر.
+2. شغّله:
 
 ```powershell
-# 1. تنزيل المثبّت (المستودع خاص — استخدم توكن GitHub بصلاحية repo)
-$env:MIDO_GITHUB_TOKEN = "github_pat_..."        # لا تكتبه في الأمر نفسه
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/10Mohammed1/mido/main/Mido-RDP-Install.ps1" -OutFile "Mido-RDP-Install.ps1"
+powershell -ExecutionPolicy Bypass -File .\Mido-OneClick.ps1
 ```
 
-> إن كان `raw.githubusercontent.com` غير متاح لحسابك، انسخ المشروع أولًا بأي طريقة
-> (`git clone` من جهازك الحالي ثم نسخ المجلد عبر RDP/شبكة) ثم تابع من الخطوة 2 من داخل المجلد.
+يسألك عن توكن GitHub (أو يستخدم `gh` إن كان مسجّلًا للدخول)، ثم **ينزّل أحدث نسخة من
+المشروع** إلى `%USERPROFILE%\Mido` ويشغّل التثبيت الكامل تلقائيًا. ملف واحد يكفي.
+
+### الطريقة ب) المجلد كامل — بدون توكن GitHub إطلاقًا
+
+انسخ مجلد المشروع كما هو (أو فُكّ ضغط `Mido-Windows-Bundle.zip`) إلى السيرفر، ثم من
+داخل المجلد:
 
 ```powershell
-# 2. التثبيت الكامل (يتكفّل بكل شيء: Python، Git، المكتبات، الإعداد، الفحص)
 powershell -ExecutionPolicy Bypass -File .\Mido-RDP-Install.ps1 -Mode Install
+```
 
-# 3. التشغيل
+> الطريقة (ب) لا تتصل بـ GitHub نهائيًا (المثبّت يكتشف أنها نسخة منقولة بدون `.git`
+> ويستخدمها كما هي). تحتاج إنترنت فقط لتنزيل Python/Git والمكتبات.
+
+**التشغيل بعد انتهاء التثبيت:**
+
+```powershell
 .\Mido-Start.cmd
 ```
 
-خلال الخطوة 2 سيسألك المثبّت (عبر Python) عن:
+### ماذا سيسألك الإعداد (في الطريقتين)
 
 | المطلوب | ماذا تفعل |
 | --- | --- |

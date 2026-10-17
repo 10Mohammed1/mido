@@ -1,4 +1,4 @@
-#requires -Version 5.1
+﻿#requires -Version 5.1
 <#
 .SYNOPSIS
     Mido One-Click bootstrap for Windows/RDP.
@@ -7,6 +7,7 @@
     Mido-RDP-Install.ps1 from the private repository, and runs its full Install
     workflow. Secrets are not written to disk by this bootstrap.
 #>
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingWriteHost', '', Justification = 'interactive one-click bootstrap: the console is the user interface')]
 [CmdletBinding()]
 param(
     [string]$RepoDir = (Join-Path $env:USERPROFILE "Mido")
@@ -75,7 +76,14 @@ try {
 
     Write-Title "بدء التثبيت الكامل"
     Write-Host ("مجلد المشروع: " + $RepoDir)
-    & (Join-Path $PSHOME "powershell.exe") -NoLogo -NoProfile -ExecutionPolicy Bypass -File $tempInstaller -Mode Install -RepoDir $RepoDir
+    # resolve the Windows PowerShell host explicitly: under PowerShell 7 $PSHOME
+    # points at the pwsh folder, where powershell.exe does not exist
+    $shell = Join-Path $PSHOME "powershell.exe"
+    if (-not (Test-Path -LiteralPath $shell)) {
+        $cmd = Get-Command powershell.exe -ErrorAction SilentlyContinue
+        if ($null -ne $cmd) { $shell = $cmd.Source } else { $shell = (Get-Process -Id $PID).Path }
+    }
+    & $shell -NoLogo -NoProfile -ExecutionPolicy Bypass -File $tempInstaller -Mode Install -RepoDir $RepoDir
     $exitCode = $LASTEXITCODE
     if ($null -eq $exitCode) { $exitCode = 0 }
 
