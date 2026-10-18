@@ -9,17 +9,16 @@ Windows 10/11) بحيث يعمل البوت بالكامل: المكتبات →
 
 ## 1) التثبيت السريع
 
-### الطريقة صفر) سطر واحد يُلصق في PowerShell (الأسرع — بلا تنزيل ملفات)
+### الطريقة صفر) سطر واحد يُلصق في PowerShell (الأسرع — بلا تنزيل ملفات ولا توكن)
 
-انسخ السطر التالي والصقه في PowerShell على السيرفر (سيطلب منك توكن GitHub مرة واحدة):
+انسخ السطر التالي والصقه في PowerShell على السيرفر (المستودع عام، فلا حاجة لأي توكن):
 
 ```powershell
-$ErrorActionPreference='Stop'; [Net.ServicePointManager]::SecurityProtocol=[Net.SecurityProtocolType]::Tls12; $s=Read-Host 'GitHub token' -AsSecureString; $t=[System.Net.NetworkCredential]::new('',$s).Password; $h=@{Authorization="token $t";'User-Agent'='Mido'}; $p="$env:TEMP\Mido-OneClick.ps1"; Invoke-WebRequest 'https://raw.githubusercontent.com/10Mohammed1/mido/main/Mido-OneClick.ps1' -Headers $h -OutFile $p -UseBasicParsing; $env:MIDO_GITHUB_TOKEN=$t; powershell -NoProfile -ExecutionPolicy Bypass -File $p; Remove-Item Env:\MIDO_GITHUB_TOKEN -ErrorAction SilentlyContinue
+irm https://raw.githubusercontent.com/10Mohammed1/mido/main/Mido-OneClick.ps1 -OutFile "$env:TEMP\Mido-OneClick.ps1"; powershell -NoProfile -ExecutionPolicy Bypass -File "$env:TEMP\Mido-OneClick.ps1"
 ```
 
-> يعمل السطر **بدون أي توكن** إذا كان المستودع عامًا (public). إن كان خاصًا فسيسألك عن
-> توكن (صلاحية `repo`) — ويلزم مرة واحدة فقط. في الحالتين لا يُطبع التوكن ولا يُكتب على
-> القرص، ويُمرَّر للمثبّت عبر متغيّر بيئة لا في الأمر نفسه.
+> لو أُعيد المستودع إلى خاص، فالمشغّل يطلب توكن GitHub تلقائيًا عند فشل التنزيل المباشر —
+> ولا يُمرَّر إلا عبر متغيّر بيئة، ولا يُكتب على القرص ولا يُطبع على الشاشة.
 
 ### الطريقة أ) ملف واحد فقط — `Mido-OneClick.ps1` (الأسهل)
 

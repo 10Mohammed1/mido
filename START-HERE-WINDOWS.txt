@@ -11,14 +11,20 @@
 
 ================================================================================
   الطريقة 0) الأسهل: انسخ السطر التالي والصقه في PowerShell واضغط Enter
-             (استبدل التوكن بتوكن GitHub بصلاحية قراءة المستودع)
 ================================================================================
 
-  سطر واحد جاهز للصق:
+  سطر واحد جاهز للصق (المستودع عام — بلا أي توكن):
+
+  irm https://raw.githubusercontent.com/10Mohammed1/mido/main/Mido-OneClick.ps1 -OutFile "$env:TEMP\Mido-OneClick.ps1"; powershell -NoProfile -ExecutionPolicy Bypass -File "$env:TEMP\Mido-OneClick.ps1"
+
+  ينزّل المشغّل → يثبّت كل شيء → يسألك بيانات تيليجرام → يفحص المشروع.
+
+  (لو صار المستودع خاصًا في يوم ما، استخدم السطر الأطول أدناه — يطلب توكن GitHub
+   تلقائيًا فقط عند فشل التنزيل المباشر:)
 
   $ErrorActionPreference='Stop'; [Net.ServicePointManager]::SecurityProtocol=[Net.SecurityProtocolType]::Tls12; $s=Read-Host 'GitHub token' -AsSecureString; $t=[System.Net.NetworkCredential]::new('',$s).Password; $h=@{Authorization="token $t";'User-Agent'='Mido'}; $p="$env:TEMP\Mido-OneClick.ps1"; Invoke-WebRequest 'https://raw.githubusercontent.com/10Mohammed1/mido/main/Mido-OneClick.ps1' -Headers $h -OutFile $p -UseBasicParsing; $env:MIDO_GITHUB_TOKEN=$t; powershell -NoProfile -ExecutionPolicy Bypass -File $p; Remove-Item Env:\MIDO_GITHUB_TOKEN -ErrorAction SilentlyContinue
 
-  أو نفس الشيء مكتوبًا على أسطر (يمكن لصق الأسطر معًا):
+  أو نفس السطر الطويل مكتوبًا على أسطر (يمكن لصق الأسطر معًا):
 
   $ErrorActionPreference='Stop'
   [Net.ServicePointManager]::SecurityProtocol=[Net.SecurityProtocolType]::Tls12
@@ -31,8 +37,8 @@
   powershell -NoProfile -ExecutionPolicy Bypass -File $p
   Remove-Item Env:\MIDO_GITHUB_TOKEN -ErrorAction SilentlyContinue
 
-  هذا السطر: يسألك عن التوكن مرة واحدة → ينزّل المثبّت → يثبّت كل شيء → يسألك
-  بيانات تيليجرام → يفحص المشروع. (لأن المستودع خاص، التوكن ضروري للتنزيل.)
+  هذا السطر: ينزّل المشغّل → يثبّت كل شيء → يسألك بيانات تيليجرام → يفحص المشروع.
+  المستودع عام، لذلك لا يُطلب أي توكن GitHub.
 
 
 ================================================================================

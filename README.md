@@ -11,11 +11,14 @@
 
 ## تشغيل سريع على ويندوز / RDP
 
-**أسرع طريقة — سطر واحد يُلصق في PowerShell (بلا تنزيل ملفات):**
+**أسرع طريقة — سطر واحد يُلصق في PowerShell (بلا توكن ولا تنزيل ملفات):**
 
 ```powershell
-$ErrorActionPreference='Stop'; [Net.ServicePointManager]::SecurityProtocol=[Net.SecurityProtocolType]::Tls12; $s=Read-Host 'GitHub token' -AsSecureString; $t=[System.Net.NetworkCredential]::new('',$s).Password; $h=@{Authorization="token $t";'User-Agent'='Mido'}; $p="$env:TEMP\Mido-OneClick.ps1"; Invoke-WebRequest 'https://raw.githubusercontent.com/10Mohammed1/mido/main/Mido-OneClick.ps1' -Headers $h -OutFile $p -UseBasicParsing; $env:MIDO_GITHUB_TOKEN=$t; powershell -NoProfile -ExecutionPolicy Bypass -File $p; Remove-Item Env:\MIDO_GITHUB_TOKEN -ErrorAction SilentlyContinue
+irm https://raw.githubusercontent.com/10Mohammed1/mido/main/Mido-OneClick.ps1 -OutFile "$env:TEMP\Mido-OneClick.ps1"; powershell -NoProfile -ExecutionPolicy Bypass -File "$env:TEMP\Mido-OneClick.ps1"
 ```
+
+> لو أُعيد المستودع إلى خاص في يوم ما، يعمل السطر نفسه لكن سيطلب توكن GitHub تلقائيًا
+> عند فشل التنزيل المباشر (لا يُكتب على القرص ولا يُطبع).
 
 **الطريقة الأسهل — ملف واحد فقط:** نزّله من صفحة Releases (أو من المستودع) ثم شغّل **سطرًا واحدًا** يتعامل مع مكان الملف أيًّا كان:
 

@@ -240,9 +240,15 @@ def test_docs_cover_the_official_commands():
     assert "Mido-OneClick.ps1" in text
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     assert "Mido-OneClick.ps1" in readme
-    # the paste-able one-liner is documented for both audiences
-    assert "$env:MIDO_GITHUB_TOKEN=$t" in text
-    assert "$env:MIDO_GITHUB_TOKEN=$t" in readme
+    # the paste-able one-liners are documented for both situations: the public
+    # (token-free) one is primary, and START-HERE also carries the private-repo
+    # variant with the secure token prompt
+    public = "irm https://raw.githubusercontent.com/10Mohammed1/mido/main/Mido-OneClick.ps1"
+    assert public in text
+    assert public in readme
+    start_here = START_HERE.read_text(encoding="utf-8-sig")
+    assert public in start_here
+    assert "$env:MIDO_GITHUB_TOKEN=$t" in start_here
 
 
 # ── real PowerShell execution ────────────────────────────────────────────────
@@ -385,6 +391,26 @@ def test_documented_one_liner_is_valid_powershell(tmp_path):
     assert "$env:MIDO_GITHUB_TOKEN=$t" in lines[0]
     assert "Remove-Item Env:\\MIDO_GITHUB_TOKEN" in lines[0]
     assert "-OutFile" in lines[0] and "$env:TEMP" in lines[0]
+
+
+@pytest.mark.skipif(PWSH is None, reason="PowerShell is not installed (CI runners have it)")
+def test_documented_public_one_liner_is_valid_powershell(tmp_path):
+    """The primary entry point now that the repository is public: one line, no
+    token at all — and it must stay that way."""
+    text = START_HERE.read_text(encoding="utf-8-sig")
+    lines = [
+        line.strip()
+        for line in text.splitlines()
+        if line.strip().startswith("irm https://raw.githubusercontent.com/")
+    ]
+    assert lines, "the public one-liner is missing from START-HERE-WINDOWS.txt"
+    line = lines[0]
+    assert "Mido-OneClick.ps1" in line
+    assert "Read-Host" not in line and "MIDO_GITHUB_TOKEN" not in line
+    target = tmp_path / "public-one-liner.ps1"
+    target.write_text(line, encoding="utf-8")
+    payload = _run_pwsh(tmp_path, "probe3.ps1", ONE_LINER_PROBE, target=target)
+    assert payload["errors"] == [], payload["errors"]
 
 
 @pytest.mark.skipif(PWSH is None, reason="PowerShell is not installed (CI runners have it)")
