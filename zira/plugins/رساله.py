@@ -1,13 +1,14 @@
-import os
 import asyncio
+import os
+
 from PIL import Image, ImageDraw, ImageFont
-from . import zedub
 
 from ..core.managers import edit_delete, edit_or_reply
-from . import BOTLOG, BOTLOG_CHATID, mention
 from . import *
+from . import BOTLOG, BOTLOG_CHATID, mention, zedub
 
 plugin_category = "الترفيه"
+
 
 def text_set(text):
     lines = []
@@ -22,8 +23,7 @@ def text_set(text):
                 k = int(len(line) / 55)
                 for z in range(1, k + 2):
                     lines.append(line[((z - 1) * 55) : (z * 55)])
-    return lines[:25]
-    
+    return lines
 
 
 @zedub.zed_cmd(pattern="رساله ?(.*)")
@@ -39,17 +39,25 @@ async def writer(e):
     draw = ImageDraw.Draw(img)
     font = ImageFont.truetype("zedthon/malath/zarz.ttf", 30)
     x, y = 150, 140
-    lines = text_set(text)
-    line_height = font.getsize("hg")[1]
+    all_lines = text_set(text)
+    # The canvas is fixed-size, so only the first 25 lines fit; anything
+    # beyond that is reported to the user instead of vanishing silently.
+    lines = all_lines[:25]
+    # Pillow >= 10 removed font.getsize(); getbbox returns (x0, y0, x1, y1).
+    _hb = font.getbbox("hg")
+    line_height = _hb[3] - _hb[1]
     for line in lines:
         draw.text((x, y), line, fill=(1, 22, 55), font=font)
         y = y + line_height - 5
-    file = "Mido.jpg"
+    # Unique name so two concurrent commands cannot delete each other's file.
+    file = f"Mido_{e.id}.jpg"
     img.save(file)
-    await e.reply(file=file)
+    caption = ""
+    if len(all_lines) > len(lines):
+        caption = f"**- تـم عـرض {len(lines)} سطـراً مـن {len(all_lines)}** **(حدود حجم الصورة)**"
+    await e.reply(file=file, caption=caption)
     os.remove(file)
     await e.delete()
-
 
 
 @zedub.zed_cmd(pattern=r"^\:/$")
@@ -121,7 +129,7 @@ async def _(event):
     await event.delete()
 
 
-@zedub.zed_cmd(pattern=f"ميمي")
+@zedub.zed_cmd(pattern="ميمي")
 async def meme(event):
     memeVar = event.text
     sleepValue = 0.5
@@ -187,7 +195,7 @@ async def meme(event):
     await event.edit(memeVar)
 
 
-@zedub.zed_cmd(pattern=f"جف")
+@zedub.zed_cmd(pattern="جف")
 async def give(event):
     if event.fwd_from:
         return
@@ -231,4 +239,3 @@ async def give(event):
     await event.edit(lp + lp + lp + lp + lp + lp + lp + lp + " ")
     await asyncio.sleep(sleepValue)
     await event.edit(lp + lp + lp + lp + lp + lp + lp + lp + lp)
-
