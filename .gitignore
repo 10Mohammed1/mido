@@ -113,3 +113,6 @@ data/sessions/
 *.db
 temp/
 logs/
+
+# test virtualenv used by CI/local checks
+.venv-test/
