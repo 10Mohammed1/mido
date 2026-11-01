@@ -28,101 +28,147 @@ plugin_category = "الادوات"
 
 
 thumb_image_path = os.path.join(Config.TMP_DOWNLOAD_DIRECTORY, "thumb_image.jpg")
-FF_MPEG_DOWN_LOAD_MEDIA_PATH = os.path.join(
-    Config.TMP_DOWNLOAD_DIRECTORY, "zedzthon.media.ffmpeg"
-)
+FF_MPEG_DOWN_LOAD_MEDIA_PATH = os.path.join(Config.TMP_DOWNLOAD_DIRECTORY, "zedzthon.media.ffmpeg")
 FINISHED_PROGRESS_STR = Config.FINISHED_PROGRESS_STR
 UN_FINISHED_PROGRESS_STR = Config.UNFINISHED_PROGRESS_STR
 LOGGER = logging.getLogger(__name__)
 
+# Safety nets: never let a stuck ffmpeg hang the bot forever.
+FFMPEG_TIMEOUT = 60 * 60  # seconds – full compression
+TRIM_TIMEOUT = 15 * 60  # seconds – trim / screenshot
+
 
 async def convert_video(video_file, output_directory, crf, total_time, bot, message):
     # https://stackoverflow.com/a/13891070/4723940
-    out_put_file_name = output_directory + "/" + str(round(time.time())) + ".mp4"
-    progress = output_directory + "/" + "progress.txt"
-    with open(progress, "w") as f:
+    out_put_file_name = os.path.join(output_directory, str(round(time.time())) + ".mp4")
+    # ffmpeg WRITES progress here and we must READ from the same path.
+    progress_path = os.path.join(output_directory, "progress.txt")
+    with open(progress_path, "w"):
         pass
     COMPRESSION_START_TIME = time.time()
-    process = await asyncio.create_subprocess_shell(
-        f'ffmpeg -hide_banner -loglevel quiet -progress {progress} -i """{video_file}""" -preset ultrafast -vcodec libx265 -crf {crf} -c:a copy """{out_put_file_name}"""',
-        stdout=asyncio.subprocess.PIPE,
-        stderr=asyncio.subprocess.PIPE,
-    )
+    try:
+        process = await asyncio.create_subprocess_exec(
+            "ffmpeg",
+            "-hide_banner",
+            "-loglevel",
+            "quiet",
+            "-progress",
+            progress_path,
+            "-i",
+            str(video_file),
+            "-preset",
+            "ultrafast",
+            "-vcodec",
+            "libx265",
+            "-crf",
+            str(crf),
+            "-c:a",
+            "copy",
+            str(out_put_file_name),
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE,
+        )
+    except FileNotFoundError:
+        LOGGER.error("ffmpeg is not installed / not found in PATH")
+        return None
+    except Exception as e:
+        LOGGER.error("failed to start ffmpeg: %s", e)
+        return None
     LOGGER.info("ffmpeg_process: " + str(process.pid))
-    while process.returncode != 0:
-        await asyncio.sleep(3)
-        with open("./temp/progress.txt", "r+") as file:
-            text = file.read()
-            frame = re.findall(r"frame=(\d+)", text)
-            time_in_us = re.findall(r"out_time_ms=(\d+)", text)
-            progress = re.findall(r"progress=(\w+)", text)
+
+    total_time = total_time or 0
+    # communicate() drains BOTH pipes concurrently so ffmpeg can never block
+    # on a full pipe; the loop only watches completion and enforces timeout.
+    communicate_task = asyncio.create_task(process.communicate())
+    try:
+        while not communicate_task.done():
+            if time.time() - COMPRESSION_START_TIME > FFMPEG_TIMEOUT:
+                LOGGER.error("ffmpeg timed out after %ss, killing it", FFMPEG_TIMEOUT)
+                process.kill()
+                break
+            await asyncio.sleep(3)
+            try:
+                with open(progress_path, "r") as file:
+                    text = file.read()
+            except OSError:
+                continue  # progress file not written yet
+            time_in_us = re.findall(r"out_time_(?:ms|us)=(\d+)", text)
             speed = re.findall(r"speed=(\d+\.?\d*)", text)
-            if len(frame):
-                frame = int(frame[-1])
+            speed = speed[-1] if speed else "1"
+            time_in_us = int(time_in_us[-1]) if time_in_us else 0
+            elapsed_time = time_in_us / 1000000
+            difference = 0
+            if total_time > 0:
+                percentage = math.floor(elapsed_time * 100 / total_time)
+                percentage = min(100, max(0, percentage))
+                try:
+                    difference = math.floor((total_time - elapsed_time) / float(speed))
+                except (ValueError, ZeroDivisionError):
+                    difference = 0
             else:
-                frame = 1
-            if len(speed):
-                speed = speed[-1]
-            else:
-                speed = 1
-            if len(time_in_us):
-                time_in_us = time_in_us[-1]
-            else:
-                time_in_us = 1
-            if len(progress):
-                if progress[-1] == "end":
-                    LOGGER.info(progress[-1])
-                    break
-            time_formatter((time.time() - COMPRESSION_START_TIME))
-            elapsed_time = int(time_in_us) / 1000000
-            difference = math.floor((total_time - elapsed_time) / float(speed))
-            ETA = "-"
-            if difference > 0:
-                ETA = time_formatter(difference)
-            percentage = math.floor(elapsed_time * 100 / total_time)
+                percentage = 0
+            ETA = time_formatter(difference) if difference > 0 else "-"
+            finished = min(10, max(0, math.floor(percentage / 10)))
             progress_str = "📊 **Progress :** {0}%\n[{1}{2}]".format(
-                round(percentage, 2),
-                "".join(
-                    [FINISHED_PROGRESS_STR for i in range(math.floor(percentage / 10))]
-                ),
-                "".join(
-                    [
-                        UN_FINISHED_PROGRESS_STR
-                        for i in range(10 - math.floor(percentage / 10))
-                    ]
-                ),
+                percentage,
+                "".join([FINISHED_PROGRESS_STR for _ in range(finished)]),
+                "".join([UN_FINISHED_PROGRESS_STR for _ in range(10 - finished)]),
             )
-            stats = (
-                f"📦️ **Compressing CRF-{crf}**\n\n"
-                f"⏰️ **ETA :** {ETA}\n\n"
-                f"{progress_str}\n"
-            )
+            stats = f"📦️ **Compressing CRF-{crf}**\n\n⏰️ **ETA :** {ETA}\n\n{progress_str}\n"
             try:
                 await message.edit(text=stats)
             except Exception:
                 pass
-    # Wait for the subprocess to finish
-    stdout, stderr = await process.communicate()
+    finally:
+        # Reap the process (already finished, killed, or about to be killed).
+        _, stderr = await communicate_task
+    if process.returncode != 0:
+        err = (stderr or b"")[-400:].decode(errors="replace")
+        LOGGER.error("ffmpeg exited with code %s: %s", process.returncode, err)
+        return None
     if os.path.lexists(out_put_file_name):
         return out_put_file_name
     return None
 
 
-async def cult_small_video(
-    video_file, output_directory, start_time, end_time, out_put_file_name=None
-):
+async def cult_small_video(video_file, output_directory, start_time, end_time, out_put_file_name=None):
     # https://stackoverflow.com/a/13891070/4723940
-    out_put_file_name = out_put_file_name or os.path.join(
-        output_directory, f"{round(time.time())}.mp4"
-    )
-    process = await asyncio.create_subprocess_shell(
-        # stdout must a pipe to be accessible as process.stdout
-        f'ffmpeg -i """{video_file}""" -ss {start_time} -to {end_time} -async 1 -strict -2 """{out_put_file_name}"""',
-        stdout=asyncio.subprocess.PIPE,
-        stderr=asyncio.subprocess.PIPE,
-    )
-    # Wait for the subprocess to finish
-    await process.communicate()
+    out_put_file_name = out_put_file_name or os.path.join(output_directory, f"{round(time.time())}.mp4")
+    try:
+        process = await asyncio.create_subprocess_exec(
+            "ffmpeg",
+            "-y",
+            "-i",
+            str(video_file),
+            "-ss",
+            str(start_time),
+            "-to",
+            str(end_time),
+            "-async",
+            "1",
+            "-strict",
+            "-2",
+            str(out_put_file_name),
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE,
+        )
+    except FileNotFoundError:
+        LOGGER.error("ffmpeg is not installed / not found in PATH")
+        return None
+    except Exception as e:
+        LOGGER.error("failed to start ffmpeg: %s", e)
+        return None
+    try:
+        _, stderr = await asyncio.wait_for(process.communicate(), timeout=TRIM_TIMEOUT)
+    except asyncio.TimeoutError:
+        process.kill()
+        await process.communicate()
+        LOGGER.error("ffmpeg trim timed out after %ss, killing it", TRIM_TIMEOUT)
+        return None
+    if process.returncode != 0:
+        err = (stderr or b"")[-400:].decode(errors="replace")
+        LOGGER.error("ffmpeg trim exited with code %s: %s", process.returncode, err)
+        return None
     if os.path.lexists(out_put_file_name):
         return out_put_file_name
     return None
@@ -157,9 +203,11 @@ async def ffmpeg_compress(event):
     cmd = event.pattern_match.group(1).lower()
     reply_message = await event.get_reply_message()
     start = datetime.now()
-    if not crf:
+    if not crf or not crf.isdigit() or not 0 <= int(crf) <= 51:
         crf = "23"
     dlpath = os.path.join(Config.TMP_DOWNLOAD_DIRECTORY, "Mido.media.ffmpeg")
+    delete = False
+    zedevent = None
     if not reply_message or not reply_message.media:
         if os.path.exists(FF_MPEG_DOWN_LOAD_MEDIA_PATH):
             media = (await fileinfo(FF_MPEG_DOWN_LOAD_MEDIA_PATH))["type"]
@@ -169,10 +217,8 @@ async def ffmpeg_compress(event):
             zedevent = await edit_or_reply(event, "**- جـارِ ضغـط ملـف الفيـديـو . . .**")
             delete = False
         else:
-            await edit_delete(
-                event, "**- بالـرد ع فيـديـو . . .**"
-            )
-    elif reply_message:
+            return await edit_delete(event, "**- بالـرد ع فيـديـو . . .**")
+    else:
         media = media_type(reply_message)
         if media not in ["Video", "Round Video", "Gif"]:
             return await edit_delete(event, "**- الامـر يدعـم فقـط ملفـات الفيـديـو . . .**")
@@ -189,19 +235,16 @@ async def ffmpeg_compress(event):
             )
             dl.close()
         except Exception as e:
-            await edit_or_reply(zedevent, f"**- خطـأ :**\n`{e}`")
+            return await edit_or_reply(zedevent, f"**- خطـأ :**\n`{e}`")
         else:
             await edit_or_reply(zedevent, "**- جـارِ ضغـط ملـف الفيـديـو . . .**")
             delete = True
-    else:
-        await edit_delete(event, "**- بالـرد ع فيـديـو . . .**")
+    if not os.path.exists(dlpath):
+        return await edit_delete(zedevent, "**- لم يتم العثـر ع ملف فيديـو . . .**")
     old = await fileinfo(dlpath)
-    if not os.path.isdir("./temp"):
-        os.mkdir("./temp")
+    os.makedirs("./temp", exist_ok=True)
     cstart = datetime.now()
-    compress = await convert_video(
-        dlpath, "./temp", crf, old["duration"], zedub, zedevent
-    )
+    compress = await convert_video(dlpath, "./temp", crf, old.get("duration"), zedub, zedevent)
     cend = datetime.now()
     cms = (cend - cstart).seconds
     if delete:
@@ -210,7 +253,7 @@ async def ffmpeg_compress(event):
         new = await fileinfo(compress)
         osize = old["size"]
         nsize = new["size"]
-        cap = f"**- الحجـم السـابق :** `{humanbytes(osize)}`\n**- الحجـم الجـديـد :** `{humanbytes(nsize)}`\n**- تم ضغـط :** `{int(100-(nsize/osize*100))}%`\n\n**- الوقـت المستغـرق :-**\n**- الضغـط : **`{time_formatter(cms)}`"
+        cap = f"**- الحجـم السـابق :** `{humanbytes(osize)}`\n**- الحجـم الجـديـد :** `{humanbytes(nsize)}`\n**- تم ضغـط :** `{int(100 - (nsize / osize * 100)) if osize else 0}%`\n\n**- الوقـت المستغـرق :-**\n**- الضغـط : **`{time_formatter(cms)}`"
         if cmd == "ا":
             try:
                 c_time = time.time()
@@ -251,7 +294,7 @@ async def ffmpeg_compress(event):
             except Exception as e:
                 return await edit_delete(zedevent, f"**- خطـأ : **`{e}`")
     else:
-        return await edit_delete(zedevent, "**ERROR :: Unalble to Compress**")
+        return await edit_delete(zedevent, "**ERROR :: Unable to Compress**")
     await zedevent.delete()
     end = datetime.now()
     ms = (end - start).seconds
@@ -268,7 +311,7 @@ async def ffmpeg_compress(event):
         "usage": "{tr}ffmpegsave <reply>",
     },
 )
-async def ff_mpeg_trim_cmd(event):
+async def ff_mpeg_save_cmd(event):
     "Saves the media file in bot to trim mutliple times"
     mpath = event.pattern_match.group(1)
     if not os.path.exists(FF_MPEG_DOWN_LOAD_MEDIA_PATH):
@@ -277,9 +320,7 @@ async def ff_mpeg_trim_cmd(event):
             if media not in ["Video", "Audio"]:
                 return await edit_delete(event, "`Only media files are supported`", 5)
             await _zedutils.runcmd(f"cp -r {mpath} {FF_MPEG_DOWN_LOAD_MEDIA_PATH}")
-            return await edit_or_reply(
-                event, f"Saved file to `{FF_MPEG_DOWN_LOAD_MEDIA_PATH}`"
-            )
+            return await edit_or_reply(event, f"Saved file to `{FF_MPEG_DOWN_LOAD_MEDIA_PATH}`")
         reply_message = await event.get_reply_message()
         if reply_message:
             start = datetime.now()
@@ -327,7 +368,7 @@ async def ff_mpeg_trim_cmd(event):
         "examples": "{tr}vtrim 00:00 00:10",
     },
 )
-async def ff_mpeg_trim_cmd(event):
+async def ff_mpeg_vtrim_cmd(event):
     "Trims the saved media with specific given time internval and outputs as video if it is video"
     if not os.path.exists(FF_MPEG_DOWN_LOAD_MEDIA_PATH):
         return await edit_delete(
@@ -349,9 +390,7 @@ async def ff_mpeg_trim_cmd(event):
             end_time,
         )
         if o is None:
-            return await edit_delete(
-                zedevent, "**Error : **`Can't complete the process`"
-            )
+            return await edit_delete(zedevent, "**Error : **`Can't complete the process`")
         try:
             c_time = time.time()
             await event.client.send_file(
@@ -374,9 +413,7 @@ async def ff_mpeg_trim_cmd(event):
         cmd, start_time = cmt
         o = await _zedtools.take_screen_shot(FF_MPEG_DOWN_LOAD_MEDIA_PATH, start_time)
         if o is None:
-            return await edit_delete(
-                zedevent, "**Error : **`Can't complete the process`"
-            )
+            return await edit_delete(zedevent, "**Error : **`Can't complete the process`")
         try:
             c_time = time.time()
             await event.client.send_file(
@@ -415,7 +452,7 @@ async def ff_mpeg_trim_cmd(event):
         "examples": "{tr}atrim 00:00 00:10",
     },
 )
-async def ff_mpeg_trim_cmd(event):
+async def ff_mpeg_atrim_cmd(event):
     "Trims the saved media with specific given time internval and outputs as audio"
     if not os.path.exists(FF_MPEG_DOWN_LOAD_MEDIA_PATH):
         return await edit_delete(
@@ -427,9 +464,7 @@ async def ff_mpeg_trim_cmd(event):
     current_message_text = event.raw_text
     cmt = current_message_text.split(" ")
     start = datetime.now()
-    out_put_file_name = os.path.join(
-        Config.TMP_DOWNLOAD_DIRECTORY, f"{round(time.time())}.mp3"
-    )
+    out_put_file_name = os.path.join(Config.TMP_DOWNLOAD_DIRECTORY, f"{round(time.time())}.mp3")
     if len(cmt) == 3:
         cmd, start_time, end_time = cmt
     else:
@@ -476,7 +511,7 @@ async def ff_mpeg_trim_cmd(event):
         "usage": "{tr}ffmpegclear",
     },
 )
-async def ff_mpeg_trim_cmd(event):
+async def ff_mpeg_clear_cmd(event):
     "Deletes the saved media so you can save new one"
     if not os.path.exists(FF_MPEG_DOWN_LOAD_MEDIA_PATH):
         await edit_delete(event, "`There is no media saved in bot for triming`")
