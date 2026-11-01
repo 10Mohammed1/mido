@@ -116,3 +116,6 @@ logs/
 
 # test virtualenv used by CI/local checks
 .venv-test/
+
+# ref written by the updater plugin (last backup tag name)
+.update_backup_ref
