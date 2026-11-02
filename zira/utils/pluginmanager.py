@@ -24,9 +24,13 @@ def load_module(shortname, plugin_path=None):
         path = Path(f"zira/plugins/{shortname}.py")
         checkplugins(path)
         name = "zira.plugins.{}".format(shortname)
+        if name in sys.modules:
+            LOGS.info(f"تخطّي التحميل المزدوج للإضافة {shortname} (محمّلة مسبقًا)")
+            return
         spec = importlib.util.spec_from_file_location(name, path)
         mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mod)
+        sys.modules[name] = mod
         LOGS.info(f"Successfully imported {shortname}")
     else:
         if plugin_path is None:
@@ -35,6 +39,12 @@ def load_module(shortname, plugin_path=None):
         else:
             path = Path((f"{plugin_path}/{shortname}.py"))
             name = f"{plugin_path}/{shortname}".replace("/", ".")
+        # منع التحميل المزدوج: الوحدة المسجّلة في sys.modules محمّلة
+        # حاليًا؛ إعادة تنفيذها تسجّل معالجات الأحداث مرة ثانية (أوامر
+        # مكررة). أمر «الغاء حمل» يزيل المفتاح عبر remove_plugin.
+        if f"zira.plugins.{shortname}" in sys.modules:
+            LOGS.info(f"تخطّي التحميل المزدوج للإضافة {shortname} (محمّلة مسبقًا)")
+            return
         checkplugins(path)
         spec = importlib.util.spec_from_file_location(name, path)
         mod = importlib.util.module_from_spec(spec)
@@ -74,6 +84,8 @@ def remove_plugin(shortname):
                 for i in LOADED_CMDS[cmdname]:
                     zedub.remove_event_handler(i)
                 del LOADED_CMDS[cmdname]
+        # إزالة الوحدة من sys.modules ليقبل load_module إعادة تحميلها.
+        sys.modules.pop(f"zira.plugins.{shortname}", None)
         return True
     except Exception as e:
         LOGS.error(e)
@@ -89,6 +101,7 @@ def remove_plugin(shortname):
                 del zedub._event_builders[i]
     except Exception as exc:
         raise ValueError from exc
+    sys.modules.pop(f"zira.plugins.{shortname}", None)
 
 
 def checkplugins(filename):

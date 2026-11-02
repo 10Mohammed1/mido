@@ -12,7 +12,7 @@ from telethon.tl.types import InputPeerChannel, InputMessagesFilterDocument
 from . import zedub
 from ..Config import Config
 from ..sql_helper.globals import addgvar, delgvar, gvarstatus
-from ..helpers.utils import install_pip, _zedtools, _zedutils, _format, parse_pre, reply_id
+from ..helpers.utils import _zedtools, _zedutils, _format, parse_pre, reply_id
 from ..utils import load_module
 
 LOGS = logging.getLogger(__name__)
@@ -28,15 +28,11 @@ if Config.ZELZAL_A:
         try:
             entity = await zedub.get_input_entity(Config.ZELZAL_A)
             if isinstance(entity, InputPeerChannel):
-                full_info = await zedub(functions.channels.GetFullChannelRequest(
-                    channel=entity
-                ))
+                full_info = await zedub(functions.channels.GetFullChannelRequest(channel=entity))
             zilzal = full_info.full_chat.id
         except Exception as e:
             entity = await zedub.get_entity(Config.ZELZAL_A)
-            full_info = await zedub(functions.channels.GetFullChannelRequest(
-                channel=entity
-            ))
+            full_info = await zedub(functions.channels.GetFullChannelRequest(channel=entity))
             zilzal = full_info.full_chat.id
         documentss = await zedub.get_messages(zilzal, None, filter=InputMessagesFilterDocument)
         total = int(documentss.total)
@@ -52,17 +48,11 @@ if Config.ZELZAL_A:
                 )
                 path1 = Path(downloaded_file_name)
                 shortname = path1.stem
-                flag = True
-                check = 0
-                while flag:
-                    try:
-                        load_module(shortname.replace(".py", ""))
-                        break
-                    except ModuleNotFoundError as e:
-                        install_pip(e.name)
-                        check += 1
-                        if check > 5:
-                            break
+                try:
+                    load_module(shortname.replace(".py", ""))
+                except ModuleNotFoundError as e:
+                    # لا تثبيت تلقائي — نُبلّغ فقط ونتخطى الملف.
+                    LOGS.info(f"تخطّي {shortname}: وحدة مفقودة `{e.name}` — لا يُثبَّت شيء تلقائيًا")
 
         addgvar("PMLOG", h_type)
         if gvarstatus("GRPLOOG") is not None:

@@ -30,7 +30,6 @@ from ..Config import Config
 from ..core.logger import logging
 from ..core.restart import restart_process
 from ..core.session import zedub
-from ..helpers.utils import install_pip
 from ..helpers.utils.utils import runcmd
 from ..sql_helper.global_collection import (
     del_keyword_collectionlist,
@@ -73,6 +72,7 @@ else:
 bot = zedub
 DEV = 8483582680
 
+
 async def autovars():
     if "ENV" in heroku_var:
         return
@@ -85,6 +85,7 @@ async def autovars():
     heroku_var["TZ"] = zzztz
     LOGS.info("تم اضافـة بقيـة الفـارات .. بنجـاح")
 
+
 async def autoname():
     if Config.ALIVE_NAME:
         return
@@ -95,8 +96,8 @@ async def autoname():
     zzname = f"{zelzal.first_name}"
     tz = Config.TZ
     tzDateTime = dt.now(timezone(tz))
-    zdate = tzDateTime.strftime('%Y/%m/%d')
-    militaryTime = tzDateTime.strftime('%H:%M')
+    zdate = tzDateTime.strftime("%Y/%m/%d")
+    militaryTime = tzDateTime.strftime("%H:%M")
     ztime = dt.strptime(militaryTime, "%H:%M").strftime("%I:%M %p")
     zzd = f"‹ {zdate} ›"
     zzt = f"‹ {ztime} ›"
@@ -108,6 +109,7 @@ async def autoname():
     LOGS.info(f"تم اضافـة اسـم المستخـدم {zzname} .. بنجـاح")
     heroku_var["ALIVE_NAME"] = zzname
 
+
 async def setup_bot():
     """
     To set up bot for Mido
@@ -118,10 +120,7 @@ async def setup_bot():
         for option in config.dc_options:
             if option.ip_address == zedub.session.server_address:
                 if zedub.session.dc_id != option.id:
-                    LOGS.warning(
-                        f"ايـدي DC ثـابت فـي الجلسـة مـن {zedub.session.dc_id}"
-                        f" الـى {option.id}"
-                    )
+                    LOGS.warning(f"ايـدي DC ثـابت فـي الجلسـة مـن {zedub.session.dc_id} الـى {option.id}")
                 zedub.session.set_dc(option.id, option.ip_address, option.port)
                 zedub.session.save()
                 break
@@ -135,6 +134,7 @@ async def setup_bot():
     except Exception as e:
         LOGS.error(f"كـود تيرمكس - {str(e)}")
         sys.exit()
+
 
 async def mybot():
     ZELZAL = bot.me.first_name
@@ -153,9 +153,8 @@ async def mybot():
     if bot_name.startswith("مسـاعـد"):
         print("تم تشغيل البوت بنجــاح")
     else:
-        LOGS.info(
-            "تم تخطي تهيئة البوت عبر @BotFather (تعديل الاسم/الصورة/الاوصاف)."
-        )
+        LOGS.info("تم تخطي تهيئة البوت عبر @BotFather (تعديل الاسم/الصورة/الاوصاف).")
+
 
 async def startupmessage():
     """
@@ -200,6 +199,7 @@ async def startupmessage():
         LOGS.error(e)
         return None
 
+
 async def add_bot_to_logger_group(chat_id):
     """
     To add bot to logger groups
@@ -230,11 +230,13 @@ async def add_bot_to_logger_group(chat_id):
         except Exception as e:
             LOGS.error(str(e))
 
+
 async def saves():
     # ── force-subscribe removed ───────────────────────────────────────────
     # The original code auto-joined the source author's channels (zchannel).
     # That is a forced subscription and has been disabled on purpose.
     return
+
 
 async def load_plugins(folder, extfolder=None):
     """
@@ -256,28 +258,21 @@ async def load_plugins(folder, extfolder=None):
             shortname = path1.stem
             pluginname = shortname.replace(".py", "")
             try:
-                if (pluginname not in Config.NO_LOAD) and (
-                    pluginname not in VPS_NOLOAD
-                ):
-                    flag = True
-                    check = 0
-                    while flag:
-                        try:
-                            load_module(
-                                pluginname,
-                                plugin_path=plugin_path,
-                            )
-                            if shortname in failure:
-                                failure.remove(shortname)
-                            success += 1
-                            break
-                        except ModuleNotFoundError as e:
-                            install_pip(e.name)
-                            check += 1
-                            if shortname not in failure:
-                                failure.append(shortname)
-                            if check > 5:
-                                break
+                if (pluginname not in Config.NO_LOAD) and (pluginname not in VPS_NOLOAD):
+                    try:
+                        load_module(
+                            pluginname,
+                            plugin_path=plugin_path,
+                        )
+                        if shortname in failure:
+                            failure.remove(shortname)
+                        success += 1
+                    except ModuleNotFoundError as e:
+                        # لا تثبيت تلقائي: نُبلّغ عن الوحدة المفقودة ونتخطى
+                        # الإضافة؛ يضيف المالك الاعتمادية يدويًا إن رغب.
+                        if shortname not in failure:
+                            failure.append(shortname)
+                        LOGS.info(f"تخطّي {shortname}: وحدة مفقودة `{e.name}` — لا يُثبَّت شيء تلقائيًا")
                 else:
                     # do NOT delete plugins from disk (original code removed
                     # every plugin listed in NO_LOAD / VPS_NOLOAD)
@@ -285,16 +280,15 @@ async def load_plugins(folder, extfolder=None):
             except Exception as e:
                 if shortname not in failure:
                     failure.append(shortname)
-                LOGS.info(
-                    f"لا يمكنني تحميل {shortname} بسبب الخطأ {e}\nمجلد القاعده {plugin_path}"
-                )
+                LOGS.info(f"لا يمكنني تحميل {shortname} بسبب الخطأ {e}\nمجلد القاعده {plugin_path}")
     if extfolder:
         if not failure:
             failure.append("None")
         await zedub.tgbot.send_message(
             BOTLOG_CHATID,
-            f'Your external repo plugins have imported \n**No of imported plugins :** `{success}`\n**Failed plugins to import :** `{", ".join(failure)}`',
+            f"Your external repo plugins have imported \n**No of imported plugins :** `{success}`\n**Failed plugins to import :** `{', '.join(failure)}`",
         )
+
 
 async def verifyLoggerGroup():
     """
@@ -313,49 +307,30 @@ async def verifyLoggerGroup():
             entity = await zedub.get_entity(BOTLOG_CHATID)
             if not isinstance(entity, types.User) and not entity.creator:
                 if entity.default_banned_rights.send_messages:
-                    LOGS.info(
-                        "- الصلاحيات غير كافيه لأرسال الرسالئل في مجموعه فار ااـ PRIVATE_GROUP_BOT_API_ID."
-                    )
+                    LOGS.info("- الصلاحيات غير كافيه لأرسال الرسالئل في مجموعه فار ااـ PRIVATE_GROUP_BOT_API_ID.")
                 if entity.default_banned_rights.invite_users:
-                    LOGS.info(
-                        "لا تمتلك صلاحيات اضافه اعضاء في مجموعة فار الـ PRIVATE_GROUP_BOT_API_ID."
-                    )
+                    LOGS.info("لا تمتلك صلاحيات اضافه اعضاء في مجموعة فار الـ PRIVATE_GROUP_BOT_API_ID.")
         except ValueError:
-            LOGS.error(
-                "PRIVATE_GROUP_BOT_API_ID لم يتم العثور عليه . يجب التاكد من ان الفار صحيح."
-            )
+            LOGS.error("PRIVATE_GROUP_BOT_API_ID لم يتم العثور عليه . يجب التاكد من ان الفار صحيح.")
         except TypeError:
-            LOGS.error(
-                "PRIVATE_GROUP_BOT_API_ID قيمه هذا الفار غير مدعومه. تأكد من انه صحيح."
-            )
+            LOGS.error("PRIVATE_GROUP_BOT_API_ID قيمه هذا الفار غير مدعومه. تأكد من انه صحيح.")
         except Exception as e:
-            LOGS.error(
-                "حدث خطأ عند محاولة التحقق من فار PRIVATE_GROUP_BOT_API_ID.\n"
-                + str(e)
-            )
+            LOGS.error("حدث خطأ عند محاولة التحقق من فار PRIVATE_GROUP_BOT_API_ID.\n" + str(e))
     else:
         descript = "لا تقم بحذف هذه المجموعة أو التغيير إلى مجموعة عامه (وظيفتهـا تخزيـن كـل سجـلات وعمليـات البـوت.)"
         photozed = await zedub.upload_file(file="zedthon/malath/Zpic.jpg")
-        _, groupid = await create_supergroup(
-            "كـروب السجـل Mido", zedub, Config.TG_BOT_USERNAME, descript, photozed
-        )
+        _, groupid = await create_supergroup("كـروب السجـل Mido", zedub, Config.TG_BOT_USERNAME, descript, photozed)
         addgvar("PRIVATE_GROUP_BOT_API_ID", groupid)
-        print(
-            "المجموعه الخاصه لفار الـ PRIVATE_GROUP_BOT_API_ID تم حفظه بنجاح و اضافه الفار اليه."
-        )
+        print("المجموعه الخاصه لفار الـ PRIVATE_GROUP_BOT_API_ID تم حفظه بنجاح و اضافه الفار اليه.")
         flag = True
     if PM_LOGGER_GROUP_ID != -100:
         try:
             entity = await zedub.get_entity(PM_LOGGER_GROUP_ID)
             if not isinstance(entity, types.User) and not entity.creator:
                 if entity.default_banned_rights.send_messages:
-                    LOGS.info(
-                        " الصلاحيات غير كافيه لأرسال الرسالئل في مجموعه فار ااـ PM_LOGGER_GROUP_ID."
-                    )
+                    LOGS.info(" الصلاحيات غير كافيه لأرسال الرسالئل في مجموعه فار ااـ PM_LOGGER_GROUP_ID.")
                 if entity.default_banned_rights.invite_users:
-                    LOGS.info(
-                        "لا تمتلك صلاحيات اضافه اعضاء في مجموعة فار الـ  PM_LOGGER_GROUP_ID."
-                    )
+                    LOGS.info("لا تمتلك صلاحيات اضافه اعضاء في مجموعة فار الـ  PM_LOGGER_GROUP_ID.")
         except ValueError:
             LOGS.error("PM_LOGGER_GROUP_ID لم يتم العثور على قيمه هذا الفار . تاكد من أنه صحيح .")
         except TypeError:
@@ -365,15 +340,14 @@ async def verifyLoggerGroup():
     else:
         descript = "لا تقم بحذف هذه المجموعة أو التغيير إلى مجموعة عامه (وظيفتهـا تخزيـن رسـائل الخـاص.)"
         photozed = await zedub.upload_file(file="zedthon/malath/Apic.jpg")
-        _, groupid = await create_supergroup(
-            "كـروب التخـزين", zedub, Config.TG_BOT_USERNAME, descript, photozed
-        )
+        _, groupid = await create_supergroup("كـروب التخـزين", zedub, Config.TG_BOT_USERNAME, descript, photozed)
         addgvar("PM_LOGGER_GROUP_ID", groupid)
         print("تم عمل الكروب التخزين بنجاح واضافة الفارات اليه.")
         flag = True
     if flag:
         restart_process()
         sys.exit(0)
+
 
 async def install_externalrepo(repo, branch, cfolder):
     zedREPO = repo
@@ -392,9 +366,7 @@ async def install_externalrepo(repo, branch, cfolder):
         return await zedub.tgbot.send_message(BOTLOG_CHATID, errtext)
     await runcmd(gcmd)
     if not os.path.exists(cfolder):
-        LOGS.error(
-            "- حدث خطأ اثناء استدعاء رابط الملفات الاضافية .. قم بالتأكد من الرابط اولاً..."
-        )
+        LOGS.error("- حدث خطأ اثناء استدعاء رابط الملفات الاضافية .. قم بالتأكد من الرابط اولاً...")
         return await zedub.tgbot.send_message(
             BOTLOG_CHATID,
             "**- حدث خطأ اثناء استدعاء رابط الملفات الاضافية .. قم بالتأكد من الرابط اولاً...**",
